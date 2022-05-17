@@ -1,5 +1,6 @@
 using HubApi.Logic;
 using HubApi.Model.Entity;
+using HubApi.Model.State;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +28,27 @@ app.MapControllers();
 
 
 var data = new { id = 1, name = "Foobar Hjem", };
-
-
 var home = ScalarObjectHydrator.HydrateType<Home>(data);
 
+
+// Manager gets and constructs the state and is responsible for "asking" the Arduino what the current state is.
+var rgbState = new RgbComponentState(new Component());
+rgbState.IsOn = true;
+rgbState.RValue = 200;
+rgbState.GValue = 100;
+rgbState.BValue = 50;
+
+// public ComponentState GetStateOfComponent(Component component) {
+//  var stateRequest = new object { componentIdentifier = component.Id }
+//  var response = SomeManager.SendCommand(stateRequest);
+//  var state = CreateStateFromResponse(response);
+//  return state;
+// }
+
+
+
+
+var b = StringConverter.ToSnakeCase("APIHandler");
 var x = StringConverter.ToSnakeCase("HardwareModel");
 var y = StringConverter.ToSnakeCase("Hardware");
 var z = StringConverter.ToSnakeCase("SMTPServer");

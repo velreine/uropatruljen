@@ -36,6 +36,7 @@ public static class StringConverter
             // Checks if the next char (if available) is upper-case, defaults to false.
             // This is useful for abbreviations,
             // E.g. SMTPServer will become smtp_server and not s_m_t_p_server
+            // TODO: Handle numbers properly a number toLower/toUpper gives the same.
             var nextIsUpperCase = (i < input.Length - 1) && input[i + 1] == char.ToUpper(input[i + 1]);
 
             if (char.ToUpper(current) == input[i] && !nextIsUpperCase)

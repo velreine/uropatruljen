@@ -10,6 +10,6 @@ public class Component : AbstractEntity
 {
  public ComponentType Type { get; set; }
  
- // OneToMany Pins.
+ // OneToMany Pins. TODO: måske?
  public ICollection<Pin> Pins { get; set; }
 }
