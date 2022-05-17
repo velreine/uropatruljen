@@ -1,0 +1,21 @@
+_id: req_fc3550c0627e44b3ae1d0f068ecb717c
+type: Request
+parentId: fld_34aa0d302022426fa24ac3fb9ed135af
+modified: 1652792129552
+created: 1652792109206
+url: https://192.168.4.1/get-component-state/xxx
+name: Get Component State
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1652792109206
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
