@@ -1,0 +1,35 @@
+_id: req_b71142c815a34c0b87d9858b181b4bce
+type: Request
+parentId: fld_34aa0d302022426fa24ac3fb9ed135af
+modified: 1652875080002
+created: 1652872313917
+url: "{{arduino_base}}/component/update_state"
+name: Update Component State
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"componentIdentifier": "RGB_GROUP_1",
+    	"newState": {
+    		"enabled": true,
+    		"r": 200,
+    		"g": 100,
+    		"b": 50
+    	}
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_79af2536fa26492380de81b90175cd25
+authentication: {}
+metaSortKey: -1652872313917
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
