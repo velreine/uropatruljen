@@ -1,14 +1,18 @@
 _id: req_fc3550c0627e44b3ae1d0f068ecb717c
 type: Request
 parentId: fld_34aa0d302022426fa24ac3fb9ed135af
-modified: 1652792129552
+modified: 1652873817286
 created: 1652792109206
-url: https://192.168.4.1/get-component-state/xxx
+url: "{{arduino_base}}/component/get_state"
 name: Get Component State
 description: ""
 method: GET
 body: {}
-parameters: []
+parameters:
+  - id: pair_d10dc2093d6b43d9b550564b1bfac94c
+    name: componentIdentifier
+    value: RGB_GROUP_1
+    description: ""
 headers: []
 authentication: {}
 metaSortKey: -1652792109206
