@@ -1,6 +1,7 @@
 using HubApi.Logic;
 using HubApi.Model.Entity;
 using HubApi.Model.State;
+using HubApi.Model.Static;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,43 @@ rgbState.BValue = 50;
 // }
 
 
+const int RGB_DIODE_1 = 1;
+const int DIODE_1 = 2;
+const int DIODE_2 = 3;
+var boardLayout = new Dictionary<int, Component>();
+
+// Add RGB_DIODE_1
+boardLayout.Add(RGB_DIODE_1, new Component()
+{
+    Id = RGB_DIODE_1,
+    Type = ComponentType.RgbDiode,
+    Pins = new List<Pin>()
+    {
+        {new Pin(){Component = null, Direction = PinDirection.Input, Descriptor = "r_input", HwPinNumber = 10}},
+        {new Pin(){Component = null, Direction = PinDirection.Input, Descriptor = "g_input", HwPinNumber = 11}},
+        {new Pin(){Component = null, Direction = PinDirection.Input, Descriptor = "b_input", HwPinNumber = 12}},
+    }
+});
+
+boardLayout.Add(DIODE_1, new Component()
+{
+    Id = DIODE_1,
+    Type = ComponentType.Diode,
+    Pins = new List<Pin>()
+    {
+        {new Pin(){Component = null, Direction = PinDirection.Input, Descriptor = "input", HwPinNumber = 8}},
+    }
+});
+
+boardLayout.Add(DIODE_2, new Component()
+{
+    Id = DIODE_2,
+    Type = ComponentType.RgbDiode,
+    Pins = new List<Pin>()
+    {
+        {new Pin(){Component = null, Direction = PinDirection.Input, Descriptor = "input", HwPinNumber = 7}},
+    }
+});
 
 
 var b = StringConverter.ToSnakeCase("APIHandler");

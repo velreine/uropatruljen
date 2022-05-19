@@ -12,6 +12,7 @@
 #define disconnectedPin 8
 
 #include <aREST.h>
+#include <sstream>
 
 // Create aREST instance
 aREST rest = aREST();
@@ -29,12 +30,122 @@ int status = WL_IDLE_STATUS;
 // int greenPin = 11;
 // int bluePin = 10;
 
+class Pin {
+public:
+    ushort PinNumber;
+    char* Descriptor;
+
+    std::basic_string<char> toJson() {
+
+        std::stringstream ss;
+
+        ss << "{"; // Begin JSON object.
+        ss << "\"pinNumber\": " << this->PinNumber;
+        ss << ",\"descriptor\": \"" << this->Descriptor << "\"";
+        ss << "}"; // Begin JSON object.
+
+        return ss.str();
+    }
+
+};
+
+enum ComponentType {
+    DIODE,
+    RGB_DIODE,
+    CAMERA,
+    MICROPHONE,
+};
+
+class Component {
+public:
+    ComponentType Type;
+    Pin* Pins;
+    int PinCount;
+
+    std::basic_string<char> toJson() {
+
+        std::stringstream ss;
+
+        ss << "{"; // Begin JSON object.
+        ss << "\"type\": " << this->Type;
+        ss << ",\"pinCount\": " << this->PinCount;
+        ss << ",\"pins\": ["; // Start pins array.
+
+        for(int i = 0; i < this->PinCount; i++) {
+            Pin current = this->Pins[i];
+
+            ss << current.toJson();
+
+            // If not the last iteration, add trailing comma.
+            if(i != this->PinCount-1) {
+                ss << ",";
+            }
+
+        }
+
+        ss << "]"; // End pins array.
+
+        ss << "}"; // End JSON object.
+
+        return ss.str();
+    }
+
+};
+
+class HardwareConfiguration {
+public:
+    char* Name;
+    char* SerialNumber;
+    Component* Components;
+    int ComponentCount;
+
+    std::basic_string<char> toJson() {
+
+        const char* _name = this->Name;
+
+
+        std::stringstream ss;
+
+        ss << "{"; // Begin JSON object.
+        ss << "\"name\": \"" << this->Name << "\"";
+        ss << ",\"serialNumber\": \"" << this->SerialNumber << "\"";
+
+
+        ss << ",\"components\": ["; // Begin component array:
+
+        // Iterate over all components and convert them to JSON as well.
+        for(int i = 0; i < this->ComponentCount; i++) {
+            Component current = this->Components[i];
+            ss << current.toJson();
+
+            // If not the last element add a trailing comma.
+            if(i != this->ComponentCount-1) {
+                ss << ",";
+            }
+
+        }
+
+
+        ss << "]"; // End component array.
+
+        ss << "}"; // End JSON object.
+
+        return ss.str();
+    }
+
+};
+
+
+
 WiFiServer restServer(80);
 
 void setup(void) {
   // Function to be exposed
   rest.function("led", ledControl);
   rest.function("blue", blue);
+  rest.function("control-rgb", controlRgbComponent);
+  rest.function("get-board-layout", getBoardLayout);
+  
 
   // Give name and ID to device
   rest.set_id("008");
@@ -47,8 +158,12 @@ void setup(void) {
   pinMode(rgbGreenPin,OUTPUT);
   pinMode(rgbBluePin,OUTPUT);
 
+
+
   // Start Serial
-  Serial.begin(115200);
+  Serial.begin(9600);
+
+
 
   WiFi.disconnect();
 
@@ -100,9 +215,95 @@ void loop() {
   rest.handle(client);
 }
 
+int getBoardLayout(String command) {
+
+    // !!!START HARDWARE_BOARD_LAYOUT
+    // RGB_DIODE_1
+    Pin p10;
+    p10.Descriptor = "r";
+    p10.PinNumber =  10;
+    Pin p11;
+    p11.Descriptor = "g";
+    p11.PinNumber =  11;
+    Pin p12;
+    p12.Descriptor = "b";
+    p12.PinNumber =  12;
+
+    Component rgbDiode1;
+    Pin pins[] = {p10,p11,p12};
+    rgbDiode1.Pins = &pins[0];
+    rgbDiode1.PinCount = 3;
+    rgbDiode1.Type = RGB_DIODE;
+
+
+    // DIODE_1
+    Pin p7;
+    p7.Descriptor = "input";
+    p7.PinNumber = 7;
+
+    Component diode1;
+    diode1.Pins = &p7;
+    diode1.PinCount = 1;
+    diode1.Type = DIODE;
+
+    // DIODE_2
+    Pin p8;
+    p8.Descriptor = "input";
+    p8.PinNumber = 8;
+
+    Component diode2;
+    diode2.Pins = &p8;
+    diode2.PinCount = 1;
+    diode2.Type = DIODE;
+
+    // Overall Configuration.
+    HardwareConfiguration config;
+    config.Name = "SMART_URO_V1";
+    config.SerialNumber = "ABC-123-123";
+    Component components[] = {rgbDiode1, diode1, diode2};
+    config.Components = components;
+    config.ComponentCount = 3;
+  // !!!END HARDWARE_BOARD_LAYOUT
+
+
+  // Print the hardware configuration.
+  Serial.println(config.toJson().c_str());
+
+
+  return 1;
+}
+
+int controlRgbComponent(String command) {
+
+  // Expected input is like: "1 100 50 200".
+  // Respectively meaning: ComponentId=1, R=100, G=50, B=200.
+
+  // Get a pointer to the command string.
+  const char* commandPtr = command.c_str();
+
+  // The endPtr starts at NULL as we have no end.
+  char* endPtr = NULL;
+
+  // Invoke the strtol function 3 times to keep finding the "next" number,
+  // passing the new endPtr along.
+  auto r = strtol(commandPtr, &endPtr, 10);
+  auto g = strtol(endPtr, &endPtr, 10);
+  auto b = strtol(endPtr, &endPtr, 10);
+
+  Serial.println("Command received: ");
+  Serial.println(command);
+  Serial.println("R: " + (String)r);
+  Serial.println("G: " + (String)g);
+  Serial.println("B: " + (String)b);
+
+  return 1;
+}
+
 
 // Custom function accessible by the API
 int ledControl(String command) {
+  
+  // http://192.168.4.1/led/woqdjiqwjdoqjwdiqwjdqiowjd
 
   Serial.println(command);
 
