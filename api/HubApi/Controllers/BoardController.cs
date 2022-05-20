@@ -16,6 +16,13 @@ public class BoardController
         // TODO: Actually look up the board by id.
         var board = Board.SmartUroV1;
         
+        // Figure out if we should render light controls.
+        if (board.AttachedComponents.Any(comp => comp.Type == ComponentType.Diode))
+        {
+            
+        }
+        
+        
         var response = new ActionResult<HardwareConfiguration>(board);
 
         return response;

@@ -3,7 +3,7 @@ using CommonData.Model.Entity;
 
 namespace CommonData.Model.Static {
 
-public class Board
+public static class Board
 {
     // TODO: Should come from a central Database
     public static HardwareConfiguration SmartUroV1 { get; } = new HardwareConfiguration()
