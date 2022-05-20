@@ -8,6 +8,9 @@ namespace HubApi.Model.Entity;
  */
 public class Component : AbstractEntity
 {
+
+ public string Name { get; set; }
+ 
  public ComponentType Type { get; set; }
  
  // OneToMany Pins. TODO: måske?
