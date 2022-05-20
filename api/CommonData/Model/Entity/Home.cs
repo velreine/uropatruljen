@@ -1,6 +1,7 @@
-using HubApi.Model.Entity.Contracts;
+using System.Collections.Generic;
+using CommonData.Model.Entity.Contracts;
 
-namespace HubApi.Model.Entity;
+namespace CommonData.Model.Entity {
 
 public class Home : AbstractEntity
 {
@@ -8,4 +9,6 @@ public class Home : AbstractEntity
 
     public ICollection<Person> Residents { get; set; }
     
+}
+
 }

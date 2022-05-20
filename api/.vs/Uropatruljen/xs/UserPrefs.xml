@@ -1,15 +1,17 @@
 ﻿<Properties StartupConfiguration="{C4226565-6FD8-4E78-9194-870A03F830F4}|Default">
   <MonoDevelop.Ide.ItemProperties.HubApi PreferredExecutionTarget="/Applications/Firefox Developer Edition.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CommonData/Class1.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConsoleTest/Program.cs">
     <Files>
       <File FileName="CommonData/Class1.cs" Line="6" Column="6" />
+      <File FileName="ConsoleTest/Program.cs" Line="7" Column="40" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Uropatruljen" expanded="True">
-            <Node name="CommonData" expanded="True">
-              <Node name="Class1.cs" selected="True" />
+            <Node name="CommonData" expanded="True" />
+            <Node name="ConsoleTest" expanded="True">
+              <Node name="Program.cs" selected="True" />
             </Node>
             <Node name="HubApi" expanded="True" />
           </Node>
@@ -17,6 +19,7 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.ConsoleTest FirstBuild="True" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

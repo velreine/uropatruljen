@@ -1,7 +1,9 @@
-namespace HubApi.Model.Static;
+namespace CommonData.Model.Static {
 
 public enum PinDirection
 {
     Input,
     Output,
+}
+
 }

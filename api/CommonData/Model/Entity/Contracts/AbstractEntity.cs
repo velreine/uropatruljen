@@ -1,6 +1,8 @@
-namespace HubApi.Model.Entity.Contracts;
+namespace CommonData.Model.Entity.Contracts {
 
 public class AbstractEntity : IEntity
 {
     public int Id { get; set; }
+}
+
 }

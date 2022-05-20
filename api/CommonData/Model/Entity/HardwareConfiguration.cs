@@ -1,6 +1,7 @@
-using HubApi.Model.Entity.Contracts;
+using System.Collections.Generic;
+using CommonData.Model.Entity.Contracts;
 
-namespace HubApi.Model.Entity;
+namespace CommonData.Model.Entity {
 
 /**
  * A hardware configuration consists of components, and the components pin-mapping etc.
@@ -18,5 +19,7 @@ public class HardwareConfiguration : AbstractEntity
     public ICollection<Component> AttachedComponents { get; set; }
 
 
+
+}
 
 }

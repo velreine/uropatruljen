@@ -1,12 +1,12 @@
-using HubApi.Model.Entity;
-using HubApi.Model.Static;
+using System.Collections.Generic;
+using CommonData.Model.Entity;
 
-namespace HubApi.Boards;
+namespace CommonData.Model.Static {
 
 public class Board
 {
     // TODO: Should come from a central Database
-    public static HardwareConfiguration SmartUroV1 { get; } = new ()
+    public static HardwareConfiguration SmartUroV1 { get; } = new HardwareConfiguration()
     {
         Id = 1,
         Name = "Smart Uro V1",
@@ -29,4 +29,6 @@ public class Board
             }
         }
     };
+}
+
 }

@@ -1,16 +1,17 @@
-using HubApi.Model.Entity;
+using CommonData.Model.Entity;
 
-namespace HubApi.Model.State;
+namespace CommonData.Model.State {
 
 public abstract class ComponentState
 {
 
     public bool IsOn { get; set; }
     
-    protected Component Component { get; init; }
+    protected Component Component { get; }
     
     public ComponentState(Component component)
     {
         this.Component = component;
     }
+}
 }

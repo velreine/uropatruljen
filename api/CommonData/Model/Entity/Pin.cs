@@ -1,7 +1,7 @@
-using HubApi.Model.Entity.Contracts;
-using HubApi.Model.Static;
+using CommonData.Model.Entity.Contracts;
+using CommonData.Model.Static;
 
-namespace HubApi.Model.Entity;
+namespace CommonData.Model.Entity {
 
 /**
  * A pin is a logical representation of a pin attached to a component.
@@ -28,6 +28,8 @@ public class Pin : AbstractEntity
  public PinDirection Direction { get; set; }
  
  // ManyToOne => Component.
- public Component? Component { get; set; }
+ public Component Component { get; set; }
  
+}
+
 }

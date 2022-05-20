@@ -1,6 +1,7 @@
-using HubApi.Model.Entity;
+using CommonData.Model.Entity;
+using CommonData.Model.Static;
 using Microsoft.AspNetCore.Mvc;
-using HubApi.Boards;
+
 
 namespace HubApi.Controllers;
 

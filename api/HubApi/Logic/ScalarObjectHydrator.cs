@@ -1,5 +1,5 @@
 using System.Reflection;
-using HubApi.Model.Entity.Contracts;
+using CommonData.Model.Entity.Contracts;
 
 namespace HubApi.Logic;
 

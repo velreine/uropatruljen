@@ -1,8 +1,6 @@
+using CommonData.Model.Entity;
 
-
-using HubApi.Model.Entity;
-
-namespace HubApi.Model.State;
+namespace CommonData.Model.State {
 
 public class RgbComponentState : ComponentState
 {
@@ -15,4 +13,6 @@ public class RgbComponentState : ComponentState
     }
     
     
+}
+
 }

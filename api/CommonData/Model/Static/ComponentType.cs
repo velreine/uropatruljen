@@ -1,4 +1,4 @@
-namespace HubApi.Model.Static;
+namespace CommonData.Model.Static {
 
 /**
  * Defines types of physical components.
@@ -9,4 +9,6 @@ public enum ComponentType
     RgbDiode,
     Camera,
     Microphone,
+}
+
 }

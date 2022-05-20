@@ -1,7 +1,8 @@
-using HubApi.Model.Entity.Contracts;
-using HubApi.Model.Static;
+using System.Collections.Generic;
+using CommonData.Model.Entity.Contracts;
+using CommonData.Model.Static;
 
-namespace HubApi.Model.Entity;
+namespace CommonData.Model.Entity {
 
 /**
  * A component represents a physical hardware component that belongs to a hardware model/configuration.
@@ -15,4 +16,6 @@ public class Component : AbstractEntity
  
  // OneToMany Pins. TODO: måske?
  public ICollection<Pin> Pins { get; set; }
+}
+
 }

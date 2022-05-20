@@ -1,7 +1,7 @@
 using HubApi.Logic;
-using HubApi.Model.Entity;
-using HubApi.Model.State;
-using HubApi.Model.Static;
+using CommonData.Model.Entity;
+using CommonData.Model.State;
+using CommonData.Model.Static;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,5 +1,5 @@
 using System.Collections.Immutable;
-using HubApi.Model.Static;
+using CommonData.Model.Static;
 
 namespace HubApi.Logic;
 
