@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HubApi", "HubApi\HubApi.csproj", "{C4226565-6FD8-4E78-9194-870A03F830F4}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HubApi", "HubApi\HubApi.csproj", "{C4226565-6FD8-4E78-9194-870A03F830F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonData", "CommonData\CommonData.csproj", "{8027480C-86DC-4629-9E09-5E6C36D8E626}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonData", "CommonData\CommonData.csproj", "{8027480C-86DC-4629-9E09-5E6C36D8E626}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MQTT Server", "MQTT Server\MQTT Server.csproj", "{06F0F8E9-9F21-46E8-B047-FE48CE4AF076}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MQTT Client", "MQTT Client\MQTT Client.csproj", "{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,5 +25,19 @@ Global
 		{8027480C-86DC-4629-9E09-5E6C36D8E626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8027480C-86DC-4629-9E09-5E6C36D8E626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8027480C-86DC-4629-9E09-5E6C36D8E626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06F0F8E9-9F21-46E8-B047-FE48CE4AF076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06F0F8E9-9F21-46E8-B047-FE48CE4AF076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06F0F8E9-9F21-46E8-B047-FE48CE4AF076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06F0F8E9-9F21-46E8-B047-FE48CE4AF076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E0FD8CF-BADB-44ED-9ED7-F6225DA4DC67}
 	EndGlobalSection
 EndGlobal
