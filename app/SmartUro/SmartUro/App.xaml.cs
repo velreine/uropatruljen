@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SmartUro.Views;
 
 namespace SmartUro
 {
@@ -10,7 +11,8 @@ namespace SmartUro
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            //MainPage = new MainPage();
+            MainPage = new StartView();
         }
 
         protected override void OnStart()

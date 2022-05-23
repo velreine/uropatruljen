@@ -4,28 +4,31 @@ using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using SmartUro.Interfaces;
 
 namespace SmartUro.Services
 {
-    internal class WebAPIService
+    internal class WebAPIService : IRestService
     {
-        HttpClient client;
+        private HttpClient _client;
+        private string _baseUri;
 
         public WebAPIService()
         {
-            client = new HttpClient();
+            _client = new HttpClient();
+            _baseUri = "base address";
         }
 
-        public async Task OnOff()
+        public async Task ToggleStateAsync(int state)
         {
-            Uri uri = new Uri("web api address");
+            Uri uri = new Uri(_baseUri);
 
             HttpResponseMessage response = null;
-            StringContent content = new StringContent("OnOff");
+            StringContent content = new StringContent(state.ToString());
 
-            response = await client.PostAsync(uri, content);
+            response = await _client.PostAsync(uri, content);
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 Debug.WriteLine(@"\tSuccess!");
             }
