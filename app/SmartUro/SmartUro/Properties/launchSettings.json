@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SmartUro": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

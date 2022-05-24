@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:SmartUro.ViewModels"
+             x:Class="SmartUro.Views.StartView"
+             x:Name="page">
+    <ContentPage.BindingContext>
+        <local:StartViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor="blue" Padding="10" CornerRadius="0">
+                <Label Text="Uroer" HorizontalTextAlignment="Center" TextColor="White" FontSize="30"/>
+            </Frame>
+            <ListView ItemsSource="{Binding HardwareConfigurations}" Margin="40,0,40,0" RowHeight="60">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Name}" FontSize="20"/>
+                                    <Label Text="{Binding Serialnumber}" FontSize="14" FontAttributes="Italic" />
+                                </StackLayout>
+                                <Button Text="Go" HorizontalOptions="EndAndExpand" Command="{Binding BindingContext.Navigate, Source={x:Reference page}}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
