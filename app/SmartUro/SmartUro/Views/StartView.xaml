@@ -10,8 +10,24 @@
     <ContentPage.Content>
         <StackLayout>
             <Frame BackgroundColor="blue" Padding="10" CornerRadius="0">
-                <Label Text="Uroer" HorizontalTextAlignment="Center" TextColor="White" FontSize="30"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label 
+                        Text="Uroer"
+                        HorizontalTextAlignment="Center"
+                        HorizontalOptions="Center"
+                        TextColor="White"
+                        FontSize="30"
+                    />    
+                    <Button 
+                        Text="Tilføj Ny"
+                        HorizontalOptions="EndAndExpand"
+                        TextColor="White"
+                        Command="{Binding BeginAddUroFlowCommand}"
+                    />
+                </StackLayout>
+                
             </Frame>
+            
             <ListView ItemsSource="{Binding HardwareConfigurations}" Margin="40,0,40,0" RowHeight="60">
                 <ListView.ItemTemplate>
                     <DataTemplate >

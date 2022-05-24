@@ -17,8 +17,30 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Resources" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\lock.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\wifi.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\wifi.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\cogwheel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\simple-eye.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\barcode.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\..\api\CommonData\CommonData.csproj" />
   </ItemGroup>
@@ -30,5 +52,12 @@
     <EmbeddedResource Update="Views\UroView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\AddUroFlow\AddUroView.xaml.cs">
+      <DependentUpon>AddUroView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

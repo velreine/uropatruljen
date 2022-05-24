@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using SmartUro.Services;
 using UIKit;
 
 namespace SmartUro.iOS
 {
     public class Application
     {
+
+        private IWiFiObserver _wifiObserver;
+        
         // This is the main entry point of the application.
         static void Main(string[] args)
         {

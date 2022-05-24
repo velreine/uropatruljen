@@ -12,6 +12,7 @@ using CommonData.Model.Entity;
 using CommonData.Model.Static;
 using CommonData.Model;
 using System.Diagnostics;
+using SmartUro.Views.AddUroFlow;
 
 namespace SmartUro.ViewModels
 {
@@ -19,6 +20,8 @@ namespace SmartUro.ViewModels
     {
         public ICommand Navigate { get; }
 
+        public ICommand BeginAddUroFlowCommand { get; }
+        
         public ICollection<HardwareConfiguration> HardwareConfigurations { get; set; }
 
 
@@ -29,8 +32,16 @@ namespace SmartUro.ViewModels
             //Navigate = new Command(async() => await NavigateToUroView());
 
             Navigate = new Command(async () => await NavigateToUroView());
+            BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
         }
 
+        private async Task NavigateToSelectUserWifi()
+        {
+            var page = new SelectUserWiFi();
+
+            await Application.Current.MainPage.Navigation.PushAsync(page);
+        }
+        
         private async Task NavigateToUroView()
         {
             var page = new UroView();

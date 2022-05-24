@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using SmartUro.iOS.Services;
 using UIKit;
 
 namespace SmartUro.iOS
@@ -23,7 +24,10 @@ namespace SmartUro.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+
+            var wifiObserver = new iOSWiFiObserver();
+            
+            LoadApplication(new App(wifiObserver));
 
             return base.FinishedLaunching(app, options);
         }
