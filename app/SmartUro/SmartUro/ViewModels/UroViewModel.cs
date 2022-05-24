@@ -18,10 +18,20 @@ namespace SmartUro.ViewModels
         private string _buttonColor;
         public string ButtonColor { get => _buttonColor; set => OnPropertyChanged(ref _buttonColor, value); }
 
-        public HardwareConfiguration HardwareConfiguration { get; set; }
+        private string _currentUro;
+        public string CurrentUro { get => _currentUro; set => OnPropertyChanged(ref _currentUro, value); }
+
+        private HardwareConfiguration _hardwareConfiguration;
+        public HardwareConfiguration HardwareConfiguration { get => _hardwareConfiguration; set => OnPropertyChanged(ref _hardwareConfiguration, value); }
 
         public UroViewModel()
         {
+            /*//Debug.WriteLine("UROVIEWMODEL HARDWARE NAME: " + HardwareConfiguration.Name);
+            if (HardwareConfiguration == null)
+                CurrentUro = "UroView";
+            else
+                CurrentUro = HardwareConfiguration.Name;*/
+
             ToggleState = new Command(async() => await ToggleStateAsync() );
             ButtonText = "OFF";
             ButtonColor = "lightgray";

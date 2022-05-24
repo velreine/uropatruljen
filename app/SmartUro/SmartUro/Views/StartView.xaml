@@ -12,6 +12,9 @@
             <Frame BackgroundColor="blue" Padding="10" CornerRadius="0">
                 <Label Text="Uroer" HorizontalTextAlignment="Center" TextColor="White" FontSize="30"/>
             </Frame>
+            
+            <Label Text="{Binding SSID}"></Label>
+            
             <ListView ItemsSource="{Binding HardwareConfigurations}" Margin="40,0,40,0" RowHeight="60">
                 <ListView.ItemTemplate>
                     <DataTemplate >
@@ -21,7 +24,11 @@
                                     <Label Text="{Binding Name}" FontSize="20"/>
                                     <Label Text="{Binding Serialnumber}" FontSize="14" FontAttributes="Italic" />
                                 </StackLayout>
-                                <Button Text="Go" HorizontalOptions="EndAndExpand" Command="{Binding BindingContext.Navigate, Source={x:Reference page}}"/>
+                                <Button 
+                                    Text="Go" 
+                                    HorizontalOptions="EndAndExpand" 
+                                    Command="{Binding BindingContext.Navigate, Source={x:Reference page}}" 
+                                    CommandParameter="{Binding ., Mode=TwoWay}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
