@@ -15,7 +15,6 @@ namespace SmartUro.Views
     {
         public UroView()
         {
-            Debug.WriteLine("UroView Initialize");
             InitializeComponent();
         }
     }

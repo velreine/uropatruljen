@@ -9,17 +9,19 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-                <Label Text="SmartUro" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+            <Frame BackgroundColor="blue" Padding="10" CornerRadius="0">
+                <Label Text="Uroer" HorizontalTextAlignment="Center" TextColor="White" FontSize="30"/>
             </Frame>
-            <Button Text="NavigateToUro" Command="{Binding Navigate}"/>
-            <ListView ItemsSource="{Binding HardwareConfigurations}">
+            <ListView ItemsSource="{Binding HardwareConfigurations}" Margin="40,0,40,0" RowHeight="60">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate >
                         <ViewCell>
                             <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Name}"/>
-                                <Button Text="Go" Command="{Binding BindingContext.Navigate, Source={x:Reference page}}"/>
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Name}" FontSize="20"/>
+                                    <Label Text="{Binding Serialnumber}" FontSize="14" FontAttributes="Italic" />
+                                </StackLayout>
+                                <Button Text="Go" HorizontalOptions="EndAndExpand" Command="{Binding BindingContext.Navigate, Source={x:Reference page}}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

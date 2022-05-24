@@ -24,7 +24,6 @@ namespace SmartUro.ViewModels
 
         public StartViewModel()
         {
-            Debug.WriteLine("StartView Constructor");
             HardwareConfigurations = new List<HardwareConfiguration>();
             GetListOfUrosAsync();
             //Navigate = new Command(async() => await NavigateToUroView());
@@ -34,11 +33,9 @@ namespace SmartUro.ViewModels
 
         private async Task NavigateToUroView()
         {
-            Debug.WriteLine("NavigateMethod");
             var page = new UroView();
             //var pageContext = page.BindingContext as UroViewModel;
             //pageContext.HardwareConfiguration = new HardwareConfiguration();
-            Debug.WriteLine("UroView page object created");
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

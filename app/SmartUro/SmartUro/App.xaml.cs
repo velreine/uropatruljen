@@ -11,8 +11,7 @@ namespace SmartUro
         {
             InitializeComponent();
 
-            //MainPage = new MainPage();
-            MainPage = new StartView();
+            MainPage = new NavigationPage(new StartView());
         }
 
         protected override void OnStart()

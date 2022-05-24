@@ -15,15 +15,16 @@ namespace SmartUro.ViewModels
 
         private string _buttonText;
         public string ButtonText { get => _buttonText; set => OnPropertyChanged(ref _buttonText, value); }
+        private string _buttonColor;
+        public string ButtonColor { get => _buttonColor; set => OnPropertyChanged(ref _buttonColor, value); }
 
         public HardwareConfiguration HardwareConfiguration { get; set; }
 
         public UroViewModel()
         {
-            Debug.WriteLine("UroViewModel Constructor");
             ToggleState = new Command(async() => await ToggleStateAsync() );
             ButtonText = "OFF";
-            Debug.WriteLine("UroViewModel Constructor Done");
+            ButtonColor = "lightgray";
         }
         private async Task ToggleStateAsync()
         {
@@ -31,11 +32,13 @@ namespace SmartUro.ViewModels
             {
                 //await RestService.ToggleStateAsync(0);
                 ButtonText = "OFF";
+                ButtonColor = "lightgray";
             }
             else if (ButtonText == "OFF") //if current component's state is 0
             {
                 //await RestService.ToggleStateAsync(1);
                 ButtonText = "ON";
+                ButtonColor = "lightgreen";
             }
         }
     }

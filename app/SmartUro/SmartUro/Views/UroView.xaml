@@ -8,10 +8,10 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="UroView"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Button Text= "{Binding ButtonText}" HorizontalOptions="Center" BackgroundColor="Blue" Command="{Binding ToggleState}"></Button>
+            <Frame BackgroundColor="blue" Padding="10" CornerRadius="0">
+                <Label Text="UroView" HorizontalTextAlignment="Center" TextColor="White" FontSize="30"/>
+            </Frame>
+            <Button Text= "{Binding ButtonText}" HorizontalOptions="Center" BackgroundColor="{Binding ButtonColor}" Command="{Binding ToggleState}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
