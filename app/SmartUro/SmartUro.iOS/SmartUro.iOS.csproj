@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
+    <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,6 +62,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -128,8 +130,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\api\CommonData\CommonData.csproj">
+      <Project>{dc6bddc6-0e6a-4395-8485-364de4f5ca20}</Project>
+      <Name>CommonData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmartUro\SmartUro.csproj">
-      <Project>{0939DC50-7E4F-44FF-87BC-C24D6007DC62}</Project>
+      <Project>{9F972D82-37DC-4C66-81A1-4D01AC7050DC}</Project>
       <Name>SmartUro</Name>
     </ProjectReference>
   </ItemGroup>
