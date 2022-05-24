@@ -1,4 +1,5 @@
 ﻿using System;
+using SmartUro.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using SmartUro.Views;
@@ -7,9 +8,13 @@ namespace SmartUro
 {
     public partial class App : Application
     {
-        public App()
+        public static IWiFiObserver WiFiObserver { get; private set; }
+        
+        public App(IWiFiObserver wiFiObserver)
         {
             InitializeComponent();
+
+            WiFiObserver = wiFiObserver;
 
             MainPage = new NavigationPage(new StartView());
         }

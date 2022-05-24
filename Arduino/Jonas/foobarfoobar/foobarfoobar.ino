@@ -185,16 +185,10 @@ int controlRgbComponent(String command) {
 
   // Write the configuration to the pins.
   if(onOrOff == 1) {
-    setPinVar(r_pin, r);
-    setPinVar(g_pin, g);
-    setPinVar(b_pin, b);
   digitalWrite(r_pin, r);
   digitalWrite(g_pin, g);
   digitalWrite(b_pin, b);//
   } else {
-    setPinVar(r_pin, LOW);
-    setPinVar(g_pin, LOW);
-    setPinVar(b_pin, LOW);
   digitalWrite(r_pin, LOW);
   digitalWrite(g_pin, LOW);
   digitalWrite(b_pin, LOW);

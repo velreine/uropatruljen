@@ -12,7 +12,7 @@ using CommonData.Model.Entity;
 using CommonData.Model.Static;
 using CommonData.Model;
 using System.Diagnostics;
-using SmartUro.Interfaces;
+using SmartUro.Views.AddUroFlow;
 
 namespace SmartUro.ViewModels
 {
@@ -20,6 +20,8 @@ namespace SmartUro.ViewModels
     {
         public ICommand Navigate { get; }
 
+        public ICommand BeginAddUroFlowCommand { get; }
+        
         public ICollection<HardwareConfiguration> HardwareConfigurations { get; set; }
 
         public string SSID { get; set; }
@@ -33,13 +35,15 @@ namespace SmartUro.ViewModels
             GetListOfUrosAsync();
             //Navigate = new Command(async() => await NavigateToUroView());
 
-            Navigate = new Command<HardwareConfiguration>(async hw => await NavigateToUroView(hw));
+            Navigate = new Command(async () => await NavigateToUroView());
+            BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
         }
 
-        private string GetSSID()
+        private async Task NavigateToSelectUserWifi()
         {
-            var ssid = DependencyService.Get<IGetSSID>().GetSSID();
-            return ssid;
+            var page = new SelectUserWiFi();
+
+            await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
         private async Task NavigateToUroView(HardwareConfiguration hw)
