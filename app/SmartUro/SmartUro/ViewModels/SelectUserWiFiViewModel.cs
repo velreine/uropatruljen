@@ -7,12 +7,20 @@ namespace SmartUro.ViewModels
 {
     internal class SelectUserWiFiViewModel : BaseViewModel
     {
+
+        private const string DefaultUnconnected = "<Disconnected>";
+        
         private string _wiFiPasswordInput;
         private Color _wifiColorIndicator;
-        
+        private string _connectedWiFiName = DefaultUnconnected;
+
         public bool IsDeviceConnectedToWiFi { get; set; }
 
-        public string ConnectedWiFiName { get; set; } = "<WiFi name will appear here>";
+        public string ConnectedWiFiName
+        {
+            get => _connectedWiFiName;
+            set => OnPropertyChanged(ref _connectedWiFiName, value);
+        }
 
         public string WiFiPasswordInput
         {
@@ -41,6 +49,8 @@ namespace SmartUro.ViewModels
 
                 var status = App.WiFiObserver.IsWifiCurrentlyConnected();
 
+                this.ConnectedWiFiName = App.WiFiObserver.GetCurrentSSID() ?? DefaultUnconnected;
+                
                 if (status == null)
                 {
                     this._wifiColorIndicator = Color.Blue;
@@ -56,11 +66,15 @@ namespace SmartUro.ViewModels
                 App.WiFiObserver.OnDeviceWiFiConnected += (sender, args) =>
                 {
                     this.WifiColorIndicator = Color.SpringGreen;
+                    this.ConnectedWiFiName = App.WiFiObserver.GetCurrentSSID();
+                    this.IsDeviceConnectedToWiFi = true;
                 };
 
                 App.WiFiObserver.OnDeviceWiFiDisconnected += (sender, args) =>
                 {
                     this.WifiColorIndicator = Color.Red;
+                    this.ConnectedWiFiName = DefaultUnconnected;
+                    this.IsDeviceConnectedToWiFi = false;
                 };
             }
             
