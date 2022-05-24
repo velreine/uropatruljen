@@ -29,13 +29,11 @@ namespace SmartUro.ViewModels
 
         public StartViewModel()
         {
-            var _wifiConnector = DependencyService.Get<IWiFiConnector>();
-            //SSID = GetSSID();
+            //var _wifiConnector = DependencyService.Get<IWiFiConnector>();
             HardwareConfigurations = new List<HardwareConfiguration>();
             GetListOfUrosAsync();
-            //Navigate = new Command(async() => await NavigateToUroView());
 
-            Navigate = new Command(async () => await NavigateToUroView());
+            Navigate = new Command<HardwareConfiguration>(async hw => await NavigateToUroView(hw));
             BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
         }
 
