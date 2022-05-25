@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace CommonData.Model.Action
 {
-    public class TurnOnOffAction : IAction<TurnOnOffAction>
+    public class TurnOnOffAction : IAction
     {
         public int ComponentIdentifier { get; set; }
         
@@ -28,7 +28,7 @@ namespace CommonData.Model.Action
             return ms.ToArray();
         }
 
-        public TurnOnOffAction FromPayload(byte[] rawData)
+        public static TurnOnOffAction FromPayload(byte[] rawData)
         {
 
             var output = new TurnOnOffAction();

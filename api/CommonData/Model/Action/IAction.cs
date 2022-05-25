@@ -1,8 +1,10 @@
 namespace CommonData.Model.Action
 {
-    public interface IAction<out T> where T : IAction<T>
+    /**
+     * An action is an intent or a request for a change.
+     */
+    public interface IAction
     {
         byte[] ToPayload();
-        T FromPayload(byte[] rawData);
     }
 }
