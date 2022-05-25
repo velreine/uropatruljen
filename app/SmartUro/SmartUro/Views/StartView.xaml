@@ -37,7 +37,11 @@
                                     <Label Text="{Binding Name}" FontSize="20"/>
                                     <Label Text="{Binding Serialnumber}" FontSize="14" FontAttributes="Italic" />
                                 </StackLayout>
-                                <Button Text="Go" HorizontalOptions="EndAndExpand" Command="{Binding BindingContext.Navigate, Source={x:Reference page}}"/>
+                                <Button 
+                                    Text="Go" 
+                                    HorizontalOptions="EndAndExpand" 
+                                    Command="{Binding BindingContext.Navigate, Source={x:Reference page}}" 
+                                    CommandParameter="{Binding ., Mode=TwoWay}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

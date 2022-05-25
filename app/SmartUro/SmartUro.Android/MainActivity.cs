@@ -16,7 +16,7 @@ namespace SmartUro.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            
+
             // TODO: Inject AndroidWiFIObserver here...
             LoadApplication(new App(null));
         }

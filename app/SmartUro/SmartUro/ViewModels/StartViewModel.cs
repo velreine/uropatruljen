@@ -24,14 +24,16 @@ namespace SmartUro.ViewModels
         
         public ICollection<HardwareConfiguration> HardwareConfigurations { get; set; }
 
+        public string SSID { get; set; }
+
 
         public StartViewModel()
         {
+            //var _wifiConnector = DependencyService.Get<IWiFiConnector>();
             HardwareConfigurations = new List<HardwareConfiguration>();
             GetListOfUrosAsync();
-            //Navigate = new Command(async() => await NavigateToUroView());
 
-            Navigate = new Command(async () => await NavigateToUroView());
+            Navigate = new Command<HardwareConfiguration>(async hw => await NavigateToUroView(hw));
             BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
         }
 
@@ -41,12 +43,13 @@ namespace SmartUro.ViewModels
 
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
-        
-        private async Task NavigateToUroView()
+
+        private async Task NavigateToUroView(HardwareConfiguration hw)
         {
+            Debug.WriteLine("HARDWARE NAME: " + hw.Name);
             var page = new UroView();
-            //var pageContext = page.BindingContext as UroViewModel;
-            //pageContext.HardwareConfiguration = new HardwareConfiguration();
+            var pageContext = page.BindingContext as UroViewModel;
+            pageContext.CurrentUro = hw.Name;
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

@@ -9,7 +9,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Frame BackgroundColor="blue" Padding="10" CornerRadius="0">
-                <Label Text="UroView" HorizontalTextAlignment="Center" TextColor="White" FontSize="30"/>
+                <Label Text="{Binding CurrentUro}" HorizontalTextAlignment="Center" TextColor="White" FontSize="30"/>
             </Frame>
             <Button Text= "{Binding ButtonText}" HorizontalOptions="Center" BackgroundColor="{Binding ButtonColor}" Command="{Binding ToggleState}"></Button>
         </StackLayout>
