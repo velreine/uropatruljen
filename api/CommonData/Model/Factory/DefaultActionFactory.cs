@@ -4,7 +4,7 @@ using CommonData.Model.Action;
 namespace CommonData.Model.Factory
 {
     /**
-     * This factory registers default implementors for Actions that we as the developers created ourselves.
+     * This factory registers default ActionCreator functions for Actions that we as the developers created ourselves.
      */
     public class DefaultActionFactory : ActionFactory
     {
