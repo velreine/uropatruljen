@@ -16,6 +16,10 @@ namespace CommonData.Model.Entity {
         
         // The physical layout that matches this device.
         public HardwareLayout Layout { get; set; }
+        
+        // The room this Device resides in.
+        public Room Room { get; set; }
+        
     }
 
 }
