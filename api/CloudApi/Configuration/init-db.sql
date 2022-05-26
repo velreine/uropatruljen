@@ -113,7 +113,7 @@ CREATE TABLE component_state
 SET
 IDENTITY_INSERT person ON
 INSERT INTO person(id,name)
-VALUES (1,''Jonas''), (2,''Anton''), (3,''Nicky'')
+VALUES (1,'Jonas'), (2,'Anton'), (3,'Nicky')
 ;
 SET
 IDENTITY_INSERT person OFF
@@ -121,15 +121,15 @@ IDENTITY_INSERT person OFF
 -- Create three homes.
 SET IDENTITY_INSERT home ON
 INSERT INTO home(id,name)
-VALUES (1,''Mit Hjem''), (2,''Mitt Hem''), (3,''My Home'')
+VALUES (1,'Mit Hjem'), (2,'Mitt Hem'), (3,'My Home')
 SET IDENTITY_INSERT home OFF
 ;
 
 -- Put people in their respective homes.
 INSERT INTO person_home(person_id, home_id)
-VALUES (1, 1), -- Jonas => ''Mit Hjem''
-       (2, 2), -- Anton => ''Mitt Hem''
-       (3, 3) -- Nicky => ''My Home''
+VALUES (1, 1), -- Jonas => 'Mit Hjem'
+       (2, 2), -- Anton => 'Mitt Hem'
+       (3, 3) -- Nicky => 'My Home'
 ;
 
 -- Create some rooms.
@@ -137,11 +137,11 @@ SET
 IDENTITY_INSERT room ON
 INSERT INTO room(id,name, home_id) VALUES
 -- Jonas hus rum.
-(1, ''Stue'', 1), (2, ''Soveværelse'', 1),
+(1, 'Stue', 1), (2, 'Soveværelse', 1),
 -- Anton rum.
-(3,''Stugan'', 2), (4,''Sovrum'', 2),
+(3,'Stugan', 2), (4,'Sovrum', 2),
 -- Nicky rum.
-(5,''Living Room'', 3), (6,''Office'', 3)
+(5,'Living Room', 3), (6,'Office', 3)
 SET IDENTITY_INSERT room OFF
 ;
 
@@ -150,23 +150,23 @@ SET IDENTITY_INSERT room OFF
 SET
 IDENTITY_INSERT hardware_layout ON
 INSERT INTO hardware_layout(id, product_name, model_number) 
-VALUES (1, ''Smart Uro V1'', ''ABC123'')
+VALUES (1, 'Smart Uro V1', 'ABC123')
 SET IDENTITY_INSERT hardware_layout OFF
 ;
 
 SET
 IDENTITY_INSERT component ON
 INSERT INTO component(id, name, hardware_layout_id)
-VALUES (1, ''RGB_DIODE_1'', 1)
+VALUES (1, 'RGB_DIODE_1', 1)
 SET IDENTITY_INSERT component OFF
 ;
 
 SET
 IDENTITY_INSERT pin ON
 INSERT INTO pin(id, descriptor, hw_pin_number, pin_direction, component_id) VALUES 
-(1, ''r_pin'',10,1,1),
-(2, ''g_pin'',11,1,1),
-(3, ''b_pin'',12,1,1)
+(1, 'r_pin',10,1,1),
+(2, 'g_pin',11,1,1),
+(3, 'b_pin',12,1,1)
 SET IDENTITY_INSERT pin OFF
 ;
 /** End create our proto-type hardware layout. **/
@@ -176,12 +176,9 @@ SET IDENTITY_INSERT pin OFF
 SET
 IDENTITY_INSERT device ON
 INSERT INTO device(id, name, serial_number, hardware_layout_id, room_id) VALUES
-(1, ''Lise 2022
-'', ''jonas'', 1, 2),
-(2, ''Lise 2022
-'', ''anton'', 1, 4),
-(3, ''Lise 2022
-'', ''nicky'', 1, 6)
+(1, 'Lise 2022', 'jonas', 1, 2),
+(2, 'Lise 2022', 'anton', 1, 4),
+(3, 'Lise 2022', 'nicky', 1, 6)
 SET IDENTITY_INSERT device OFF
 ;
 
@@ -189,9 +186,9 @@ SET IDENTITY_INSERT device OFF
 SET
 IDENTITY_INSERT component_state ON
 INSERT INTO component_state(id, device_id, component_id, is_on, r_value, g_value, b_value, discriminant) VALUES 
-(1, 1, 1, 1, 255,0,0,''rgb_state''),
-(2, 2, 1, 1, 0,255,0,''rgb_state''),
-(3, 3, 1, 1, 0,0,255,''rgb_state'')
+(1, 1, 1, 1, 255,0,0,'rgb_state'),
+(2, 2, 1, 1, 0,255,0,'rgb_state'),
+(3, 3, 1, 1, 0,0,255,'rgb_state')
 SET IDENTITY_INSERT component_state OFF
 ;
 
