@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using CloudApi.Data;
 
 namespace CloudApi
 {
@@ -14,8 +15,18 @@ namespace CloudApi
                 // This means the serializer will automatically detect cycles/circular-references and ignore them.
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
-            
-            
+
+
+            // TODO: Replace hardcoded server connection string with a fetch from ENVIRONMENT VARIABLE, or fallback to
+            // lookup in config file?
+            //using var conn = new SqlConnection("Server=localhost;Database=uro_db;User Id=sa;Password=12345");
+            builder.Services.AddSqlServer<UroContext>("Server=localhost;Database=uro_db;User Id=sa;Password=12345",
+                optionsBuilder =>
+                {
+                    // TODO: how to add snake_case naming strategy?
+                    // https://docs.microsoft.com/en-us/ef/core/querying/single-split-queries
+                });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
