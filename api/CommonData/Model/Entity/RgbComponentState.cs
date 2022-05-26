@@ -1,6 +1,4 @@
-using CommonData.Model.Entity;
-
-namespace CommonData.Model.State {
+namespace CommonData.Model.Entity {
 
 public class RgbComponentState : ComponentState
 {
@@ -8,7 +6,7 @@ public class RgbComponentState : ComponentState
     public int GValue { get; set; }
     public int BValue { get; set; }
     
-    public RgbComponentState(Component component) : base(component)
+    public RgbComponentState()
     {
     }
     

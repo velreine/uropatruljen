@@ -1,7 +1,7 @@
 using System;
 using CommonData.Model.Action;
 
-namespace CommonData.Model.Factory
+namespace CommonData.Logic.Factory
 {
     /**
      * This factory registers default ActionCreator functions for Actions that we as the developers created ourselves.

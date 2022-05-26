@@ -6,11 +6,11 @@ namespace CommonData.Model.Static {
 public static class Board
 {
     // TODO: Should come from a central Database
-    public static HardwareConfiguration SmartUroV1 { get; } = new HardwareConfiguration()
+    public static HardwareLayout SmartUroV1 { get; } = new HardwareLayout()
     {
         Id = 1,
-        Name = "Smart Uro V1",
-        Serialnumber = "ABC-123-123",
+        ProductName = "Smart Uro V1",
+        ModelNumber = "ABC-123-123",
         AttachedComponents = new List<Component>()
         {
             new Component()

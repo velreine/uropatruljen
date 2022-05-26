@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HubApi", "HubApi\HubApi.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonData", "CommonData\CommonData.csproj", "{8027480C-86DC-4629-9E09-5E6C36D8E626}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MQTT Server", "MQTT Server\MQTT Server.csproj", "{06F0F8E9-9F21-46E8-B047-FE48CE4AF076}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTT Server", "MQTT Server\MQTT Server.csproj", "{06F0F8E9-9F21-46E8-B047-FE48CE4AF076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MQTT Client", "MQTT Client\MQTT Client.csproj", "{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTT Client", "MQTT Client\MQTT Client.csproj", "{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudApi", "CloudApi\CloudApi.csproj", "{3B97D151-E27B-4B0A-A6D8-4FCD2085CFCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59D8711B-0A9E-4C74-AC44-A68AF5C54FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B97D151-E27B-4B0A-A6D8-4FCD2085CFCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B97D151-E27B-4B0A-A6D8-4FCD2085CFCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B97D151-E27B-4B0A-A6D8-4FCD2085CFCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B97D151-E27B-4B0A-A6D8-4FCD2085CFCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

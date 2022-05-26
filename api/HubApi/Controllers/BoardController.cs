@@ -11,7 +11,7 @@ public class BoardController
 {
     
     [HttpGet(Name = "GetBoardConfiguration")]
-    public ActionResult<HardwareConfiguration> GetBoardConfiguration(int id)
+    public ActionResult<HardwareLayout> GetBoardConfiguration(int id)
     {
         // TODO: Actually look up the board by id.
         var board = Board.SmartUroV1;
@@ -23,7 +23,7 @@ public class BoardController
         }
         
         
-        var response = new ActionResult<HardwareConfiguration>(board);
+        var response = new ActionResult<HardwareLayout>(board);
 
         return response;
     }

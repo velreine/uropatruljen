@@ -1,7 +1,7 @@
 using System;
 using CommonData.Model.Action;
 
-namespace CommonData.Model.Factory
+namespace CommonData.Logic.Factory
 {
     public interface IActionFactory
     {

@@ -9,7 +9,6 @@ namespace CommonData.Model.Entity {
  */
 public class Component : AbstractEntity
 {
-
  public string Name { get; set; }
  
  public ComponentType Type { get; set; }

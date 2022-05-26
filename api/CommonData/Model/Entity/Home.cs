@@ -7,6 +7,9 @@ public class Home : AbstractEntity
 {
     public string Name { get; set; }
 
+    /**
+     * ManyToMany relation, inverse=Person.ConnectedHomes
+     */
     public ICollection<Person> Residents { get; set; }
     
 }

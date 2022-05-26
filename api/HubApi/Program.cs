@@ -1,6 +1,5 @@
 using HubApi.Logic;
 using CommonData.Model.Entity;
-using CommonData.Model.State;
 using CommonData.Model.Static;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +32,8 @@ var home = ScalarObjectHydrator.HydrateType<Home>(data);
 
 
 // Manager gets and constructs the state and is responsible for "asking" the Arduino what the current state is.
-var rgbState = new RgbComponentState(new Component());
+var rgbState = new RgbComponentState();
+rgbState.Component = new Component();
 rgbState.IsOn = true;
 rgbState.RValue = 200;
 rgbState.GValue = 100;

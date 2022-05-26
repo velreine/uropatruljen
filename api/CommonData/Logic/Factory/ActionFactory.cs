@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CommonData.Model.Action;
 
-namespace CommonData.Model.Factory
+namespace CommonData.Logic.Factory
 {
     /**
      * This class represents an Action factory where it is possible to register ActionCreators.
