@@ -1,5 +1,7 @@
 ﻿using System.Data.SqlClient;
+using System.IdentityModel.Tokens.Jwt;
 using CommonData.Model.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApi.Controllers;
@@ -26,6 +28,7 @@ public class DeviceController : ControllerBase
         return devices;
     }*/
 
+    [Authorize]
     [HttpGet(Name = "GetDevice")]
     //[Route("[controller]/{id:int}")]
     // POST /api/polices
@@ -33,6 +36,14 @@ public class DeviceController : ControllerBase
     public Device GetOne([FromRoute] int id)
     {
 
+        // Extracting person id from the token.
+        var user = HttpContext.User;
+        var UserId = user.FindFirst(c => c.Type == "PersonId")?.Value;
+
+        var allClaims = user.Claims;
+
+        return new Device() { SerialNumber = "USER ID IS " + UserId};
+        
         using var conn = new SqlConnection("Server=localhost;Database=uro_db;User Id=sa;Password=12345");
         conn.Open();
 
