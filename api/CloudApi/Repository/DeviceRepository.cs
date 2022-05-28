@@ -1,5 +1,6 @@
 ﻿using CloudApi.Data;
 using CommonData.Model.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CloudApi.Repository;
 
@@ -16,8 +17,12 @@ public class DeviceRepository
     
     public IEnumerable<Device> GetUserDevices(int userId)
     {
-        var devices = _dbContext.Devices.Where(device => device.Room.Home.Residents.Any(p => p.Id == userId));
-
+        var devices = 
+            _dbContext
+                .Devices
+                .Where(device => device.Room.Home.Residents.Any(p => p.Id == userId))
+                .Include(x => x.Layout);
+        
         return devices;
     } 
     

@@ -25,7 +25,7 @@ public class DeviceController : ControllerBase
     
     [Authorize]
     [HttpGet("GetAuthenticatedUserDevices")]
-    public IActionResult GetAuthenticatedUserDevices()
+    public ActionResult<IEnumerable<Device>> GetAuthenticatedUserDevices()
     {
         // Extracting person id from the token.
         var user = HttpContext.User;

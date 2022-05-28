@@ -20,5 +20,4 @@ public class PersonController : Controller
         this._dbContext = dbContext;
         this._configuration = configuration;
     }
-    
 }

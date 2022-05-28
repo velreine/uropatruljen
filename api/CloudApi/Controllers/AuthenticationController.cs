@@ -92,7 +92,7 @@ public class AuthenticationController : Controller
 
     [Authorize]
     [HttpGet("/WhoAmI")]
-    public IActionResult WhoAmI()
+    public ActionResult<Person> WhoAmI()
     {
         // Extracting person id from the jwt.
         var user = HttpContext.User;
