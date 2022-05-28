@@ -18,7 +18,12 @@ public class HomeRepository
         var homes = _dbContext.Homes.Where(home => home.Residents.Any(p => p.Id == userId));
 
         return homes;
-    } 
+    }
+
+    public Home? Find(int id)
+    {
+        return _dbContext.Homes.Find(id);
+    }
 
 
 }
