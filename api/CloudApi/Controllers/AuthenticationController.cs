@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using CloudApi.Data;
+using CloudApi.Repository;
 using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,12 +19,14 @@ public class AuthenticationController : Controller
     private readonly IConfiguration _config;
     private readonly UroContext _dbContext;
     private readonly IPasswordHasher<Person> _hasher;
+    private readonly PersonRepository _personRepository;
 
-    public AuthenticationController(IConfiguration config, UroContext dbContext, IPasswordHasher<Person> hasher)
+    public AuthenticationController(IConfiguration config, UroContext dbContext, IPasswordHasher<Person> hasher, PersonRepository personRepository)
     {
         _config = config;
         _dbContext = dbContext;
         _hasher = hasher;
+        _personRepository = personRepository;
     }
 
     [AllowAnonymous]
@@ -85,6 +88,34 @@ public class AuthenticationController : Controller
             Id = createdUser.Entity.Id,
         });
 
+    }
+
+    [Authorize]
+    [HttpGet("/WhoAmI")]
+    public IActionResult WhoAmI()
+    {
+        // Extracting person id from the jwt.
+        var user = HttpContext.User;
+        var UserIdClaim = user.FindFirst(c => c.Type == "PersonId")?.Value;
+
+        if (UserIdClaim == null)
+        {
+            return BadRequest("Unable to authorize user.");
+        }
+
+        var userId = Convert.ToInt32(UserIdClaim);
+
+        // Find the person, with the authenticated user id.
+        var person = _personRepository.Find(userId);
+
+        // Do not leak even the hashed password.
+        if (person != null)
+        {
+            person.HashedPassword = null;
+        }
+        
+        // Return the found object.
+        return Ok(person);
     }
 
 

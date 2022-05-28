@@ -110,23 +110,34 @@ CREATE TABLE component_state
 -- Example data.
 
 -- Create three persons.
+-- This SQL matches what EntityFramework creates not the SQL above.
+DELETE FROM  ComponentStates;
+DELETE FROM  Devices;
+DELETE FROM  Pins;
+DELETE FROM  Components;
+DELETE FROM  HardwareLayouts;
+DELETE FROM  HomePerson;
+DELETE FROM  Rooms;
+DELETE FROM  Homes;
+DELETE FROM  Persons;
+
 SET
-IDENTITY_INSERT person ON
-INSERT INTO person(id,name)
-VALUES (1,'Jonas'), (2,'Anton'), (3,'Nicky')
+IDENTITY_INSERT Persons ON
+INSERT INTO Persons(Id,Name,Email,HashedPassword)
+VALUES (1,'Jonas','jonas@example.com','MTIzNDU='), (2,'Anton','anton@example.com','MTIzNDU='), (3,'Nicky','nicky@example.com','MTIzNDU=')
 ;
 SET
-IDENTITY_INSERT person OFF
+IDENTITY_INSERT Persons OFF
 
 -- Create three homes.
-SET IDENTITY_INSERT home ON
-INSERT INTO home(id,name)
+SET IDENTITY_INSERT Homes ON
+INSERT INTO Homes(Id,Name)
 VALUES (1,'Mit Hjem'), (2,'Mitt Hem'), (3,'My Home')
-SET IDENTITY_INSERT home OFF
+SET IDENTITY_INSERT Homes OFF
 ;
 
 -- Put people in their respective homes.
-INSERT INTO person_home(person_id, home_id)
+INSERT INTO HomePerson(ConnectedHomesId, ResidentsId)
 VALUES (1, 1), -- Jonas => 'Mit Hjem'
        (2, 2), -- Anton => 'Mitt Hem'
        (3, 3) -- Nicky => 'My Home'
@@ -134,63 +145,66 @@ VALUES (1, 1), -- Jonas => 'Mit Hjem'
 
 -- Create some rooms.
 SET
-IDENTITY_INSERT room ON
-INSERT INTO room(id,name, home_id) VALUES
+IDENTITY_INSERT Rooms ON
+INSERT INTO Rooms(Id,Name, HomeId) VALUES
 -- Jonas hus rum.
 (1, 'Stue', 1), (2, 'Soveværelse', 1),
 -- Anton rum.
 (3,'Stugan', 2), (4,'Sovrum', 2),
 -- Nicky rum.
 (5,'Living Room', 3), (6,'Office', 3)
-SET IDENTITY_INSERT room OFF
+SET IDENTITY_INSERT Rooms OFF
 ;
 
 
 /** Begin create our proto-type hardware layout. **/
 SET
-IDENTITY_INSERT hardware_layout ON
-INSERT INTO hardware_layout(id, product_name, model_number) 
+IDENTITY_INSERT HardwareLayouts ON
+INSERT INTO HardwareLayouts(Id, ProductName, ModelNumber) 
 VALUES (1, 'Smart Uro V1', 'ABC123')
-SET IDENTITY_INSERT hardware_layout OFF
+SET IDENTITY_INSERT HardwareLayouts OFF
 ;
 
 SET
-IDENTITY_INSERT component ON
-INSERT INTO component(id, name, hardware_layout_id)
-VALUES (1, 'RGB_DIODE_1', 1)
-SET IDENTITY_INSERT component OFF
+IDENTITY_INSERT Components ON
+INSERT INTO Components(Id, Name, HardwareLayoutId, Type)
+VALUES (1, 'RGB_DIODE_1', 1,1)
+SET IDENTITY_INSERT Components OFF
 ;
 
 SET
-IDENTITY_INSERT pin ON
-INSERT INTO pin(id, descriptor, hw_pin_number, pin_direction, component_id) VALUES 
+IDENTITY_INSERT Pins ON
+INSERT INTO Pins(Id, Descriptor, HwPinNumber, Direction, ComponentId) VALUES 
 (1, 'r_pin',10,1,1),
 (2, 'g_pin',11,1,1),
 (3, 'b_pin',12,1,1)
-SET IDENTITY_INSERT pin OFF
+SET IDENTITY_INSERT Pins OFF
 ;
 /** End create our proto-type hardware layout. **/
 
 
 -- These are physical products shipped to the customer "registered" in the cloud.
 SET
-IDENTITY_INSERT device ON
-INSERT INTO device(id, name, serial_number, hardware_layout_id, room_id) VALUES
-(1, 'Lise 2022', 'jonas', 1, 2),
-(2, 'Lise 2022', 'anton', 1, 4),
-(3, 'Lise 2022', 'nicky', 1, 6)
-SET IDENTITY_INSERT device OFF
+IDENTITY_INSERT Devices ON
+INSERT INTO Devices(Id, Name, SerialNumber, LayoutId, RoomId) VALUES
+(1, 'Jeanette 2022', 'jonas', 1, 2),
+(2, 'Anette 2023', 'anton', 1, 4),
+(3, 'Nanna 2022', 'nicky', 1, 6)
+SET IDENTITY_INSERT Devices OFF
 ;
 
 -- Component state is for saved configuration of components.
 SET
-IDENTITY_INSERT component_state ON
-INSERT INTO component_state(id, device_id, component_id, is_on, r_value, g_value, b_value, discriminant) VALUES 
-(1, 1, 1, 1, 255,0,0,'rgb_state'),
-(2, 2, 1, 1, 0,255,0,'rgb_state'),
-(3, 3, 1, 1, 0,0,255,'rgb_state')
-SET IDENTITY_INSERT component_state OFF
+IDENTITY_INSERT ComponentStates ON
+INSERT INTO ComponentStates(Id, DeviceId, ComponentId, IsOn, RValue, GValue, BValue, Discriminator) VALUES 
+(1, 1, 1, 1, 255,0,0,'RgbComponentState'),
+(2, 2, 1, 1, 0,255,0,'RgbComponentState'),
+(3, 3, 1, 1, 0,0,255,'RgbComponentState')
+SET IDENTITY_INSERT ComponentStates OFF
 ;
+
+
+
 
 
 

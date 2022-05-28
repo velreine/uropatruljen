@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using CloudApi.Data;
 using CloudApi.Logic;
+using CloudApi.Repository;
 using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +24,7 @@ namespace CloudApi
             {
                 // This means the serializer will automatically detect cycles/circular-references and ignore them.
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
 
 
@@ -98,6 +100,9 @@ namespace CloudApi
 
             // Add our mock password hasher.
             builder.Services.AddTransient<IPasswordHasher<Person>, MockPasswordHasher>();
+            builder.Services.AddTransient<HomeRepository, HomeRepository>(); // TODO: Fix, and replace with interface.
+            builder.Services.AddTransient<DeviceRepository, DeviceRepository>(); // TODO: Fix, and replace with interface.
+            builder.Services.AddTransient<PersonRepository, PersonRepository>(); // TODO: Fix, and replace with interface.
             
             var app = builder.Build();
 
