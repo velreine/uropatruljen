@@ -17,7 +17,13 @@ namespace CommonData.Model.Entity {
         // The physical layout that matches this device.
         public HardwareLayout Layout { get; set; }
         
-        // The room this Device resides in.
+        // The home this device should belong to.
+        // Read additional comment on Room property.
+        public Home Home { get; set; }
+        
+        // (Optionally the Room this Device should be in, this should be a Room of the attached home.)
+        // Even though a Room is "inside" of a Home,
+        // the "Home" property is necessary in case the device has not had a room attached yet.
         public Room Room { get; set; }
         
     }
