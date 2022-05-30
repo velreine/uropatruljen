@@ -9,6 +9,7 @@
 * Microsoft.EntityFrameworkCore.Design
 * System.Data.SqlClient
 * Microsoft.AspNetCore.Authentication.JwtBearer
+* MQTTnet.AspNetCore
 
 ## Install .NET Entity Framework tools:
 ```bash

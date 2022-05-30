@@ -1,6 +1,7 @@
 ﻿using CloudApi.Data;
 using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Mvc;
+using MQTTnet.Server;
 
 namespace CloudApi.Controllers;
 
@@ -12,17 +13,21 @@ public class DevelopmentController : ControllerBase
 
 
     private readonly UroContext _dbContext;
+    private readonly MqttServer _mqttServer;
     
-    public DevelopmentController(UroContext dbContext)
+    public DevelopmentController(UroContext dbContext, MqttServer mqttServer)
     {
         this._dbContext = dbContext;
+        this._mqttServer = mqttServer;
     }
     
     [HttpGet(Name = "DoStuff")]
     public IActionResult DoStuff()
     {
 
-        var state = new RgbComponentState
+        // TODO: TEST MQTT SERVER IS INJECTED PROPERLY.
+        
+        /*var state = new RgbComponentState
         {
             Component = null,
             Device = null,
@@ -34,7 +39,7 @@ public class DevelopmentController : ControllerBase
 
         _dbContext.ComponentStates.Add(state);
 
-        _dbContext.SaveChanges();
+        _dbContext.SaveChanges();*/
         
         
         return Ok("OK");

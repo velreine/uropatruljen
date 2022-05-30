@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MQTTnet.AspNetCore;
+using MQTTnet.AspNetCore.Client.Tcp;
+using MQTTnet.Server;
 
 namespace CloudApi
 {
@@ -103,8 +106,73 @@ namespace CloudApi
             builder.Services.AddTransient<HomeRepository, HomeRepository>(); // TODO: Fix, and replace with interface.
             builder.Services.AddTransient<DeviceRepository, DeviceRepository>(); // TODO: Fix, and replace with interface.
             builder.Services.AddTransient<PersonRepository, PersonRepository>(); // TODO: Fix, and replace with interface.
+
+            
+
+            // Configure our MQTT Server.
+            var mqttServerOptions = new MqttServerOptionsBuilder()
+                    .WithDefaultEndpoint()
+                    .Build()
+                ;
+
+            builder.Services.AddHostedMqttServer(mqttServerOptions)
+                .AddMqttConnectionHandler()
+                .AddConnections()
+                .AddMqttTcpServerAdapter();
+            
             
             var app = builder.Build();
+
+
+            // Configure MQTT Server callbacks.
+            app.UseMqttServer(server =>
+            {
+                server.StartedAsync += (eventArgs) =>
+                {
+                    Console.WriteLine("The MQTT Server has started.");
+                    return Task.CompletedTask;
+                };
+
+                server.StoppedAsync += (eventArgs) =>
+                {
+                    // Implement if necessary.
+                    Console.WriteLine("The MQTT Server has stopped.");
+                    return Task.CompletedTask;
+                };
+
+                server.ClientConnectedAsync += eventArgs =>
+                {
+                    Console.WriteLine($"A client has connected ClientId: {eventArgs.ClientId}, Endpoint:{eventArgs.Endpoint}, Username: {eventArgs.UserName}");
+                    return Task.CompletedTask;
+                };
+
+                server.ClientDisconnectedAsync += (eventArgs) =>
+                {
+                    var disconnectReason = eventArgs.DisconnectType switch
+                    {
+                        MqttClientDisconnectType.Clean => "Clean",
+                        MqttClientDisconnectType.Takeover => "TakeOver",
+                        MqttClientDisconnectType.NotClean => "Not Clean",
+                        _ => "Unknown"
+                    };
+                    
+                    Console.WriteLine($"A client has disconnected ClientId: {eventArgs.ClientId}, Endpoint:{eventArgs.Endpoint}, Reason: {disconnectReason}");
+                    return Task.CompletedTask;
+                };
+
+                server.ClientSubscribedTopicAsync += (eventArgs) =>
+                {
+                    Console.WriteLine($"A client subscribed to topic ClientId:{eventArgs.ClientId}, Topic:{eventArgs.TopicFilter.Topic}");
+                    return Task.CompletedTask;
+                };
+
+                server.ClientUnsubscribedTopicAsync += (eventArgs) =>
+                {
+                    Console.WriteLine($"A client unsubscribed to topic ClientId:{eventArgs.ClientId}, Topic:{eventArgs.TopicFilter}");
+                    return Task.CompletedTask;
+                };
+            });
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
