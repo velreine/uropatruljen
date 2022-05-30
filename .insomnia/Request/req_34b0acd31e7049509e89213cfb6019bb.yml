@@ -1,0 +1,31 @@
+_id: req_34b0acd31e7049509e89213cfb6019bb
+type: Request
+parentId: fld_e83ea1ce03804d56885946849b7f89fe
+modified: 1653921926489
+created: 1653920428529
+url: https://uroapp.dk/register
+name: Register
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "Nicky Hansen",
+    	"email": "nicky@example.com",
+    	"password": "12345"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_1f0bccda3bfc43d09225665deba4d9c1
+authentication: {}
+metaSortKey: -1653920428529
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

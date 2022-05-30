@@ -1,0 +1,21 @@
+_id: req_b2a452cc47a34e95afb6b2d38db8102d
+type: Request
+parentId: fld_e83ea1ce03804d56885946849b7f89fe
+modified: 1653920565491
+created: 1653920533143
+url: https://uroapp.dk/Home/GetAuthenticatedUserHomes
+name: Get Authenticated User Homes
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1653920533143
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

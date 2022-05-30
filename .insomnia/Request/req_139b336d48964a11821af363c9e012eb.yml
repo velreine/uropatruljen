@@ -1,0 +1,31 @@
+_id: req_139b336d48964a11821af363c9e012eb
+type: Request
+parentId: fld_34aa0d302022426fa24ac3fb9ed135af
+modified: 1652967181075
+created: 1652965053016
+url: "{{arduino_base}}/control-rgb"
+name: Control RGB
+description: ""
+method: GET
+body: {}
+parameters:
+  - id: pair_9791f106fa864f8f8c3b2902b9e3079a
+    name: command
+    value: 10 11 12 1 255 0 0
+    description: ""
+    disabled: false
+  - id: pair_a591dcc6110f49929f74f8f1898ee69b
+    name: command
+    value: 10 11 12 1 0 255 0
+    description: ""
+    disabled: true
+headers: []
+authentication: {}
+metaSortKey: -1652965053016
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

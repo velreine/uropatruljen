@@ -1,0 +1,21 @@
+_id: req_d8f6b2f104104d56bdc5a63549be0491
+type: Request
+parentId: fld_e83ea1ce03804d56885946849b7f89fe
+modified: 1653920570403
+created: 1653920510551
+url: https://uroapp.dk/Device/GetAuthenticatedUserDevices
+name: Get Authenticated User Devices
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1653920510551
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
