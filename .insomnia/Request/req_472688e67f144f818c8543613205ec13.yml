@@ -1,0 +1,30 @@
+_id: req_472688e67f144f818c8543613205ec13
+type: Request
+parentId: fld_e83ea1ce03804d56885946849b7f89fe
+modified: 1653921908279
+created: 1653904885520
+url: https://uroapp.dk/auth
+name: Authenticate
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"email": "nicky@example.com",
+    	"password": "12345"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_4e77eb64c03947599821cd23ddbd69d0
+authentication: {}
+metaSortKey: -1653904888152.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

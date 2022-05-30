@@ -1,0 +1,25 @@
+_id: req_57215a00c8e94f45a9f8c4464884a6e6
+type: Request
+parentId: fld_e83ea1ce03804d56885946849b7f89fe
+modified: 1653921962591
+created: 1653920580260
+url: https://uroapp.dk/HardwareLayout/GetLayout
+name: Get Hardware Layout
+description: ""
+method: GET
+body: {}
+parameters:
+  - id: pair_e34c88e84d0f48bd97ea94a16df775d8
+    name: id
+    value: "1"
+    description: ""
+headers: []
+authentication: {}
+metaSortKey: -1653920580260
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

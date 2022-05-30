@@ -1,31 +1,24 @@
 _id: req_65ee78c00b224003bfaec09e66a4acb5
 type: Request
 parentId: fld_34aa0d302022426fa24ac3fb9ed135af
-modified: 1652875594329
+modified: 1652943900145
 created: 1652875078476
 url: "{{arduino_base}}"
 name: Get Board State
 description: ""
-method: GET
+method: POST
 body:
   mimeType: application/json
   text: ""
-parameters: []
+parameters:
+  - id: pair_e084f91ba45b4fb4892f3cb10f77e99a
+    name: ""
+    value: component="foobar";r=255;g=190;b=180;
+    description: ""
 headers:
   - name: Content-Type
     value: application/json
-    id: pair_00c90527b0a54ba2af48ea4f96427b91
-    disabled: true
-  - id: pair_4e0201864b964548a1df66faee02688a
-    name: Accept
-    value: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
-    description: ""
-    disabled: true
-  - id: pair_b04e1d0dce2b4dbd9ae8b581768fd435
-    name: Accept-Encoding
-    value: gzip, deflate
-    description: ""
-    disabled: true
+    id: pair_13502e0e75774361bd2d996480989bbb
 authentication: {}
 metaSortKey: -1652875078476
 isPrivate: false

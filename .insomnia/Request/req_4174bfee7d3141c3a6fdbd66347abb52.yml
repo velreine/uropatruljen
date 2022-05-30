@@ -1,0 +1,26 @@
+_id: req_4174bfee7d3141c3a6fdbd66347abb52
+type: Request
+parentId: fld_e83ea1ce03804d56885946849b7f89fe
+modified: 1653921657235
+created: 1653920546758
+url: https://uroapp.dk/Device/RegisterDevice
+name: Register Device
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: ""
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_fd68b0636a9f404e95e526e777263494
+authentication: {}
+metaSortKey: -1653920546758
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
