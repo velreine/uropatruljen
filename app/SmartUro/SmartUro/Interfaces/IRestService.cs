@@ -5,8 +5,12 @@ using System.Threading.Tasks;
 
 namespace SmartUro.Interfaces
 {
-    internal interface IRestService
+    internal interface IRestService<T>
     {
-        Task ToggleStateAsync(int state);
+        Task ToggleState(int state);
+
+        Task<bool> VerifyLogin(string email, string pass);
+
+        Task<ICollection<T>> GetPairedUros();
     }
 }

@@ -10,33 +10,33 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" Margin="15,0">
+        <StackLayout Margin="20,0" Orientation="Vertical">
             
             <!-- User instructions -->
-            <Label Margin="10,30">
-                Ensure your smart-device is in "pairing mode", this can be observed by rapid blinking lights on the device. Now locate your smart-device and look for the sticker with the serial-number on it. (For DEBUG use "abc")
-            </Label>
-            
+            <Label 
+                Text="Ensure your smart-device is in &quot;pairing mode&quot;, this can be observed by rapid blinking lights on the device. Now locate your smart-device and look for the sticker with the serial-number on it. (For DEBUG use &quot;abc&quot;)"
+                Margin="0,30"
+            />
+
             <StackLayout Orientation="Horizontal" Margin="0,30">
-                <Image 
-                    HeightRequest="40"
-                    WidthRequest="40"
-                    Source="{imageExtension:ImageResource SmartUro.Resources.simple-eye.png}"
-                    />
                 <Entry 
                     HorizontalOptions="FillAndExpand"
                     IsPassword="False"
                     Placeholder="Please input smart-device serial number."
                     Text="{Binding SerialNumberInput, Mode=TwoWay}"
                 />
+                <ImageButton
+                    Style="{StaticResource IconPNG}"
+                    Source="{imageExtension:ImageResource SmartUro.Resources.simple-eye.png}"
+                />
             </StackLayout>
-            
+
             <Button
-                BackgroundColor="Blue"
-                TextColor="White"
-                Text="Pair Device">
-            </Button>
-            
+                Text="Pair Device"
+                TextColor="White"                
+                BackgroundColor="DarkBlue"
+                HorizontalOptions="Center"
+            />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

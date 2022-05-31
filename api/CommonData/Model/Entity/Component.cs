@@ -9,13 +9,11 @@ namespace CommonData.Model.Entity {
  */
 public class Component : AbstractEntity
 {
- 
- public string Name { get; set; }
- 
- public ComponentType Type { get; set; }
- 
- // OneToMany Pins. TODO: måske?
- public ICollection<Pin> Pins { get; set; }
-}
+        public string Name { get; set; }
 
+        public ComponentType Type { get; set; }
+
+        // OneToMany Pins. TODO: måske?
+        public ICollection<Pin> Pins { get; set; }
+}
 }

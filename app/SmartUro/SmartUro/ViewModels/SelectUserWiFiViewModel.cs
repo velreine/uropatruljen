@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows.Input;
 using SmartUro.Views;
 using Xamarin.Essentials;
@@ -29,7 +30,6 @@ namespace SmartUro.ViewModels
         }
         
         public ICommand OpenSettingsCommand { get; set; }
-
         public ICommand ContinueCommand { get; set; }
 
         public Color WifiColorIndicator
@@ -40,23 +40,20 @@ namespace SmartUro.ViewModels
 
         public SelectUserWiFiViewModel()
         {
-
-            this._wifiColorIndicator = Color.Blue;
-            
+            this._wifiColorIndicator = Color.Blue;            
             
             if (App.WiFiObserver != null)
             {
-
                 var status = App.WiFiObserver.IsWifiCurrentlyConnected();
-
                 this.ConnectedWiFiName = App.WiFiObserver.GetCurrentSSID() ?? DefaultUnconnected;
-                
+
                 if (status == null)
                 {
                     this._wifiColorIndicator = Color.Blue;
-                } else if (status == true)
+                } 
+                else if (status == true)
                 {
-                    this._wifiColorIndicator = Color.SpringGreen;
+                    this._wifiColorIndicator = Color.LightGreen;
                 }
                 else
                 {
@@ -65,7 +62,7 @@ namespace SmartUro.ViewModels
                 
                 App.WiFiObserver.OnDeviceWiFiConnected += (sender, args) =>
                 {
-                    this.WifiColorIndicator = Color.SpringGreen;
+                    this.WifiColorIndicator = Color.LightGreen;
                     this.ConnectedWiFiName = App.WiFiObserver.GetCurrentSSID();
                     this.IsDeviceConnectedToWiFi = true;
                 };
@@ -78,28 +75,21 @@ namespace SmartUro.ViewModels
                 };
             }
             
-            
             this.OpenSettingsCommand = new Command(async () =>
             {
-
                 // Don't know if this is iOS specific.
                 await Launcher.OpenAsync("app-settings:");
             });
 
             this.ContinueCommand = new Command<string>(async (wifiPasswordInput) =>
             {
-
                 var page = new AddUroView();
                 var pageContext = page.BindingContext as AddUroViewModel;
                 // ReSharper disable once PossibleNullReferenceException
                 pageContext.WifiPasswordFromPreviousStep = wifiPasswordInput;
                 
                 await Application.Current.MainPage.Navigation.PushAsync(page);
-
             });
-
-        }
-        
-        
+        }        
     }
 }

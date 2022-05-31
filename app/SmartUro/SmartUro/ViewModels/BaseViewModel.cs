@@ -5,13 +5,14 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using SmartUro.Interfaces;
 using SmartUro.Services;
+using CommonData.Model.Entity;
 
 namespace SmartUro.ViewModels
 {
     internal abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected IRestService RestService;
+        protected IRestService<HardwareLayout> RestService;
 
         public BaseViewModel()
         {

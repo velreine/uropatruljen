@@ -16,7 +16,7 @@ namespace SmartUro
 
             WiFiObserver = wiFiObserver;
 
-            MainPage = new NavigationPage(new StartView());
+            MainPage = new NavigationPage(new LoginView());
         }
 
         protected override void OnStart()

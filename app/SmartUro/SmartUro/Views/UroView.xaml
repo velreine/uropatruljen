@@ -1,17 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:SmartUro.ViewModels"
-             x:Class="SmartUro.Views.UroView">
-    <ContentPage.BindingContext>
-        <local:UroViewModel/>
-    </ContentPage.BindingContext>
+             x:Class="SmartUro.Views.UroView"
+             x:Name="page">
     <ContentPage.Content>
         <StackLayout>
-            <Frame BackgroundColor="blue" Padding="10" CornerRadius="0">
-                <Label Text="{Binding CurrentUro}" HorizontalTextAlignment="Center" TextColor="White" FontSize="30"/>
+            <Frame BackgroundColor="DarkBlue" Padding="10" CornerRadius="0">
+                <Label 
+                    Text="{Binding HardwareLayout.ProductName}" 
+                    HorizontalTextAlignment="Center" 
+                    TextColor="White" 
+                    FontSize="30"/>
             </Frame>
-            <Button Text= "{Binding ButtonText}" HorizontalOptions="Center" BackgroundColor="{Binding ButtonColor}" Command="{Binding ToggleState}"></Button>
+            <ListView ItemsSource="{Binding HardwareLayout.AttachedComponents}" Margin="40,20,40,0" RowHeight="60">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding Name}" FontSize="20"/>
+                                    <Label Text="{Binding Type}" FontSize="14" FontAttributes="Italic"/>
+                                </StackLayout>
+                                <Button 
+                                    Text="{Binding BindingContext.ButtonText, Source={x:Reference page}}"
+                                    TextColor="White"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    CornerRadius="25"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="EndAndExpand" 
+                                    BackgroundColor="{Binding BindingContext.ButtonColor, Source={x:Reference page}}"
+                                    Command="{Binding BindingContext.ToggleStateCommand, Source={x:Reference page}}">
+                                </Button>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

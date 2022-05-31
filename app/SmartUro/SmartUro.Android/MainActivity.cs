@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using SmartUro.Droid.Services;
 
 namespace SmartUro.Droid
 {
@@ -18,7 +19,8 @@ namespace SmartUro.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             // TODO: Inject AndroidWiFIObserver here...
-            LoadApplication(new App(null));
+            var _wifiObserver = new AndroidWiFiObserver();
+            LoadApplication(new App(_wifiObserver));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

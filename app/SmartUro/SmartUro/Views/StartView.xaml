@@ -9,44 +9,50 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Frame BackgroundColor="blue" Padding="10" CornerRadius="0">
-                <StackLayout Orientation="Horizontal">
-                    <Label 
-                        Text="Uroer"
-                        HorizontalTextAlignment="Center"
-                        HorizontalOptions="Center"
-                        TextColor="White"
-                        FontSize="30"
-                    />    
-                    <Button 
-                        Text="Tilføj Ny"
-                        HorizontalOptions="EndAndExpand"
-                        TextColor="White"
-                        Command="{Binding BeginAddUroFlowCommand}"
-                    />
-                </StackLayout>
-                
-            </Frame>
-            
-            <ListView ItemsSource="{Binding HardwareConfigurations}" Margin="40,0,40,0" RowHeight="60">
+            <Frame BackgroundColor="DarkBlue" Padding="10" CornerRadius="0">
+                <Label
+                    Text="Registered uros"
+                    HorizontalTextAlignment="Center"
+                    HorizontalOptions="Center"
+                    TextColor="White"
+                    FontSize="30"
+                />
+            </Frame>            
+            <ListView ItemsSource="{Binding HardwareLayouts}" Margin="40,20,40,0" RowHeight="60">
                 <ListView.ItemTemplate>
                     <DataTemplate >
                         <ViewCell>
                             <StackLayout Orientation="Horizontal">
                                 <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding Name}" FontSize="20"/>
-                                    <Label Text="{Binding Serialnumber}" FontSize="14" FontAttributes="Italic" />
+                                    <Label Text="{Binding ProductName}" FontSize="20"/>
+                                    <Label Text="{Binding ModelNumber}" FontSize="14" FontAttributes="Italic" />
                                 </StackLayout>
                                 <Button 
-                                    Text="Go" 
+                                    Text=">"
+                                    FontSize="30"
+                                    TextColor="lightSteelBlue"
+                                    BackgroundColor="#00000000"
                                     HorizontalOptions="EndAndExpand" 
                                     Command="{Binding BindingContext.Navigate, Source={x:Reference page}}" 
-                                    CommandParameter="{Binding ., Mode=TwoWay}"/>
+                                    CommandParameter="{Binding ., Mode=TwoWay}">
+                                </Button>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button
+                Text="+"
+                TextColor="White"
+                FontSize="35"
+                BackgroundColor="DarkBlue"
+                WidthRequest="80"
+                HeightRequest="80"
+                CornerRadius="40"
+                HorizontalOptions="Center"
+                Margin="0,0,0,40"
+                Command="{Binding BeginAddUroFlowCommand}"
+            />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

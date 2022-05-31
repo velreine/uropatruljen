@@ -17,50 +17,44 @@ using SmartUro.Views.AddUroFlow;
 namespace SmartUro.ViewModels
 {
     internal class StartViewModel : BaseViewModel
-    {
+    {        
+        public ICollection<HardwareLayout> HardwareLayouts { get; set; }
+
         public ICommand Navigate { get; }
-
         public ICommand BeginAddUroFlowCommand { get; }
-        
-        public ICollection<HardwareConfiguration> HardwareConfigurations { get; set; }
-
-        public string SSID { get; set; }
-
 
         public StartViewModel()
         {
-            //var _wifiConnector = DependencyService.Get<IWiFiConnector>();
-            HardwareConfigurations = new List<HardwareConfiguration>();
-            GetListOfUrosAsync();
+            HardwareLayouts = new List<HardwareLayout>();
+            GetListOfUros();
 
-            Navigate = new Command<HardwareConfiguration>(async hw => await NavigateToUroView(hw));
+            Navigate = new Command<HardwareLayout>(async hw => await NavigateToUroView(hw));
             BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
         }
 
         private async Task NavigateToSelectUserWifi()
         {
             var page = new SelectUserWiFi();
-
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
-        private async Task NavigateToUroView(HardwareConfiguration hw)
+        private async Task NavigateToUroView(HardwareLayout hw)
         {
-            Debug.WriteLine("HARDWARE NAME: " + hw.Name);
             var page = new UroView();
-            var pageContext = page.BindingContext as UroViewModel;
-            pageContext.CurrentUro = hw.Name;
+            page.BindingContext = new UroViewModel(hw);
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
-        private void GetListOfUrosAsync()
+
+
+        private void GetListOfUros()
         {
             //Dummy data for testing
-            HardwareConfiguration hw1 = new HardwareConfiguration()
+            HardwareLayout hw1 = new HardwareLayout()
             {
                 Id = 1,
-                Name = "Smart Uro V1",
-                Serialnumber = "ABC-123-123",
+                ProductName = "Smart Uro V1",
+                ModelNumber = "ABC-123-123",
                 AttachedComponents = new List<Component>()
                 {
                     {
@@ -76,14 +70,28 @@ namespace SmartUro.ViewModels
                                 { new Pin() {Id=3, Direction = PinDirection.Input, Descriptor = "b", HwPinNumber = 12 } },
                             }
                         }
+                    },
+                    {
+                        new Component()
+                        {
+                            Id = 2,
+                            Name = "RGB_DIODE_2",
+                            Type = ComponentType.RgbDiode,
+                            Pins = new List<Pin>()
+                            {
+                                { new Pin() {Id=1, Direction = PinDirection.Input, Descriptor = "r", HwPinNumber = 13 } },
+                                { new Pin() {Id=2, Direction = PinDirection.Input, Descriptor = "g", HwPinNumber = 14 } },
+                                { new Pin() {Id=3, Direction = PinDirection.Input, Descriptor = "b", HwPinNumber = 15 } },
+                            }
+                        }
                     }
                 }
             };
-            HardwareConfiguration hw2 = new HardwareConfiguration()
+            HardwareLayout hw2 = new HardwareLayout()
             {
                 Id = 1,
-                Name = "Smart Uro V2",
-                Serialnumber = "EDF-666-999",
+                ProductName = "Smart Uro V2",
+                ModelNumber = "EDF-666-999",
                 AttachedComponents = new List<Component>()
                 {
                     {
@@ -94,14 +102,14 @@ namespace SmartUro.ViewModels
                             Type = ComponentType.Diode,
                             Pins = new List<Pin>()
                             {
-                                { new Pin() {Id=1, Direction = PinDirection.Input, Descriptor = "d", HwPinNumber = 10 } }
+                                { new Pin() {Id=1, Direction = PinDirection.Input, Descriptor = "d", HwPinNumber = 16 } }
                             }
                         }
                     }
                 }
             };
-            HardwareConfigurations.Add(hw1);
-            HardwareConfigurations.Add(hw2);
+            HardwareLayouts.Add(hw1);
+            HardwareLayouts.Add(hw2);
 
         }
     }
