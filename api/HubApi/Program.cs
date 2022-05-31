@@ -4,7 +4,6 @@ using HubApi;
 using HubApi.Settings;
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Protocol;
 
 var builder = WebApplication.CreateBuilder(args);
 
