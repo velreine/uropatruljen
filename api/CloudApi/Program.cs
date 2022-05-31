@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using CloudApi.Data;
 using CloudApi.Logic;
 using CloudApi.Repository;
+using CloudApi.Settings;
 using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -17,8 +18,6 @@ namespace CloudApi
 {
     public class Program
     {
-
-
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -30,27 +29,26 @@ namespace CloudApi
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
-
-
-            // Read JSON Web Token settings from configuration.
+            
+            // Resolve settings from different places and bind them to classes.
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false).Build();
-            JwtSettings jwtSettings = new JwtSettings();
+            var jwtSettings = new JwtSettings();
+            var dbSettings = new DatabaseSettings();
+            config.GetSection("Database").Bind(dbSettings);
             config.GetSection("jwt").Bind(jwtSettings);
             
+            // Do not launch the application if the database connection string is not set properly.
+            if (dbSettings.ConnectionString == null || string.IsNullOrWhiteSpace(dbSettings.ConnectionString))
+            {
+                throw new Exception(
+                    "The HubApi could not start, as the Database connection string is not configured properly." +
+                    "It should be configured in appsettings.json, or through environment variables."
+                );
+            }
 
-            // TODO: Replace hardcoded server connection string with a fetch from ENVIRONMENT VARIABLE, or fallback to
-            // lookup in config file?
-            //using var conn = new SqlConnection("Server=localhost;Database=uro_db;User Id=sa;Password=12345");
-            
-            const string oldConn = "Server=127.0.0.1; Database=uro_db; User Id=sa; Password=!superPassword1234; Integrated Security=false; Trusted_Connection=false; TrustServerCertificate=True;";
-            const string newConn = "Server=127.0.0.1;Database=uro_db;User Id=sa;Password=!superPassword1234;TrustServerCertificate=True;Integrated Security=false;Trusted_Connection=false";
-            
-            builder.Services.AddSqlServer<UroContext>(newConn,
-                optionsBuilder =>
-                {
-                    // TODO: how to add snake_case naming strategy?
-                    // https://docs.microsoft.com/en-us/ef/core/querying/single-split-queries
-                });
+            builder.Services.AddSqlServer<UroContext>(dbSettings.ConnectionString, optionsBuilder =>
+            {
+            });
 
             // Add JSON Web Token Authentication
             builder.Services
@@ -68,12 +66,11 @@ namespace CloudApi
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
                     };
                 });
-            
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(genOptions =>
             {
-                
                 genOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
@@ -84,7 +81,7 @@ namespace CloudApi
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
-                
+
                 genOptions.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                     {
@@ -98,21 +95,20 @@ namespace CloudApi
                             Scheme = "oauth2",
                             Name = "Bearer",
                             In = ParameterLocation.Header,
-
                         },
                         new List<string>()
                     }
                 });
-                
             });
 
             // Add our mock password hasher.
             builder.Services.AddTransient<IPasswordHasher<Person>, MockPasswordHasher>();
             builder.Services.AddTransient<HomeRepository, HomeRepository>(); // TODO: Fix, and replace with interface.
-            builder.Services.AddTransient<DeviceRepository, DeviceRepository>(); // TODO: Fix, and replace with interface.
-            builder.Services.AddTransient<PersonRepository, PersonRepository>(); // TODO: Fix, and replace with interface.
+            builder.Services
+                .AddTransient<DeviceRepository, DeviceRepository>(); // TODO: Fix, and replace with interface.
+            builder.Services
+                .AddTransient<PersonRepository, PersonRepository>(); // TODO: Fix, and replace with interface.
 
-            
 
             // Configure our MQTT Server.
             var mqttServerOptions = new MqttServerOptionsBuilder()
@@ -124,10 +120,10 @@ namespace CloudApi
                 .AddMqttConnectionHandler()
                 .AddConnections()
                 .AddMqttTcpServerAdapter();
-            
-            
+
+
             var app = builder.Build();
-            
+
             // Configure MQTT Server callbacks.
             app.UseMqttServer(server =>
             {
@@ -146,7 +142,8 @@ namespace CloudApi
 
                 server.ClientConnectedAsync += eventArgs =>
                 {
-                    Console.WriteLine($"A client has connected ClientId: {eventArgs.ClientId}, Endpoint:{eventArgs.Endpoint}, Username: {eventArgs.UserName}");
+                    Console.WriteLine(
+                        $"A client has connected ClientId: {eventArgs.ClientId}, Endpoint:{eventArgs.Endpoint}, Username: {eventArgs.UserName}");
                     return Task.CompletedTask;
                 };
 
@@ -159,31 +156,34 @@ namespace CloudApi
                         MqttClientDisconnectType.NotClean => "Not Clean",
                         _ => "Unknown"
                     };
-                    
-                    Console.WriteLine($"A client has disconnected ClientId: {eventArgs.ClientId}, Endpoint:{eventArgs.Endpoint}, Reason: {disconnectReason}");
+
+                    Console.WriteLine(
+                        $"A client has disconnected ClientId: {eventArgs.ClientId}, Endpoint:{eventArgs.Endpoint}, Reason: {disconnectReason}");
                     return Task.CompletedTask;
                 };
 
                 server.ClientSubscribedTopicAsync += (eventArgs) =>
                 {
-                    Console.WriteLine($"A client subscribed to topic ClientId:{eventArgs.ClientId}, Topic:{eventArgs.TopicFilter.Topic}");
+                    Console.WriteLine(
+                        $"A client subscribed to topic ClientId:{eventArgs.ClientId}, Topic:{eventArgs.TopicFilter.Topic}");
                     return Task.CompletedTask;
                 };
 
                 server.ClientUnsubscribedTopicAsync += (eventArgs) =>
                 {
-                    Console.WriteLine($"A client unsubscribed to topic ClientId:{eventArgs.ClientId}, Topic:{eventArgs.TopicFilter}");
+                    Console.WriteLine(
+                        $"A client unsubscribed to topic ClientId:{eventArgs.ClientId}, Topic:{eventArgs.TopicFilter}");
                     return Task.CompletedTask;
                 };
             });
-            
+
             // This is necessary for the AspNetCore Server to function properly behind a reverse proxy.
             // Apache/Nginx etc..
             app.UseForwardedHeaders(new ForwardedHeadersOptions()
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
-            
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -195,7 +195,7 @@ namespace CloudApi
 
             // Enables the configured authentication (JWT for us).
             app.UseAuthentication();
-            
+
             app.UseAuthorization();
 
             app.MapControllers();

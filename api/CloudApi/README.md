@@ -5,12 +5,13 @@
 * MSSQL connection string from installer: Server=localhost;Database=master;Trusted_Connection=True;
 
 ## NuGet Pakker installeret:
-* Microsoft.EntityFrameworkCore.SqlServer
-* Microsoft.EntityFrameworkCore.Design
-* System.Data.SqlClient
+* Microsoft.EntityFrameworkCore.SqlServer (EF Core integration til MSSQL) 
+* Microsoft.EntityFrameworkCore.Design (Design time tools, ```dotnet ef database update```)
+* System.Data.SqlClient (Provides a generic SqlClient.)
 * Microsoft.AspNetCore.Authentication.JwtBearer
 * MQTTnet.AspNetCore
 * Microsoft.AspNetCore.HttpOverrides
+* Swashbuckle.AspNetCore
 
 ## Install .NET Entity Framework tools:
 ```bash
@@ -27,7 +28,7 @@ dotnet ef migrations add InitialCreate --context UroContext
 # Ensure .NET Entity Framework Core Tools is at version 6.x.x
 dotnet ef --version
 # Apply migrations "Trusted_Connection" cannot be used for remote unless Kerberos is properly setup.
-dotnet ef database update --context UroContext --connection "Server=localhost; Database=uro_db; User Id=sa; Password=12345; Trusted_Connection=True; TrustServerCertificate=True;"
+dotnet ef database update --context UroContext --connection "Server=localhost; Database=uro_db; User Id=sa; Password=12345; Trusted_Connection=False; TrustServerCertificate=True;"
 ```
 
 ## Lets Encrypt via certbot

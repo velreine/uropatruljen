@@ -5,10 +5,10 @@ namespace CommonData.Model.Static {
  */
 public enum ComponentType
 {
-    Diode,
-    RgbDiode,
-    Camera,
-    Microphone,
+    Diode, // 0
+    RgbDiode,// 1
+    Camera,// 2
+    Microphone,// 3
 }
 
 }

@@ -1,4 +1,4 @@
-﻿namespace CloudApi;
+﻿namespace CloudApi.Settings;
 
 public class JwtSettings
 {

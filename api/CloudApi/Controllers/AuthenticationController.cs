@@ -21,6 +21,9 @@ public class AuthenticationController : Controller
     private readonly IPasswordHasher<Person> _hasher;
     private readonly PersonRepository _personRepository;
 
+    public record struct LoginResponseDTO(string Message, string Token);
+    public record struct RegisterResponseDTO(string Message, int Id);
+    
     public AuthenticationController(IConfiguration config, UroContext dbContext, IPasswordHasher<Person> hasher, PersonRepository personRepository)
     {
         _config = config;
@@ -31,7 +34,7 @@ public class AuthenticationController : Controller
 
     [AllowAnonymous]
     [HttpPost("/auth")]
-    public IActionResult Login([FromBody] LoginRequestDTO dto)
+    public ActionResult<LoginResponseDTO> Login([FromBody] LoginRequestDTO dto)
     {
         const string failedMsg = "Login failed the password or e-mail was wrong.";
 
@@ -50,7 +53,7 @@ public class AuthenticationController : Controller
         if (passwordResult == PasswordVerificationResult.Success)
         {
             var token = GenerateJsonWebToken(user);
-            return Ok(new { token });
+            return Ok(new LoginResponseDTO("OK", token));
         }
 
 
@@ -59,7 +62,7 @@ public class AuthenticationController : Controller
 
     [AllowAnonymous]
     [HttpPost("/register")]
-    public IActionResult Register([FromBody] RegisterRequestDTO dto)
+    public ActionResult<RegisterResponseDTO> Register([FromBody] RegisterRequestDTO dto)
     {
         const string userAlreadyExistsMsg = "It was not possible to register, the e-mail is taken.";
         
@@ -82,12 +85,7 @@ public class AuthenticationController : Controller
         var createdUser = _dbContext.Persons.Add(newUser);
         _dbContext.SaveChanges();
 
-        return Ok(new
-        {
-            Message = "OK - User created.",
-            Id = createdUser.Entity.Id,
-        });
-
+        return Ok(new RegisterResponseDTO("OK, user created!", newUser.Id));
     }
 
     [Authorize]

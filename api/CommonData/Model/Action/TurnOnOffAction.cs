@@ -4,14 +4,11 @@ using System.Runtime.CompilerServices;
 
 namespace CommonData.Model.Action
 {
-    public class TurnOnOffAction : IAction
+    public class TurnOnOffAction : AbstractAction
     {
-        public int ComponentIdentifier { get; set; }
-        
         public bool TurnOn { get; set; }
-
-
-        public byte[] ToPayload()
+        
+        public override byte[] ToPayload()
         {
             // Int32 ComponentIdentifier, bool TurnOn.
             var payloadSize = sizeof(int) + sizeof(bool);
@@ -26,18 +23,6 @@ namespace CommonData.Model.Action
             ms.Write(baTurnOn, 0, sizeof(bool));
 
             return ms.ToArray();
-        }
-
-        public static TurnOnOffAction FromPayload(byte[] rawData)
-        {
-
-            var output = new TurnOnOffAction();
-            
-            return new TurnOnOffAction()
-            {
-                ComponentIdentifier = BitConverter.ToInt32(rawData, 0),
-                TurnOn = BitConverter.ToBoolean(rawData, 4),
-            };
         }
     }
 }
