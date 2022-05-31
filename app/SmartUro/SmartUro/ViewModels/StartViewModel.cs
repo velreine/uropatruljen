@@ -12,21 +12,78 @@ using CommonData.Model.Entity;
 using CommonData.Model.Static;
 using CommonData.Model;
 using System.Diagnostics;
+using System.Threading;
+using MQTTnet;
+using MQTTnet.Client;
 using SmartUro.Views.AddUroFlow;
 
 namespace SmartUro.ViewModels
 {
     internal class StartViewModel : BaseViewModel
-    {        
+    {
         public ICollection<HardwareLayout> HardwareLayouts { get; set; }
 
         public ICommand Navigate { get; }
         public ICommand BeginAddUroFlowCommand { get; }
 
+
+        private MqttClient _mqttClient;
+
         public StartViewModel()
         {
             HardwareLayouts = new List<HardwareLayout>();
             GetListOfUros();
+
+            // Configure MQTT client options.
+            var mqttClientOptions = new MqttClientOptionsBuilder()
+                .WithTcpServer("mqtt.uroapp.dk")
+                .Build();
+
+            var mqttFactory = new MqttFactory();
+            var client = mqttFactory.CreateMqttClient();
+
+            // Register event handlers before doing the actual connection..
+            client.ConnectedAsync += (eventArgs) =>
+            {
+                Debug.WriteLine("The client has successfully connected to the server.");
+                //eventArgs.DumpToConsole();
+                return Task.CompletedTask;
+            };
+
+            client.DisconnectedAsync += (eventArgs) =>
+            {
+                var reason = Enum.GetName(typeof(MqttClientDisconnectReason), eventArgs.Reason);
+
+
+                Debug.WriteLine($"The client has disconnected, Reason: {reason}");
+                Debug.WriteLine(eventArgs.Exception.Message);
+
+                // Keep trying to connect to the server in intervals of 5 seconds.
+                /*while (client.IsConnected != true)
+                {
+                    client.ConnectAsync(mqttClientOptions);
+                    Thread.Sleep(5000);
+                }*/
+
+                return Task.CompletedTask;
+            };
+
+            client.ConnectingAsync += (eventArgs) =>
+            {
+                Debug.WriteLine("The client is connecting...");
+                //eventArgs.DumpToConsole();
+                return Task.CompletedTask;
+            };
+
+            client.ApplicationMessageReceivedAsync += (eventArgs) =>
+            {
+                // TODO: Implement handlers...
+                Debug.WriteLine("The client received an application message.");
+                //eventArgs.DumpToConsole();
+                return Task.CompletedTask;
+            };
+            
+            client.ConnectAsync(mqttClientOptions, CancellationToken.None);
 
             Navigate = new Command<HardwareLayout>(async hw => await NavigateToUroView(hw));
             BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
@@ -44,7 +101,6 @@ namespace SmartUro.ViewModels
             page.BindingContext = new UroViewModel(hw);
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
-
 
 
         private void GetListOfUros()
@@ -65,9 +121,24 @@ namespace SmartUro.ViewModels
                             Type = ComponentType.RgbDiode,
                             Pins = new List<Pin>()
                             {
-                                { new Pin() {Id=1, Direction = PinDirection.Input, Descriptor = "r", HwPinNumber = 10 } },
-                                { new Pin() {Id=2, Direction = PinDirection.Input, Descriptor = "g", HwPinNumber = 11 } },
-                                { new Pin() {Id=3, Direction = PinDirection.Input, Descriptor = "b", HwPinNumber = 12 } },
+                                {
+                                    new Pin()
+                                    {
+                                        Id = 1, Direction = PinDirection.Input, Descriptor = "r", HwPinNumber = 10
+                                    }
+                                },
+                                {
+                                    new Pin()
+                                    {
+                                        Id = 2, Direction = PinDirection.Input, Descriptor = "g", HwPinNumber = 11
+                                    }
+                                },
+                                {
+                                    new Pin()
+                                    {
+                                        Id = 3, Direction = PinDirection.Input, Descriptor = "b", HwPinNumber = 12
+                                    }
+                                },
                             }
                         }
                     },
@@ -79,9 +150,24 @@ namespace SmartUro.ViewModels
                             Type = ComponentType.RgbDiode,
                             Pins = new List<Pin>()
                             {
-                                { new Pin() {Id=1, Direction = PinDirection.Input, Descriptor = "r", HwPinNumber = 13 } },
-                                { new Pin() {Id=2, Direction = PinDirection.Input, Descriptor = "g", HwPinNumber = 14 } },
-                                { new Pin() {Id=3, Direction = PinDirection.Input, Descriptor = "b", HwPinNumber = 15 } },
+                                {
+                                    new Pin()
+                                    {
+                                        Id = 1, Direction = PinDirection.Input, Descriptor = "r", HwPinNumber = 13
+                                    }
+                                },
+                                {
+                                    new Pin()
+                                    {
+                                        Id = 2, Direction = PinDirection.Input, Descriptor = "g", HwPinNumber = 14
+                                    }
+                                },
+                                {
+                                    new Pin()
+                                    {
+                                        Id = 3, Direction = PinDirection.Input, Descriptor = "b", HwPinNumber = 15
+                                    }
+                                },
                             }
                         }
                     }
@@ -102,7 +188,12 @@ namespace SmartUro.ViewModels
                             Type = ComponentType.Diode,
                             Pins = new List<Pin>()
                             {
-                                { new Pin() {Id=1, Direction = PinDirection.Input, Descriptor = "d", HwPinNumber = 16 } }
+                                {
+                                    new Pin()
+                                    {
+                                        Id = 1, Direction = PinDirection.Input, Descriptor = "d", HwPinNumber = 16
+                                    }
+                                }
                             }
                         }
                     }
@@ -110,7 +201,6 @@ namespace SmartUro.ViewModels
             };
             HardwareLayouts.Add(hw1);
             HardwareLayouts.Add(hw2);
-
         }
     }
 }
