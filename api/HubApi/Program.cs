@@ -1,3 +1,5 @@
+using CommonData.Logic.Factory;
+using CommonData.Model.Action;
 using CommonData.Model.Entity;
 using CommonData.Model.Static;
 using HubApi;
@@ -69,8 +71,51 @@ client.ConnectingAsync += (eventArgs) =>
     return Task.CompletedTask;
 };
 
+var boardLayout = new Dictionary<int, Component>();
+
 client.ApplicationMessageReceivedAsync += (eventArgs) =>
 {
+
+    //var action = ActionFactory.CreateAction("/dev/SN-123/turn_on_action",eventArgs.ApplicationMessage.Payload);
+    var action = new TurnOnOffAction()
+    {
+        ComponentIdentifier = 1,
+        TurnOn = true
+    };
+
+    var colorAction = new SetColorAction()
+    {
+        ComponentIdentifier = 1,
+        RValue = 100,
+        GValue = 200,
+        BValue = 100
+    };
+    
+    var foo = 2;
+    switch (1)
+    {
+        case 1:
+            // Handle Action 1 (turn on off action).
+            // Do somethign with action.....
+
+            boardLayout.TryGetValue(action.ComponentIdentifier, out var targetComponent);
+
+            // Grab pin numbers, e.g. 10,11,12.
+            var r_pin = targetComponent.Pins.Select(p => p.Descriptor == "r_value");
+            var g_pin = targetComponent.Pins.Select(p => p.Descriptor == "g_value");
+            var b_pin = targetComponent.Pins.Select(p => p.Descriptor == "b_value");
+            
+            // WRITE TO HARDWARE PINS HERE.......
+            
+            
+            
+            break;
+        case 2:
+            // Handle Action 2 (set color action).
+            // Do something with action.....
+            break;
+    }
+    
     Console.WriteLine("The client received an application message.");
     eventArgs.DumpToConsole();
     return Task.CompletedTask;
@@ -137,7 +182,7 @@ rgbState.BValue = 50;
 const int RGB_DIODE_1 = 1;
 const int DIODE_1 = 2;
 const int DIODE_2 = 3;
-var boardLayout = new Dictionary<int, Component>();
+boardLayout = new Dictionary<int, Component>();
 
 // Add RGB_DIODE_1
 boardLayout.Add(RGB_DIODE_1, new Component()
