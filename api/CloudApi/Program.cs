@@ -5,6 +5,7 @@ using CloudApi.Logic;
 using CloudApi.Repository;
 using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -40,7 +41,11 @@ namespace CloudApi
             // TODO: Replace hardcoded server connection string with a fetch from ENVIRONMENT VARIABLE, or fallback to
             // lookup in config file?
             //using var conn = new SqlConnection("Server=localhost;Database=uro_db;User Id=sa;Password=12345");
-            builder.Services.AddSqlServer<UroContext>("Server=localhost; Database=uro_db; User Id=sa; Password=12345; Trusted_Connection=True; TrustServerCertificate=True;",
+            
+            const string oldConn = "Server=127.0.0.1; Database=uro_db; User Id=sa; Password=!superPassword1234; Integrated Security=false; Trusted_Connection=false; TrustServerCertificate=True;";
+            const string newConn = "Server=127.0.0.1;Database=uro_db;User Id=sa;Password=!superPassword1234;TrustServerCertificate=True;Integrated Security=false;Trusted_Connection=false";
+            
+            builder.Services.AddSqlServer<UroContext>(newConn,
                 optionsBuilder =>
                 {
                     // TODO: how to add snake_case naming strategy?
@@ -122,8 +127,7 @@ namespace CloudApi
             
             
             var app = builder.Build();
-
-
+            
             // Configure MQTT Server callbacks.
             app.UseMqttServer(server =>
             {
@@ -173,7 +177,13 @@ namespace CloudApi
                 };
             });
             
-
+            // This is necessary for the AspNetCore Server to function properly behind a reverse proxy.
+            // Apache/Nginx etc..
+            app.UseForwardedHeaders(new ForwardedHeadersOptions()
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
