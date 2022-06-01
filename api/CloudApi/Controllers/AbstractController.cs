@@ -4,10 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApi.Controllers;
 
+/// <summary>
+/// An abstract controller that provides convenience functions, eg. for dealing with security.
+/// </summary>
 public abstract class AbstractController : ControllerBase
 {
     private readonly PersonRepository _personRepository;
 
+    /// <summary>
+    /// The constructor of the AbstractController.
+    /// PersonRepository is a dependency for security related features.
+    /// </summary>
+    /// <param name="personRepository"></param>
     protected AbstractController(PersonRepository personRepository)
     {
         _personRepository = personRepository;

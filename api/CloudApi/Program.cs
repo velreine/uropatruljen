@@ -12,13 +12,22 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MQTTnet.AspNetCore;
-using MQTTnet.AspNetCore.Client.Tcp;
 using MQTTnet.Server;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace CloudApi
 {
+    /// <summary>
+    /// The Cloud Api is responsible for managing central user data, in addition the Cloud Api is also responsible for
+    /// being a MQTT broker service that facilitates communication between MQTT clients.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// The main entry point for our Cloud Api.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <exception cref="Exception"></exception>
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +52,15 @@ namespace CloudApi
             {
                 throw new Exception(
                     "The HubApi could not start, as the Database connection string is not configured properly." +
+                    "It should be configured in appsettings.json, or through environment variables."
+                );
+            }
+
+            // Do not launch the application if the Json Web Token settings are not configured properly.
+            if (jwtSettings.Key == null || jwtSettings.Issuer == null)
+            {
+                throw new Exception(
+                    "The HubApi could not start, as the Json Web Token settings are not configured properly." +
                     "It should be configured in appsettings.json, or through environment variables."
                 );
             }

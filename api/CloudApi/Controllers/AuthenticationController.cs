@@ -13,26 +13,50 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CloudApi.Controllers;
 
+/// <summary>
+/// This controller provides endpoints related to security,authorization and authentication.
+/// </summary>
 [Route("[controller]")]
 [ApiController]
-public class AuthenticationController : Controller
+public class AuthenticationController : AbstractController
 {
     private readonly IConfiguration _config;
     private readonly UroContext _dbContext;
     private readonly IPasswordHasher<Person> _hasher;
-    private readonly PersonRepository _personRepository;
-
+    
+    /// <summary>
+    /// Represents a record/value-object that describes what the login endpoint returns.
+    /// </summary>
+    /// <param name="Message">Message to client.</param>
+    /// <param name="Token">The Json Web Token the client should use for subsequent requests.</param>
     public record struct LoginResponseDTO(string Message, string Token);
+    
+    /// <summary>
+    /// Represents a record/value-object that describes what the register endpoint returns.
+    /// </summary>
+    /// <param name="Message">Message to client.</param>
+    /// <param name="Id">Id of created user.</param>
     public record struct RegisterResponseDTO(string Message, int Id);
     
-    public AuthenticationController(IConfiguration config, UroContext dbContext, IPasswordHasher<Person> hasher, PersonRepository personRepository)
+    /// <summary>
+    /// The constructor for the AuthenticationController, the dependencies is resolved and injected by the framework.
+    /// </summary>
+    /// <param name="config">Configuration settings</param>
+    /// <param name="dbContext">Database context.</param>
+    /// <param name="hasher">A service that can hash passwords.</param>
+    /// <param name="personRepository">Person repository security.</param>
+    public AuthenticationController(IConfiguration config, UroContext dbContext, IPasswordHasher<Person> hasher, PersonRepository personRepository) : base(personRepository)
     {
         _config = config;
         _dbContext = dbContext;
         _hasher = hasher;
-        _personRepository = personRepository;
     }
 
+    /// <summary>
+    /// The Cloud Api's authentication endpoint for registered users/persons.
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("/auth")]
     public ActionResult<LoginResponseDTO> Login([FromBody] LoginRequestDTO dto)
@@ -61,6 +85,11 @@ public class AuthenticationController : Controller
         return Unauthorized(failedMsg);
     }
 
+    /// <summary>
+    /// An endpoint that allows persons to register themselves as users of our app.
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("/register")]
     public ActionResult<RegisterResponseDTO> Register([FromBody] RegisterRequestDTO dto)
@@ -89,56 +118,73 @@ public class AuthenticationController : Controller
         return Ok(new RegisterResponseDTO("OK, user created!", newUser.Id));
     }
 
+    /// <summary>
+    /// Returns the current authenticated user (based on the JWT Bearer Token).
+    /// </summary>
     [Authorize]
     [HttpGet("/WhoAmI")]
     public ActionResult<Person> WhoAmI()
     {
-        // Extracting person id from the jwt.
-        var user = HttpContext.User;
-        var UserIdClaim = user.FindFirst(c => c.Type == "PersonId")?.Value;
-
-        if (UserIdClaim == null)
+        // Get the currently authenticated user.
+        var person = GetAuthenticatedPerson();
+        
+        if (person == null)
         {
             return BadRequest("Unable to authorize user.");
         }
 
-        var userId = Convert.ToInt32(UserIdClaim);
-
-        // Find the person, with the authenticated user id.
-        var person = _personRepository.Find(userId);
-
-        // Do not leak even the hashed password.
-        if (person != null)
-        {
-            person.HashedPassword = null;
-        }
+        // Conceal the hashed password from the client.
+        person.HashedPassword = null;
         
         // Return the found object.
         return Ok(person);
     }
 
 
+    /// <summary>
+    /// Data Transfer Object for the register endpoint.
+    /// </summary>
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class RegisterRequestDTO
     {
+        /// <summary>
+        /// The desired name of the registrant.
+        /// </summary>
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
+        /// <summary>
+        /// The desired e-mail of the registrant.
+        /// </summary>
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string? Email { get; set; }
         
+        /// <summary>
+        /// The desired password of the registrant.
+        /// </summary>
         [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
     
+    /// <summary>
+    /// Data Transfer Object for the login endpoint.
+    /// </summary>
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class LoginRequestDTO
     {
+        /// <summary>
+        /// The e-mail of the person to sign in.
+        /// </summary>
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string? Email { get; set; }
         
+        /// <summary>
+        /// The password of the person to sign in.
+        /// </summary>
         [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 
     [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
