@@ -74,6 +74,7 @@ country=DK
 network={
         ssid=%REPLACE ME%
         psk=%REPLACE ME%
+        key_mgmt=WPA-PSK
 }
 -----------------
 
