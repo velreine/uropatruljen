@@ -1,8 +1,15 @@
 using System.Device.Gpio;
 using Microsoft.AspNetCore.Mvc;
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+#pragma warning disable CS8618
+#pragma warning disable CS1591
 
 namespace HubApi.Controllers;
 
+/// <summary>
+/// This controller is mainly used in Development for debugging and stuff.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class DevelopmentController

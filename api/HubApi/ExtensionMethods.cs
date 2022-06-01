@@ -7,6 +7,11 @@ namespace HubApi;
  */
 public static class ExtensionMethods
 {
+    /// <summary>
+    /// This is a convenience extension method that takes an instantiated type and "dumps" it by JsonSerializing it,
+    /// and then outputting it to the console.
+    /// Source: https://github.com/dotnet/MQTTnet/blob/master/Samples/Helpers/ObjectExtensions.cs
+    /// </summary>
     public static TObject DumpToConsole<TObject>(this TObject @object)
     {
         var output = "NULL";

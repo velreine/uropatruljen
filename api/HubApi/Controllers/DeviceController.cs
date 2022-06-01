@@ -4,32 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HubApi.Controllers;
 
+/// <summary>
+/// This controller provides convenience endpoints about the smart device itself.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class DeviceController : ControllerBase
 {
-    private readonly MqttAppSettings _mqttSettings;
-    private readonly HardwareSettings _hardwareSettings;
-    public record DeviceInformationResponseDTO(string MqttEndpoint, string SerialNumber, string ModelNumber);
+    private readonly AppSettings _appSettings;
 
-    public DeviceController(MqttAppSettings mqttSettings, HardwareSettings hardwareSettings)
+
+    /// <inheritdoc />
+    public DeviceController(AppSettings appSettings)
     {
-        _mqttSettings = mqttSettings;
-        _hardwareSettings = hardwareSettings;
+        _appSettings = appSettings;
     }
     
     /// <summary>
-    /// Returns information about the device the api is connected to.
+    /// Returns the App Settings that the Api is configured with.
     /// </summary>
     [HttpGet("/information")]
     [SuppressMessage("ReSharper", "RedundantAnonymousTypePropertyName")]
-    public ActionResult<DeviceInformationResponseDTO> GetDeviceInformation()
+    public ActionResult<AppSettings> GetDeviceInformation()
     {
-        return Ok(new DeviceInformationResponseDTO(
-            _mqttSettings.Endpoint,
-            _hardwareSettings.SerialNumber,
-            _hardwareSettings.ModelNumber
-            ));
+        return Ok(_appSettings);
     }
     
 }
