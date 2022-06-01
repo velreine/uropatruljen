@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -140,9 +141,10 @@ public class AuthenticationController : Controller
         public string Password { get; set; }
     }
 
+    [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
     private string GenerateJsonWebToken(Person person)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? throw new InvalidOperationException()));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         // claims: https://datatracker.ietf.org/doc/html/rfc7519#section-4

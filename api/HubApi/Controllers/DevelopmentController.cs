@@ -18,6 +18,9 @@ public class DevelopmentController
         public string Echo { get; set; } // Echo => echo
     }
     
+    /// <summary>
+    /// Debugging endpoint uses for multiple purposes while developing.
+    /// </summary>
     [HttpPost(Name = "DevEndpoint")]
     public ActionResult<object> Post(DevelopmentRequestDTO request)
     {

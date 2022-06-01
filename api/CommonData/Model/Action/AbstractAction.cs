@@ -4,6 +4,6 @@ namespace CommonData.Model.Action
     {
         public int ComponentIdentifier { get; set; }
         
-        public abstract byte[] ToPayload();
+        public abstract byte[] ToBytes();
     }
 }

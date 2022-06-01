@@ -13,28 +13,27 @@ namespace CommonData.Logic.Factory
         {
             
             // Register TurnOnOffAction
-            this.RegisterActionCreator(typeof(TurnOnOffAction), rawData =>
+            this.RegisterActionCreator(typeof(TurnOnOffAction), rawData => new TurnOnOffAction()
             {
-                return new TurnOnOffAction()
-                {
-                    ComponentIdentifier = BitConverter.ToInt32(rawData, 0),
-                    TurnOn = BitConverter.ToBoolean(rawData, 4),
-                };
+                // byte layout
+                // 0,1,2,3 => COMPONENT_IDENTIFIER
+                // 4 => ON/OFF
+                ComponentIdentifier = BitConverter.ToInt32(rawData, 0),
+                TurnOn = BitConverter.ToBoolean(rawData, 4),
             });
             
             // Register SetColorAction
-            this.RegisterActionCreator(typeof(SetColorAction), rawData =>
+            this.RegisterActionCreator(typeof(SetColorAction), rawData => new SetColorAction()
             {
-                // Byte layout.
-                //   0    1    2    3    4    5    6    7    8    9
-                // i32, i32, i32, i32, ui16, ui16, ui16, ui16, ui16, ui16
-                return new SetColorAction()
-                {
-                    ComponentIdentifier = BitConverter.ToInt32(rawData, 0),
-                    RValue = BitConverter.ToUInt16(rawData, 4),
-                    GValue = BitConverter.ToUInt16(rawData, 6),
-                    BValue = BitConverter.ToUInt16(rawData, 8),
-                };
+                // byte layout
+                // 0,1,2,3 => COMPONENT_IDENTIFIER
+                // 4 => R
+                // 5 => G
+                // 6 => B
+                ComponentIdentifier = BitConverter.ToInt32(rawData, 0),
+                RValue = rawData[4],
+                GValue = rawData[5],
+                BValue = rawData[6],
             });
             
         }

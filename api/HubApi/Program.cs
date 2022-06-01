@@ -1,3 +1,4 @@
+using System.Reflection;
 using CommonData.Logic.Factory;
 using CommonData.Model.Action;
 using CommonData.Model.Entity;
@@ -14,7 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Enables swagger to read triple-slash comments on endpoints and build documentation from that.
+builder.Services.AddSwaggerGen(swaggerGenOptions =>
+{
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    swaggerGenOptions.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 // Read configuration.
 var config = new ConfigurationBuilder().AddJsonFile("appsettings.json", false).Build();
@@ -22,6 +29,10 @@ var mqttAppSettings = new MqttAppSettings();
 var hardwareSettings = new HardwareSettings();
 config.GetSection("MqttAppSettings").Bind(mqttAppSettings);
 config.GetSection("HardwareSettings").Bind(hardwareSettings);
+
+builder.Services.AddScoped<MqttAppSettings>(provider => mqttAppSettings);
+builder.Services.AddScoped<HardwareSettings>(provider => hardwareSettings);
+
 
 Console.WriteLine("---BEGINNING OF CURRENT SETTINGS---");
 mqttAppSettings.DumpToConsole();
