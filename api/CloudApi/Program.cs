@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using CloudApi.Data;
@@ -99,6 +100,9 @@ namespace CloudApi
                         new List<string>()
                     }
                 });
+                
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                genOptions.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
             // Add our mock password hasher.

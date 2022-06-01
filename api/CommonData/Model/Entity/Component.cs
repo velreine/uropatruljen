@@ -14,6 +14,6 @@ public class Component : AbstractEntity
         public ComponentType Type { get; set; }
 
         // OneToMany Pins. TODO: måske?
-        public ICollection<Pin> Pins { get; set; }
+        public ICollection<Pin> Pins { get; set; } = new List<Pin>();
 }
 }

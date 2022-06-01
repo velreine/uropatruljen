@@ -14,7 +14,7 @@ public class Person : AbstractEntity
     /**
      * ManyToMany relation, inverse=Home.Residents
      */
-    public ICollection<Home> ConnectedHomes { get; set; }
+    public ICollection<Home> ConnectedHomes { get; set; } = new List<Home>();
 }
 
 }

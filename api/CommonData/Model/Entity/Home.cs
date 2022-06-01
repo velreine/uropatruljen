@@ -10,8 +10,8 @@ public class Home : AbstractEntity
     /**
      * ManyToMany relation, inverse=Person.ConnectedHomes
      */
-    public ICollection<Person> Residents { get; set; }
-    
+    public ICollection<Person> Residents { get; set; } = new List<Person>();
+
 }
 
 }
