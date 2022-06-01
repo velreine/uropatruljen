@@ -1,4 +1,7 @@
-﻿using MQTTnet;
+﻿using CommonData.Logic.Factory;
+using CommonData.Model.Action;
+using HubApi.Logic;
+using MQTTnet;
 using MQTTnet.Client;
 
 namespace HubApi;
@@ -12,6 +15,11 @@ public class MqttClientWrapper
     /// The client that was wrapped.
     /// </summary>
     public MqttClient Client { get; set; }
+
+    // TODO: Maybe these DefaultActionHandlers should be registered as a service,
+    // And injected through the constructor, i suppose this MqttClientWrapper could also be a service.
+    private static DefaultActionHandlers _actionHandlers = new DefaultActionHandlers();
+    private static DefaultActionFactory _actionFactory = new DefaultActionFactory();
     
     /// <summary>
     /// This class is a wrapper class for the MQTTnet MqttClient.
@@ -30,8 +38,22 @@ public class MqttClientWrapper
 
     private static Task ClientOnApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
     {
+
         Console.WriteLine("The client received an application message.");
         arg.DumpToConsole();
+        
+        // Create the ActionPayload from the MQTT Application Message's Payload.
+        var actionPayload = ActionPayload.FromPayload(arg.ApplicationMessage.Payload);
+        
+        // Grab the correct action type from the map according to the identifier in the payload.
+        var actionType = ActionMap.ActionIdentifierToActionType[actionPayload.ActionIdentifier];
+        
+        // Now instruct the factory to instantiate that type of action.
+        var action = _actionFactory.CreateAction(actionPayload.ActionData, actionType);
+        
+        // Finally, pass on the action to the correct handler.
+        _actionHandlers.HandleAsync(action);
+
         return Task.CompletedTask;
     }
 
