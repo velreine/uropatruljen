@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SmartUro.Views.HomeManagement.CreateNewHome"
+             xmlns:local="clr-namespace:SmartUro.ViewModels.HomeManagement"
+             >
+
+    <NavigationPage.TitleView>
+        <Label
+                    Text="Create New Home"
+                    HorizontalTextAlignment="Start"
+                    HorizontalOptions="Start"
+                    TextColor="White"
+                    FontSize="18"
+                />
+    </NavigationPage.TitleView>
+
+    <ContentPage.BindingContext>
+        <local:CreateNewHomeViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Create a new home."
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <Entry Placeholder="Enter name of home..." Text="{Binding HomeName}"/>
+
+            <Button Text="Create!" Command="{Binding CreateHomeCommand}"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

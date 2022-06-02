@@ -10,21 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace SmartUro.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class StartView : ContentPage
+    public partial class ProfileManagementView : ContentPage
     {
-        public StartView()
+        public ProfileManagementView()
         {
             InitializeComponent();
-        }
-
-        private void HomePicker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void RoomPicker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

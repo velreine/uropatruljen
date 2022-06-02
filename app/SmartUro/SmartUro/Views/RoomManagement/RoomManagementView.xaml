@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SmartUro.Views.RoomManagement.RoomManagementView"
+             xmlns:local="clr-namespace:SmartUro.ViewModels.RoomManagement;assembly=SmartUro"
+             x:Name="Page"
+             >
+
+    <NavigationPage.TitleView>
+        <Label
+                    Text="Room Management"
+                    HorizontalTextAlignment="Start"
+                    HorizontalOptions="Start"
+                    TextColor="White"
+                    FontSize="18"
+                />
+    </NavigationPage.TitleView>
+    
+    <ContentPage.BindingContext>
+        <local:RoomManagementViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <Label Text="Room Management Here..."
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <ListView ItemsSource="{Binding Rooms}" SelectedItem="{Binding SelectedRoom}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <!-- TODO: Why does this command not successfully open the Manage Home View? -->
+                            <Button Text="{Binding Name}" Command="{Binding BindingContext.GotoManageRoomCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button TextColor="CornflowerBlue" Text="Create a new room" Command="{Binding GotoCreateRoomCommand}" WidthRequest="100"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
