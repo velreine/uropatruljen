@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:SmartUro.ViewModels"
              x:Class="SmartUro.Views.StartView"
-             x:Name="page"
+             x:Name="Page"
              >
     <ContentPage.BindingContext>
         <local:StartViewModel/>
@@ -22,6 +22,16 @@
     <ContentPage.Content>
 
         <StackLayout>
+            <Frame BackgroundColor="Blue">
+                <Label 
+                    Text="Device Management"
+                    HorizontalTextAlignment="Start"
+                    HorizontalOptions="Start"
+                    TextColor="White"
+                    FontSize="18"
+                    Margin="0,16,0,0"
+                    />
+            </Frame>
             <StackLayout Orientation="Horizontal">
                 <Label Text="Current Home"/>
                 <Picker 
@@ -65,7 +75,7 @@
                                     TextColor="lightSteelBlue"
                                     BackgroundColor="#00000000"
                                     HorizontalOptions="EndAndExpand" 
-                                    Command="{Binding BindingContext.Navigate, Source={x:Reference page}}" 
+                                    Command="{Binding BindingContext.Navigate, Source={x:Reference Page}}" 
                                     CommandParameter="{Binding ., Mode=TwoWay}">
                                 </Button>
                             </StackLayout>
@@ -90,7 +100,7 @@
             <!-- A horizontal seperator.. -->
             <BoxView HeightRequest="2" WidthRequest="100" Color="LightBlue"/>
 
-            <StackLayout Orientation="Horizontal" VerticalOptions="End">
+            <StackLayout Orientation="Horizontal" VerticalOptions="End" Margin="0,0,0,16">
 
                 <!-- TODO: Add DeviceManagement command...-->
                 <Button 

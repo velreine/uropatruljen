@@ -11,7 +11,9 @@
             <Entry
                 HorizontalOptions="FillAndExpand"
                 Placeholder="e-mail"
-                Text="{Binding EmailInput, Mode=TwoWay}"/>
+                Text="{Binding EmailInput, Mode=TwoWay}"
+                
+                />
             <Entry                   
                 IsPassword="True"
                 HorizontalOptions="FillAndExpand"
