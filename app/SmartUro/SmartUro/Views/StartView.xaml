@@ -4,9 +4,6 @@
              xmlns:local="clr-namespace:SmartUro.ViewModels"
              x:Class="SmartUro.Views.StartView"
              x:Name="page">
-    <ContentPage.BindingContext>
-        <local:StartViewModel/>
-    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
             <Frame BackgroundColor="DarkBlue" Padding="10" CornerRadius="0">

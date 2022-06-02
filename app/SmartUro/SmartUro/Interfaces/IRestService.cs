@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SmartUro.Interfaces
 {
-    internal interface IRestService<T>
+    public interface IRestService<T>
     {
         Task ToggleState(int state);
 

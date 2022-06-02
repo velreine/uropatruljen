@@ -5,9 +5,6 @@
              xmlns:imageExtension="clr-namespace:SmartUro.Extensions;assembly=SmartUro"
              x:Class="SmartUro.Views.AddUroFlow.SelectUserWiFi"
              xmlns:local="clr-namespace:SmartUro.ViewModels">    
-    <ContentPage.BindingContext>
-        <local:SelectUserWiFiViewModel/>
-    </ContentPage.BindingContext>
     
     <ContentPage.Content>
         <StackLayout Margin="20,0" Orientation="Vertical">

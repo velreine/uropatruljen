@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using CommonData.Model.Entity;
 using SmartUro.ViewModels;
 
 namespace SmartUro.Views
@@ -17,7 +16,7 @@ namespace SmartUro.Views
     {
         public UroView()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
     }
 }

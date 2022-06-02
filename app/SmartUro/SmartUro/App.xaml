@@ -5,6 +5,7 @@
     <Application.Resources>
         <Style TargetType="NavigationPage">
             <Setter Property="BarBackgroundColor" Value="DarkBlue"></Setter>
+            <Setter Property="BarTextColor" Value="White"></Setter>
         </Style>
         <Style x:Key="IconPNG" TargetType="ImageButton">
             <Setter Property="WidthRequest" Value="40"/>

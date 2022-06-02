@@ -5,6 +5,10 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using SmartUro.Droid.Services;
+using Xamarin.Forms;
+using SmartUro.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using SmartUro.Services;
 
 namespace SmartUro.Droid
 {
@@ -18,15 +22,20 @@ namespace SmartUro.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            // TODO: Inject AndroidWiFIObserver here...
-            var _wifiObserver = new AndroidWiFiObserver();
-            LoadApplication(new App(_wifiObserver));
+            DependencyService.Register<IAppMessage, AndroidMessage>();
+
+            LoadApplication(new App(AddServices));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        static void AddServices(IServiceCollection services)
+        {
+            services.AddSingleton<IWiFiObserver, AndroidWiFiObserver>();
         }
     }
 }

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Microsoft.Extensions.DependencyInjection;
+using SmartUro.Interfaces;
 using SmartUro.iOS.Services;
+using SmartUro.Services;
 using UIKit;
+using Xamarin.Forms;
 
 namespace SmartUro.iOS
 {
@@ -25,11 +29,16 @@ namespace SmartUro.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            var wifiObserver = new iOSWiFiObserver();
+            DependencyService.Register<IAppMessage, iOSMessage>();
             
-            LoadApplication(new App(wifiObserver));
+            LoadApplication(new App(AddServices));
 
             return base.FinishedLaunching(app, options);
+        }
+
+        static void AddServices(IServiceCollection services)
+        {
+            services.AddSingleton<IWiFiObserver, iOSWiFiObserver>();
         }
     }
 }

@@ -1,3 +1,4 @@
+using SmartUro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace SmartUro.Views.AddUroFlow
         public SelectUserWiFi()
         {
             InitializeComponent();
+            BindingContext = App.GetViewModel<SelectUserWiFiViewModel>();
         }
     }
 }

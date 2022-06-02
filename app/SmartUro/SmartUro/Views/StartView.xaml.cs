@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartUro.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace SmartUro.Views
         public StartView()
         {
             InitializeComponent();
+            BindingContext = App.GetViewModel<StartViewModel>();
         }
     }
 }

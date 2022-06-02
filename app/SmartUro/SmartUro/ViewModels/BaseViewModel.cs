@@ -9,7 +9,7 @@ using CommonData.Model.Entity;
 
 namespace SmartUro.ViewModels
 {
-    internal abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected IRestService<HardwareLayout> RestService;

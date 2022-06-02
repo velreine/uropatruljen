@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using SmartUro.Views;
+using MQTTnet;
+using System.Threading;
+using SmartUro.Interfaces;
 
 namespace SmartUro.ViewModels
 {
@@ -15,6 +18,7 @@ namespace SmartUro.ViewModels
         private string _buttonText;
         private Color _buttonColor;
         private HardwareLayout _hardwareLayout;
+        private IMqttService _mqttService;
 
         public string ButtonText 
         { 
@@ -34,9 +38,9 @@ namespace SmartUro.ViewModels
 
         public ICommand ToggleStateCommand { get; }
 
-        public UroViewModel(HardwareLayout _config)
+        public UroViewModel(IMqttService _mqtt)
         {
-            this.HardwareLayout = _config;
+            _mqttService = _mqtt;
 
             ToggleStateCommand = new Command(async() => await ToggleState());
             ButtonText = "OFF";
@@ -45,6 +49,8 @@ namespace SmartUro.ViewModels
 
         private async Task ToggleState()
         {
+            await _mqttService.SendRequest();
+
             if (ButtonText == "ON") //if current component's state is 1
             {
                 //await RestService.ToggleStateAsync(0);

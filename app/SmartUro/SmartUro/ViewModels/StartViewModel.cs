@@ -16,74 +16,23 @@ using System.Threading;
 using MQTTnet;
 using MQTTnet.Client;
 using SmartUro.Views.AddUroFlow;
+using SmartUro.Interfaces;
 
 namespace SmartUro.ViewModels
 {
     internal class StartViewModel : BaseViewModel
     {
+        private UroViewModel _uvm;
+
         public ICollection<HardwareLayout> HardwareLayouts { get; set; }
 
         public ICommand Navigate { get; }
         public ICommand BeginAddUroFlowCommand { get; }
 
-
-        private MqttClient _mqttClient;
-
-        public StartViewModel()
+        public StartViewModel(IMqttService _mqttService)
         {
             HardwareLayouts = new List<HardwareLayout>();
             GetListOfUros();
-
-            // Configure MQTT client options.
-            var mqttClientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer("mqtt.uroapp.dk")
-                .Build();
-
-            var mqttFactory = new MqttFactory();
-            var client = mqttFactory.CreateMqttClient();
-
-            // Register event handlers before doing the actual connection..
-            client.ConnectedAsync += (eventArgs) =>
-            {
-                Debug.WriteLine("The client has successfully connected to the server.");
-                //eventArgs.DumpToConsole();
-                return Task.CompletedTask;
-            };
-
-            client.DisconnectedAsync += (eventArgs) =>
-            {
-                var reason = Enum.GetName(typeof(MqttClientDisconnectReason), eventArgs.Reason);
-
-
-                Debug.WriteLine($"The client has disconnected, Reason: {reason}");
-                Debug.WriteLine(eventArgs.Exception.Message);
-
-                // Keep trying to connect to the server in intervals of 5 seconds.
-                /*while (client.IsConnected != true)
-                {
-                    client.ConnectAsync(mqttClientOptions);
-                    Thread.Sleep(5000);
-                }*/
-
-                return Task.CompletedTask;
-            };
-
-            client.ConnectingAsync += (eventArgs) =>
-            {
-                Debug.WriteLine("The client is connecting...");
-                //eventArgs.DumpToConsole();
-                return Task.CompletedTask;
-            };
-
-            client.ApplicationMessageReceivedAsync += (eventArgs) =>
-            {
-                // TODO: Implement handlers...
-                Debug.WriteLine("The client received an application message.");
-                //eventArgs.DumpToConsole();
-                return Task.CompletedTask;
-            };
-            
-            client.ConnectAsync(mqttClientOptions, CancellationToken.None);
 
             Navigate = new Command<HardwareLayout>(async hw => await NavigateToUroView(hw));
             BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
@@ -95,10 +44,12 @@ namespace SmartUro.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
-        private async Task NavigateToUroView(HardwareLayout hw)
+        private async Task NavigateToUroView(HardwareLayout _hw)
         {
             var page = new UroView();
-            page.BindingContext = new UroViewModel(hw);
+            page.BindingContext = _uvm = (UroViewModel)App.GetViewModel<UroViewModel>();
+            _uvm.HardwareLayout = _hw;
+
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

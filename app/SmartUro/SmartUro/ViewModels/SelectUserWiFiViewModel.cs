@@ -3,6 +3,7 @@ using System.Windows.Input;
 using SmartUro.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using SmartUro.Services;
 
 namespace SmartUro.ViewModels
 {
@@ -38,14 +39,14 @@ namespace SmartUro.ViewModels
             set => OnPropertyChanged(ref _wifiColorIndicator, value);
         }
 
-        public SelectUserWiFiViewModel()
+        public SelectUserWiFiViewModel(IWiFiObserver _wiFiObserver)
         {
             this._wifiColorIndicator = Color.Blue;            
             
-            if (App.WiFiObserver != null)
+            if (_wiFiObserver != null)
             {
-                var status = App.WiFiObserver.IsWifiCurrentlyConnected();
-                this.ConnectedWiFiName = App.WiFiObserver.GetCurrentSSID() ?? DefaultUnconnected;
+                var status = _wiFiObserver.IsWifiCurrentlyConnected();
+                this.ConnectedWiFiName = _wiFiObserver.GetCurrentSSID() ?? DefaultUnconnected;
 
                 if (status == null)
                 {
@@ -59,15 +60,15 @@ namespace SmartUro.ViewModels
                 {
                     this._wifiColorIndicator = Color.Red;
                 }
-                
-                App.WiFiObserver.OnDeviceWiFiConnected += (sender, args) =>
+
+                _wiFiObserver.OnDeviceWiFiConnected += (sender, args) =>
                 {
                     this.WifiColorIndicator = Color.LightGreen;
-                    this.ConnectedWiFiName = App.WiFiObserver.GetCurrentSSID();
+                    this.ConnectedWiFiName = _wiFiObserver.GetCurrentSSID();
                     this.IsDeviceConnectedToWiFi = true;
                 };
 
-                App.WiFiObserver.OnDeviceWiFiDisconnected += (sender, args) =>
+                _wiFiObserver.OnDeviceWiFiDisconnected += (sender, args) =>
                 {
                     this.WifiColorIndicator = Color.Red;
                     this.ConnectedWiFiName = DefaultUnconnected;
