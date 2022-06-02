@@ -3,14 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.UroView"
              x:Name="page">
+
     <NavigationPage.TitleView>
         <Label
             Text="{Binding HardwareLayout.ProductName}"
             Style="{StaticResource NavbarLabel}"
         />
     </NavigationPage.TitleView>
+    
+    <!--<NavigationPage.TitleView>
+        <Label
+            Text="Manage Device"
+            HorizontalTextAlignment="Start"
+            HorizontalOptions="Start"
+            TextColor="White"
+            FontSize="18"
+        />
+    </NavigationPage.TitleView>-->
+    
     <ContentPage.Content>
         <StackLayout>
+            <!--<Label 
+                    Text="{Binding HardwareLayout.ProductName}" 
+                    HorizontalTextAlignment="Center" 
+                    TextColor="Black" 
+                    FontSize="30"/>-->
+
             <ListView ItemsSource="{Binding HardwareLayout.AttachedComponents}" Margin="40,20,40,0" RowHeight="60">
                 <ListView.ItemTemplate>
                     <DataTemplate >

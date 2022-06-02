@@ -6,6 +6,10 @@
              x:Name="Page"
              NavigationPage.HasBackButton="False"
              >
+    <!--<ContentPage.BindingContext>
+        <local:StartViewModel/>
+    </ContentPage.BindingContext>-->
+    
     <NavigationPage.TitleView>
         <Label
             Text="Device Management"

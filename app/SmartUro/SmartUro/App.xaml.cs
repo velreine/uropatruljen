@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartUro.Interfaces;
 using SmartUro.ViewModels;
 using CommonData.Model.Entity;
+using RestSharp;
+using RestSharp.Authenticators;
 
 namespace SmartUro
 {
@@ -49,6 +51,12 @@ namespace SmartUro
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();
             services.AddSingleton<IRestService, WebAPIService>();
+
+            services.AddSingleton<RestClient>(provider =>
+            {
+                var client = new RestClient();
+                return client;
+            });
 
             AppServiceProvider = services.BuildServiceProvider();
         }

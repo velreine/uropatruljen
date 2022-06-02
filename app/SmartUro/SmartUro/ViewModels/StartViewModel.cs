@@ -73,8 +73,8 @@ namespace SmartUro.ViewModels
         public Room SelectedRoom { get; set; } = null;
         
         #endregion DEBUG_HOME_AND_ROOMS
-
-        public StartViewModel(IMqttService _mqttService)
+        
+        public StartViewModel()
         {
             HardwareLayouts = new List<HardwareLayout>();
             GetListOfUros();

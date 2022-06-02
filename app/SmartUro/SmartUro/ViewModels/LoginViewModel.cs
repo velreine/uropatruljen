@@ -12,6 +12,8 @@ namespace SmartUro.ViewModels
 {
     internal class LoginViewModel : BaseViewModel
     {
+        private readonly IUserAuthenticator _userAuthenticator;
+        private readonly IDialogService _dialogService;
         private string _emailInput;
         private string _passwordInput;
         private string _loginError;
@@ -44,8 +46,10 @@ namespace SmartUro.ViewModels
         public Command LoginCommand { get; }
         public ICommand BeginAddUserCommand { get; }
 
-        public LoginViewModel(IRestService _restService)
+        public LoginViewModel(IRestService _restService, IUserAuthenticator userAuthenticator, IDialogService dialogService)
         {
+            _userAuthenticator = userAuthenticator;
+            _dialogService = dialogService;
             this._restService = _restService;
             LoginError = "";
             LoginCommand = new Command(async () => await Login(), () => LoginAllowed);
@@ -54,7 +58,7 @@ namespace SmartUro.ViewModels
 
         private async Task Login()
         {
-            if (await _restService.VerifyLogin(EmailInput, PasswordInput))
+            if (await _userAuthenticator.Login(EmailInput, PasswordInput))
             {
                 LoginError = "";
                 EmailInput = "";
@@ -62,7 +66,11 @@ namespace SmartUro.ViewModels
                 await NavigateToStartView();
             }
             else
+            {
+                await _dialogService.ShowDialogAsync("Wrong e-mail or password!", "Error", "Ok.");
                 LoginError = "Wrong e-mail or password!";
+            }
+                
         }
 
         private async Task NavigateToStartView()

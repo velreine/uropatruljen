@@ -13,10 +13,16 @@
         <StackLayout Orientation="Vertical" Margin="10">
             
             <Label Text="Your name"/>
-            <Entry Text="{Binding DesiredName}" Placeholder="Enter name..."/>
+            <Entry 
+                Text="{Binding DesiredName}"
+                Placeholder="Enter name..."
+                
+                />
             
             <Label Text="Your e-mail address"/>
-            <Entry Text="{Binding DesiredEmail}" Placeholder="someone@example.com"/>
+            <Entry 
+                Text="{Binding DesiredEmail}"
+                Placeholder="someone@example.com"/>
             
             <Label Text="Your desired password"/>
             <Entry Text="{Binding DesiredPassword}" IsPassword="True"/>
@@ -30,8 +36,16 @@
                 Command="{Binding RegisterUserCommand}"
                 BackgroundColor="Blue"
                 TextColor="White"
-                IsEnabled="{Binding IsFormInputValid}"
-            />
+                IsEnabled="{Binding IsFormInputValid}">
+                <Button.Triggers>
+                    <Trigger TargetType="Button" Property="IsEnabled" Value="false">
+                        <Setter Property="BackgroundColor" Value="LightGray"/>
+                    </Trigger>
+                    <Trigger TargetType="Button" Property="IsEnabled" Value="true">
+                        <Setter Property="BackgroundColor" Value="DarkBlue"/>
+                    </Trigger>
+                </Button.Triggers>
+            </Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
