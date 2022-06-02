@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace SmartUro.ViewModels
 {
-    public class RegisterUserViewModel
+    public class RegisterUserViewModel : BaseViewModel
     {
         private readonly IUserRegistrator _userRegistrator;
         private readonly IDialogService _dialogService;

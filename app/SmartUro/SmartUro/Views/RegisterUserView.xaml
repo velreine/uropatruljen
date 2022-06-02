@@ -5,9 +5,9 @@
              xmlns:local="clr-namespace:SmartUro.ViewModels;assembly=SmartUro"
              >
     
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <local:RegisterUserViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Margin="10">
