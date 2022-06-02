@@ -10,4 +10,8 @@
     <Folder Include="Logic" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="7.0.0-preview.4.22229.4" />
+  </ItemGroup>
+
 </Project>

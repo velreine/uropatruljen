@@ -66,7 +66,7 @@ namespace SmartUro.ViewModels
 
         private async Task NavigateToStartView()
         {
-            var page = new StartView();
+            var page = new NavigationPage(new StartView());
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

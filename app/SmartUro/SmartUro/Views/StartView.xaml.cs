@@ -18,5 +18,15 @@ namespace SmartUro.Views
             InitializeComponent();
             BindingContext = App.GetViewModel<StartViewModel>();
         }
+
+        private void HomePicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RoomPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

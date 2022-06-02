@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using CloudApi.Data;
 using CloudApi.Repository;
@@ -10,43 +11,58 @@ using Microsoft.EntityFrameworkCore.Internal;
 
 namespace CloudApi.Controllers;
 
+/// <summary>
+/// This controller provides endpoints for retrieving/manipulating Devices.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
-public class DeviceController : ControllerBase
+public class DeviceController : AbstractController
 {
     private readonly UroContext _dbContext;
     private readonly DeviceRepository _deviceRepository;
     private readonly HardwareLayoutRepository _layoutRepository;
     private readonly HomeRepository _homeRepository;
 
-    public DeviceController(UroContext dbContext, DeviceRepository deviceRepository, HardwareLayoutRepository layoutRepository, HomeRepository homeRepository)
+    /// <summary>
+    /// The constructor for the DeviceController, dependencies are resolved and injected by the framework.
+    /// </summary>
+    /// <param name="dbContext">Database context.</param>
+    /// <param name="deviceRepository">Device Repository</param>
+    /// <param name="layoutRepository">HardwareLayout Repository</param>
+    /// <param name="homeRepository">Home Repository</param>
+    /// <param name="personRepository">Person Repository</param>
+    public DeviceController(UroContext dbContext, DeviceRepository deviceRepository, HardwareLayoutRepository layoutRepository, HomeRepository homeRepository, PersonRepository personRepository) : base(personRepository)
     {
-        this._dbContext = dbContext;
-        this._deviceRepository = deviceRepository;
-        this._layoutRepository = layoutRepository;
-        this._homeRepository = homeRepository;
+        _dbContext = dbContext;
+        _deviceRepository = deviceRepository;
+        _layoutRepository = layoutRepository;
+        _homeRepository = homeRepository;
     }
     
+    /// <summary>
+    /// This endpoint returns all the devices that the currently authenticated user has access to.
+    /// </summary>
+    /// <returns></returns>
     [Authorize]
     [HttpGet("GetAuthenticatedUserDevices")]
     public ActionResult<IEnumerable<Device>> GetAuthenticatedUserDevices()
     {
         // Extracting person id from the token.
-        var user = HttpContext.User;
-        var UserIdClaim = user.FindFirst(c => c.Type == "PersonId")?.Value;
-
-        if (UserIdClaim == null)
+        var personId = GetAuthenticatedUserId();
+        
+        if (personId == null)
         {
             return BadRequest("Unable to authorize user.");
         }
-
-        var userId = Convert.ToInt32(UserIdClaim);
-
-        var devices = _deviceRepository.GetUserDevices(userId);
+        
+        var devices = _deviceRepository.GetUserDevices((int)personId);
 
         return Ok(devices);
     }
 
+    /// <summary>
+    /// This is the main endpoint that will be invoked when a device should be registered.
+    /// </summary>
     [AllowAnonymous]
     [HttpPost("RegisterDevice")]
     public ActionResult RegisterDevice([FromBody] RegisterDeviceRequestDTO dto)
@@ -93,10 +109,25 @@ public class DeviceController : ControllerBase
         return Ok(savedDevice);
     }
 
+    /// <summary>
+    /// A Data Transfer Object used for the Register Device endpoint.
+    /// </summary>
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class RegisterDeviceRequestDTO
     {
-        public string ModelNumber { get; set; }
-        public string SerialNumber { get; set; }
+        /// <summary>
+        /// The model number of the device to register.
+        /// </summary>
+        public string? ModelNumber { get; set; }
+        
+        /// <summary>
+        /// The serial number of the device to register.
+        /// </summary>
+        public string? SerialNumber { get; set; }
+        
+        /// <summary>
+        /// The home this device should be registered to. 
+        /// </summary>
         public int RegisterToHomeId { get; set; }
     }
     

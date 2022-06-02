@@ -28,6 +28,17 @@ namespace CommonData.Logic.Factory
                 $"The factory could not find a suitable creator for the action of type {typeof(TAction)}");
         }
 
+        public IAction CreateAction(byte[] rawData, Type actionType)
+        {
+            if (_actionCreators.TryGetValue(actionType, out var creator))
+            {
+                return creator.Invoke(rawData);
+            }
+            
+            throw new Exception(
+                $"The factory could not find a suitable creator for the action of type {actionType}");
+        }
+
         public void RegisterActionCreator(Type typeToCreate, Func<byte[], IAction> creatorFunc)
         {
 

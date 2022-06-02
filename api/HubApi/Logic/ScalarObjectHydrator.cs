@@ -3,6 +3,12 @@ using CommonData.Model.Entity.Contracts;
 
 namespace HubApi.Logic;
 
+/// <summary>
+/// This is a class that is supposed to take in an anonymous object with data, and hydrate a generic type of T
+/// from the data.
+///
+/// Side note: this was useful if we were not gonna use entity framework and roll with our own solution.
+/// </summary>
 public class ScalarObjectHydrator
 {
 

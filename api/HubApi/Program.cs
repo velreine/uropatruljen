@@ -1,220 +1,135 @@
-using CommonData.Logic.Factory;
-using CommonData.Model.Action;
-using CommonData.Model.Entity;
-using CommonData.Model.Static;
-using HubApi;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using HubApi.Settings;
 using MQTTnet;
 using MQTTnet.Client;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Read configuration.
-var config = new ConfigurationBuilder().AddJsonFile("appsettings.json", false).Build();
-var mqttAppSettings = new MqttAppSettings();
-var hardwareSettings = new HardwareSettings();
-config.GetSection("MqttAppSettings").Bind(mqttAppSettings);
-config.GetSection("HardwareSettings").Bind(hardwareSettings);
-
-Console.WriteLine("---BEGINNING OF CURRENT SETTINGS---");
-mqttAppSettings.DumpToConsole();
-hardwareSettings.DumpToConsole();
-Console.WriteLine("---END OF CURRENT SETTINGS---");
-
-// Configure our MQTT client.
-var mqttClientOptions = new MqttClientOptionsBuilder()
-    .WithTcpServer(mqttAppSettings.Endpoint)
-    /*.WithTls(options =>
-    {
-        options.SslProtocol = SslProtocols.Tls12;
-        options.AllowUntrustedCertificates = true;
-    })*/
-    .Build();
-
-var factory = new MqttFactory();
-var client = factory.CreateMqttClient();
-client.ConnectedAsync += (eventArgs) =>
+namespace HubApi
 {
-    Console.WriteLine("The client has successfully connected to the server.");
-    eventArgs.DumpToConsole();
-    return Task.CompletedTask;
-};
-
-client.DisconnectedAsync += (eventArgs) =>
-{
-    var reason = Enum.GetName(eventArgs.Reason);
-
-    Console.WriteLine($"The client has disconnected, Reason: {reason}");
-    Console.WriteLine(eventArgs.Exception.Message);
-
-    // Keep trying to connect to the server in intervals of 5 seconds.
-    /*while (client.IsConnected != true)
+    /// <summary>
+    /// The Hub Api is responsible for controlling the Raspberry Pi that our physical components are attached to.
+    /// </summary>
+    public class Program
     {
-        client.ConnectAsync(mqttClientOptions);
-        Thread.Sleep(5000);
-    }*/
+        /// <summary>
+        /// The main entry point for our Hub Api.
+        /// </summary>
+        /// <param name="args">Command line arguments (if any) (not used).</param>
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-    return Task.CompletedTask;
-};
+            // Add services to the container.
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
 
-client.ConnectingAsync += (eventArgs) =>
-{
-    Console.WriteLine("The client is connecting...");
-    eventArgs.DumpToConsole();
-    return Task.CompletedTask;
-};
-
-var boardLayout = new Dictionary<int, Component>();
-
-client.ApplicationMessageReceivedAsync += (eventArgs) =>
-{
-
-    //var action = ActionFactory.CreateAction("/dev/SN-123/turn_on_action",eventArgs.ApplicationMessage.Payload);
-    var action = new TurnOnOffAction()
-    {
-        ComponentIdentifier = 1,
-        TurnOn = true
-    };
-
-    var colorAction = new SetColorAction()
-    {
-        ComponentIdentifier = 1,
-        RValue = 100,
-        GValue = 200,
-        BValue = 100
-    };
-    
-    var foo = 2;
-    switch (1)
-    {
-        case 1:
-            // Handle Action 1 (turn on off action).
-            // Do somethign with action.....
-
-            boardLayout.TryGetValue(action.ComponentIdentifier, out var targetComponent);
-
-            // Grab pin numbers, e.g. 10,11,12.
-            var r_pin = targetComponent.Pins.Select(p => p.Descriptor == "r_value");
-            var g_pin = targetComponent.Pins.Select(p => p.Descriptor == "g_value");
-            var b_pin = targetComponent.Pins.Select(p => p.Descriptor == "b_value");
-            
-            // WRITE TO HARDWARE PINS HERE.......
-            
-            
-            
-            break;
-        case 2:
-            // Handle Action 2 (set color action).
-            // Do something with action.....
-            break;
-    }
-    
-    Console.WriteLine("The client received an application message.");
-    eventArgs.DumpToConsole();
-    return Task.CompletedTask;
-};
-
-// Connect the client, then subscribe to the valid topics.
-// Then output to the console.
-client
-    .ConnectAsync(mqttClientOptions)
-    .ContinueWith(previousConnectTask =>
-    {
-        // Build the options for the topics we are interested in subscribing to.
-        // The Hub Api is primarily interested in being "controlled" from the cloud.
-        var mqttSubscribeOptions = factory.CreateSubscribeOptionsBuilder()
-            .WithTopicFilter(filter =>
+            // Enables swagger to read triple-slash comments on endpoints and build documentation from that.
+            builder.Services.AddSwaggerGen(swaggerGenOptions =>
             {
-                filter.WithTopic($"/device_actions/{hardwareSettings.SerialNumber}");
-            })
-            .Build();
-
-        client
-            .SubscribeAsync(mqttSubscribeOptions, CancellationToken.None)
-            .ContinueWith(previousSubscribeTask =>
-            {
-                Console.WriteLine("The client successfully subscribed to its topics!");
-                previousSubscribeTask.Result.DumpToConsole();
-                return Task.CompletedTask;
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                swaggerGenOptions.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
-        return Task.CompletedTask;
-    });
+            // Loads and registers our AppSettings as a service.
+            var appSettings = LoadAndRegisterConfiguration(builder);
 
-var app = builder.Build();
+            if (appSettings.Mqtt == null)
+            {
+                throw new Exception("Cannot instantiate Hub Api without Mqtt settings.");
+            }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+            if (appSettings.Hardware == null)
+            {
+                throw new Exception("Cannot instantiate Api without proper Hardware settings.");
+            }
+            
+            // Configure our Hub Api's Mqtt Client.
+            ConfigureMqttClient(appSettings.Mqtt, appSettings.Hardware);
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
+        }
+
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        private static AppSettings LoadAndRegisterConfiguration(WebApplicationBuilder builder)
+        {
+            // Read configuration.
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", false)
+                .Build();
+
+            var appSettings = new AppSettings();
+            config.GetSection("AppSettings").Bind(appSettings);
+            
+            // Register our AppSettings as a scoped service.
+            // scoped: container will create an instance of the specified service type once per request and will be shared in a single request.
+            builder.Services.AddScoped(provider => appSettings);
+            
+            Console.WriteLine("HubApi launches with the following settings:");
+            appSettings.DumpToConsole();
+            
+            return appSettings;
+        }
+
+        private static void ConfigureMqttClient(MqttAppSettings mqttAppSettings, HardwareSettings hardwareSettings)
+        {
+            // Use the MqttClientOptionsBuild to build some client options.
+            var mqttClientOptions = new MqttClientOptionsBuilder()
+                .WithTcpServer(mqttAppSettings.Endpoint)
+                /*.WithTls(options =>
+                {
+                    options.SslProtocol = SslProtocols.Tls12;
+                    options.AllowUntrustedCertificates = true;
+                })*/
+                .Build();
+
+            // Instantiate our custom MqttClient wrapper which creates some default event handlers etc.
+            var mqttClientWrapper = new MqttClientWrapper();
+
+
+            // Connect the client to the server, then subscribe to the valid topics.
+            mqttClientWrapper.Client
+                .ConnectAsync(mqttClientOptions)
+                .ContinueWith(previousConnectTask =>
+                {
+                    var factory = new MqttFactory();
+
+                    // Build the options for the topics we are interested in subscribing to.
+                    // The Hub Api is primarily interested in being "controlled" from the cloud.
+                    var mqttSubscribeOptions = factory.CreateSubscribeOptionsBuilder()
+                        .WithTopicFilter(filter =>
+                        {
+                            filter.WithTopic($"/device_actions/{hardwareSettings.SerialNumber}");
+                        })
+                        .Build();
+
+                    // Subscribe to topics.
+                    mqttClientWrapper.Client
+                        .SubscribeAsync(mqttSubscribeOptions, CancellationToken.None)
+                        .ContinueWith(previousSubscribeTask =>
+                        {
+                            Console.WriteLine("The client successfully subscribed to its topics!");
+                            previousSubscribeTask.Result.DumpToConsole();
+                            return Task.CompletedTask;
+                        });
+
+                    return Task.CompletedTask;
+                });
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-// Manager gets and constructs the state and is responsible for "asking" the Arduino what the current state is.
-var rgbState = new RgbComponentState();
-rgbState.Component = new Component();
-rgbState.IsOn = true;
-rgbState.RValue = 200;
-rgbState.GValue = 100;
-rgbState.BValue = 50;
-
-// public ComponentState GetStateOfComponent(Component component) {
-//  var stateRequest = new object { componentIdentifier = component.Id }
-//  var response = SomeManager.SendCommand(stateRequest);
-//  var state = CreateStateFromResponse(response);
-//  return state;
-// }
-
-
-const int RGB_DIODE_1 = 1;
-const int DIODE_1 = 2;
-const int DIODE_2 = 3;
-boardLayout = new Dictionary<int, Component>();
-
-// Add RGB_DIODE_1
-boardLayout.Add(RGB_DIODE_1, new Component()
-{
-    Id = RGB_DIODE_1,
-    Type = ComponentType.RgbDiode,
-    Pins = new List<Pin>()
-    {
-        { new Pin() { Component = null, Direction = PinDirection.Input, Descriptor = "r_input", HwPinNumber = 10 } },
-        { new Pin() { Component = null, Direction = PinDirection.Input, Descriptor = "g_input", HwPinNumber = 11 } },
-        { new Pin() { Component = null, Direction = PinDirection.Input, Descriptor = "b_input", HwPinNumber = 12 } },
-    }
-});
-
-boardLayout.Add(DIODE_1, new Component()
-{
-    Id = DIODE_1,
-    Type = ComponentType.Diode,
-    Pins = new List<Pin>()
-    {
-        { new Pin() { Component = null, Direction = PinDirection.Input, Descriptor = "input", HwPinNumber = 8 } },
-    }
-});
-
-boardLayout.Add(DIODE_2, new Component()
-{
-    Id = DIODE_2,
-    Type = ComponentType.RgbDiode,
-    Pins = new List<Pin>()
-    {
-        { new Pin() { Component = null, Direction = PinDirection.Input, Descriptor = "input", HwPinNumber = 7 } },
-    }
-});
-
-app.Run();

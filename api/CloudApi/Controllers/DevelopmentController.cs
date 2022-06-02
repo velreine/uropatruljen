@@ -1,11 +1,13 @@
 ﻿using CloudApi.Data;
-using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Mvc;
 using MQTTnet.Server;
 
 namespace CloudApi.Controllers;
 
 
+/// <summary>
+/// This controller hosts various endpoints that are used for testing while developing.
+/// </summary>
 [Route("[controller]")]
 [ApiController]
 public class DevelopmentController : ControllerBase
@@ -15,12 +17,21 @@ public class DevelopmentController : ControllerBase
     private readonly UroContext _dbContext;
     private readonly MqttServer _mqttServer;
     
+    /// <summary>
+    /// The constructor for the DevelopmentController, dependencies are resolved and injected by the framework.
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="mqttServer"></param>
     public DevelopmentController(UroContext dbContext, MqttServer mqttServer)
     {
         this._dbContext = dbContext;
         this._mqttServer = mqttServer;
     }
     
+    /// <summary>
+    /// Does unpredictable stuff as this is a controller used for testing various things.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet(Name = "DoStuff")]
     public IActionResult DoStuff()
     {

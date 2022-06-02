@@ -3,18 +3,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:SmartUro.ViewModels"
              x:Class="SmartUro.Views.StartView"
-             x:Name="page">
-    <ContentPage.Content>
-        <StackLayout>
-            <Frame BackgroundColor="DarkBlue" Padding="10" CornerRadius="0">
-                <Label
-                    Text="Registered uros"
-                    HorizontalTextAlignment="Center"
-                    HorizontalOptions="Center"
+             x:Name="Page"
+             >
+    <ContentPage.BindingContext>
+        <local:StartViewModel/>
+    </ContentPage.BindingContext>
+
+    <NavigationPage.TitleView>
+        <Label
+                    Text="Device Management"
+                    HorizontalTextAlignment="Start"
+                    HorizontalOptions="Start"
                     TextColor="White"
-                    FontSize="30"
+                    FontSize="18"
                 />
-            </Frame>            
+    </NavigationPage.TitleView>
+    
+    <ContentPage.Content>
+
+        <StackLayout>
+            <Frame BackgroundColor="Blue">
+                <Label 
+                    Text="Device Management"
+                    HorizontalTextAlignment="Start"
+                    HorizontalOptions="Start"
+                    TextColor="White"
+                    FontSize="18"
+                    Margin="0,16,0,0"
+                    />
+            </Frame>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Current Home"/>
+                <Picker 
+                        x:Name="HomePicker"
+                        ItemsSource="{Binding AvailableHomes}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedHome}"
+                        SelectedIndexChanged="HomePicker_SelectedIndexChanged"
+                        Title="Select home"
+                        HorizontalOptions="EndAndExpand"
+                />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                
+                <!-- TODO: How to put the picker back to NULL effectively showing all devices in that room? -->
+                <Label Text="Show only devices in room"/>
+                <Picker 
+                        x:Name="RoomPicker"
+                        ItemsSource="{Binding SelectedHome.Rooms}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedRoom}"
+                        SelectedIndexChanged="RoomPicker_SelectedIndexChanged"
+                        Title="Select room"
+                        HorizontalOptions="EndAndExpand"
+                />
+            </StackLayout>
+
             <ListView ItemsSource="{Binding HardwareLayouts}" Margin="40,20,40,0" RowHeight="60">
                 <ListView.ItemTemplate>
                     <DataTemplate >
@@ -30,7 +75,7 @@
                                     TextColor="lightSteelBlue"
                                     BackgroundColor="#00000000"
                                     HorizontalOptions="EndAndExpand" 
-                                    Command="{Binding BindingContext.Navigate, Source={x:Reference page}}" 
+                                    Command="{Binding BindingContext.Navigate, Source={x:Reference Page}}" 
                                     CommandParameter="{Binding ., Mode=TwoWay}">
                                 </Button>
                             </StackLayout>
@@ -50,6 +95,41 @@
                 Margin="0,0,0,40"
                 Command="{Binding BeginAddUroFlowCommand}"
             />
+
+
+            <!-- A horizontal seperator.. -->
+            <BoxView HeightRequest="2" WidthRequest="100" Color="LightBlue"/>
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="End" Margin="0,0,0,16">
+
+                <!-- TODO: Add DeviceManagement command...-->
+                <Button 
+                    Text="Devices"
+                    HorizontalOptions="CenterAndExpand"
+                    TextColor="{Binding IsCurrentMenuDeviceManagement}"
+                />
+                <Button 
+                    Text="Homes" 
+                    HorizontalOptions="CenterAndExpand"
+                    TextColor="{Binding IsCurrentMenuHomeManagement}"
+                    Command="{Binding GotoHomeManagementCommand}"
+                 />
+                <Button
+                    Text="Rooms"
+                    HorizontalOptions="CenterAndExpand"
+                    TextColor="{Binding IsCurrentMenuRoomManagement}"
+                    Command="{Binding GotoRoomManagementCommand}"
+                />
+                <!-- TODO: Add profile management... -->
+                <Button 
+                    Text="Profile"
+                    HorizontalOptions="CenterAndExpand"
+                    TextColor="{Binding IsCurrentMenuProfileManagement}"
+                    Command="{Binding GotoProfileManagementCommand}"
+                />
+            </StackLayout>
+
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

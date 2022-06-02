@@ -16,7 +16,7 @@ public class HardwareLayout : AbstractEntity
     // A string that uniquely identifies this hardware configuration.
     public string ModelNumber { get; set; }
 
-    public ICollection<Component> AttachedComponents { get; set; }
+    public ICollection<Component> AttachedComponents { get; set; } = new List<Component>();
 }
 
 }

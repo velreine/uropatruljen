@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using CommonData.Model.Entity;
+#pragma warning disable CS1591
 
 namespace CloudApi.Data;
 

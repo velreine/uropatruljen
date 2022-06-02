@@ -5,6 +5,6 @@ namespace CommonData.Model.Action
      */
     public interface IAction
     {
-        byte[] ToPayload();
+        byte[] ToBytes();
     }
 }
