@@ -31,7 +31,10 @@ public class DeviceRepository
             _dbContext
                 .Devices
                 .Where(device => device.Room.Home.Residents.Any(p => p.Id == userId))
-                .Include(x => x.Layout);
+                .Include(d => d.Layout)
+                .ThenInclude(l => l.AttachedComponents)
+                .ThenInclude(ac => ac.Pins)
+            ;
         
         return devices;
     } 

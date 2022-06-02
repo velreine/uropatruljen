@@ -87,6 +87,7 @@ namespace SmartUro.Services
             return Task.CompletedTask;
         }
 
+        [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
         private struct WhoAmIResponse
         {
             public int Id { get; set; }
@@ -123,9 +124,6 @@ namespace SmartUro.Services
             };
 
             return _lastAuthenticatedUser;
-
-
-
         }
     }
 }

@@ -80,6 +80,9 @@ namespace SmartUro
                 (IUserAuthenticator)provider.GetService(typeof(AuthenticationService)));
             services.AddSingleton(provider =>
                 (IUserRegistrator)provider.GetService(typeof(AuthenticationService)));
+            
+            // Configure data fetching services.
+            services.AddSingleton<IDeviceService, DeviceService>();
 
 
             AppServiceProvider = services.BuildServiceProvider();
