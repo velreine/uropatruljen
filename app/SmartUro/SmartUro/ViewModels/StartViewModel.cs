@@ -13,20 +13,27 @@ using CommonData.Model.Entity;
 using CommonData.Model.Static;
 using CommonData.Model;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using MQTTnet;
 using MQTTnet.Client;
 using SmartUro.Views.AddUroFlow;
 using SmartUro.Interfaces;
 using SmartUro.Views.RoomManagement;
+using Device = CommonData.Model.Entity.Device;
 
 namespace SmartUro.ViewModels
 {
     internal class StartViewModel : BaseViewModel
     {
+        private readonly IDeviceService _deviceService;
         private UroViewModel _uvm;
 
-        public ICollection<HardwareLayout> HardwareLayouts { get; set; }
+        //public ICollection<HardwareLayout> HardwareLayouts { get; set; }
+
+        private ObservableCollection<Device> _userDevices;
+
+        public ObservableCollection<Device> UserDevices { get => _userDevices; set => OnPropertyChanged(ref _userDevices, value); }
 
         public ICommand Navigate { get; }
         public ICommand BeginAddUroFlowCommand { get; }
@@ -74,12 +81,14 @@ namespace SmartUro.ViewModels
         
         #endregion DEBUG_HOME_AND_ROOMS
         
-        public StartViewModel()
+        public StartViewModel(IDeviceService deviceService)
         {
-            HardwareLayouts = new List<HardwareLayout>();
-            GetListOfUros();
+            _deviceService = deviceService;
+            
+            //HardwareLayouts = new List<HardwareLayout>();
+            //GetListOfUros();
 
-            Navigate = new Command<HardwareLayout>(async hw => await NavigateToUroView(hw));
+            Navigate = new Command<Device>(async device => await NavigateToUroView(device));
             BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
             GotoHomeManagementCommand = new Command(async () => await GoToHomeManagement());
             GotoRoomManagementCommand = new Command(async () => await GotoRoomManagement());
@@ -110,17 +119,22 @@ namespace SmartUro.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(page, true);
         }
 
-        private async Task NavigateToUroView(HardwareLayout _hw)
+        private async Task NavigateToUroView(Device device)
         {
             var page = new UroView();
             page.BindingContext = _uvm = (UroViewModel)App.GetViewModel<UroViewModel>();
-            _uvm.HardwareLayout = _hw;
+            _uvm.Device = device;
 
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
-
-        private void GetListOfUros()
+        private async Task LoadUserDevices()
+        {
+            var devices = await _deviceService.GetUserDevices();
+            UserDevices = new ObservableCollection<Device>(devices);
+        }
+        
+        /*private void GetListOfUros()
         {
             //Dummy data for testing
             HardwareLayout hw1 = new HardwareLayout()
@@ -218,6 +232,6 @@ namespace SmartUro.ViewModels
             };
             HardwareLayouts.Add(hw1);
             HardwareLayouts.Add(hw2);
-        }
+        }*/
     }
 }
