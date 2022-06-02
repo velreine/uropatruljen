@@ -77,9 +77,9 @@ namespace SmartUro.ViewModels
 
 
         private MqttClient _mqttClient;
-        
 
-        public StartViewModel()
+
+        public StartViewModel();
         public StartViewModel(IMqttService _mqttService)
         {
 
