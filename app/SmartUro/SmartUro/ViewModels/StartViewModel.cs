@@ -84,7 +84,8 @@ namespace SmartUro.ViewModels
         public StartViewModel(IDeviceService deviceService)
         {
             _deviceService = deviceService;
-            
+
+            LoadUserDevices();
             //HardwareLayouts = new List<HardwareLayout>();
             //GetListOfUros();
 

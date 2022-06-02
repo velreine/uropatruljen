@@ -48,7 +48,11 @@
                 />
             </StackLayout>
 
-            <ListView ItemsSource="{Binding UserDevices}" Margin="40,20,40,0" RowHeight="60">
+            <ListView 
+                ItemsSource="{Binding UserDevices}"
+                Margin="40,20,40,15"
+                RowHeight="80"
+                VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate >
                         <ViewCell>
@@ -75,6 +79,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            
             <Button
                 Text="+"
                 TextColor="White"
