@@ -1,16 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SmartUro.Services;
 using Android.Net;
-using Android.Util;
+using SmartUro.Interfaces;
 using Xamarin.Essentials;
 
 namespace SmartUro.Droid.Services
