@@ -3,15 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.UroView"
              x:Name="page">
+    <NavigationPage.TitleView>
+        <Label
+            Text="{Binding HardwareLayout.ProductName}"
+            Style="{StaticResource NavbarLabel}"
+        />
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <StackLayout>
-            <Frame BackgroundColor="DarkBlue" Padding="10" CornerRadius="0">
-                <Label 
-                    Text="{Binding HardwareLayout.ProductName}" 
-                    HorizontalTextAlignment="Center" 
-                    TextColor="White" 
-                    FontSize="30"/>
-            </Frame>
             <ListView ItemsSource="{Binding HardwareLayout.AttachedComponents}" Margin="40,20,40,0" RowHeight="60">
                 <ListView.ItemTemplate>
                     <DataTemplate >

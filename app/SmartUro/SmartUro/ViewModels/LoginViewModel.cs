@@ -44,8 +44,9 @@ namespace SmartUro.ViewModels
         public Command LoginCommand { get; }
         public ICommand BeginAddUserCommand { get; }
 
-        public LoginViewModel()
+        public LoginViewModel(IRestService _restService)
         {
+            this._restService = _restService;
             LoginError = "";
             LoginCommand = new Command(async () => await Login(), () => LoginAllowed);
             BeginAddUserCommand = new Command(async () => await NavigateToAddUserView());
@@ -53,7 +54,7 @@ namespace SmartUro.ViewModels
 
         private async Task Login()
         {
-            if (await RestService.VerifyLogin(EmailInput, PasswordInput))
+            if (await _restService.VerifyLogin(EmailInput, PasswordInput))
             {
                 LoginError = "";
                 EmailInput = "";

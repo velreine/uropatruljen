@@ -63,7 +63,6 @@ namespace SmartUro.ViewModels
             home2,
         };
 
-
         public Color IsCurrentMenuDeviceManagement { get; set; } = Color.Blue;
         public Color IsCurrentMenuHomeManagement { get; set; } = Color.Black;
         public Color IsCurrentMenuRoomManagement { get; set; } = Color.Black;
@@ -75,16 +74,8 @@ namespace SmartUro.ViewModels
         
         #endregion DEBUG_HOME_AND_ROOMS
 
-
-        private MqttClient _mqttClient;
-
-
-        public StartViewModel();
         public StartViewModel(IMqttService _mqttService)
         {
-
-            
-
             HardwareLayouts = new List<HardwareLayout>();
             GetListOfUros();
 

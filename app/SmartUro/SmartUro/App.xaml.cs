@@ -44,9 +44,11 @@ namespace SmartUro
             services.AddTransient<SelectUserWiFiViewModel>();
             services.AddTransient<StartViewModel>();
             services.AddTransient<UroViewModel>();
+            services.AddTransient<LoginViewModel>();
 
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();
+            services.AddSingleton<IRestService, WebAPIService>();
 
             AppServiceProvider = services.BuildServiceProvider();
         }

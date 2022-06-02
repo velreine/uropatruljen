@@ -8,19 +8,21 @@ using SmartUro.Interfaces;
 using RestSharp;
 using RestSharp.Authenticators;
 using CommonData.Model.Entity;
+using System.Collections;
 
 namespace SmartUro.Services
 {
-    internal class WebAPIService : IRestService<HardwareLayout>
+    internal class WebAPIService : IRestService
     {
-        private HttpClient _client;
+        //private HttpClient _client;
 
         private readonly string _baseUrl;
         private readonly RestClient _restClient;
 
         public WebAPIService()
         {
-            _client = new HttpClient();
+            //_client = new HttpClient();
+
             _baseUrl = "https://uroapp.dk";
 
             var options = new RestClientOptions(_baseUrl)
@@ -33,7 +35,7 @@ namespace SmartUro.Services
 
         public async Task ToggleState(int state)
         {
-            Uri uri = new Uri(_baseUrl);
+            /*Uri uri = new Uri(_baseUrl);
 
             HttpResponseMessage response = null;
             StringContent content = new StringContent(state.ToString());
@@ -41,7 +43,7 @@ namespace SmartUro.Services
             response = await _client.PostAsync(uri, content);
 
             if (response.IsSuccessStatusCode)
-                Debug.WriteLine(@"\tSuccess!");
+                Debug.WriteLine(@"\tSuccess!");*/
         }
 
         public async Task<bool> VerifyLogin(string _email, string _pass)
@@ -66,7 +68,7 @@ namespace SmartUro.Services
             }
         }
 
-        public Task<ICollection<HardwareLayout>> GetPairedUros()
+        public Task<ICollection> GetPairedUros()
         {
             throw new NotImplementedException();
         }

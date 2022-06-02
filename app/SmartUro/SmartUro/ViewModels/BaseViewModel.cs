@@ -12,11 +12,10 @@ namespace SmartUro.ViewModels
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected IRestService<HardwareLayout> RestService;
+        protected IRestService _restService;
 
         public BaseViewModel()
         {
-            RestService = new WebAPIService();
         }
 
         protected virtual void OnPropertyChanged<T>(ref T property, T val, [CallerMemberName] string propertyName = null)
