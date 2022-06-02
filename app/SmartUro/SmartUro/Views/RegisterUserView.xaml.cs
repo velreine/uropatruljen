@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace SmartUro.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddUserView : ContentPage
+    public partial class RegisterUserView : ContentPage
     {
-        public AddUserView()
+        public RegisterUserView()
         {
             InitializeComponent();
         }

@@ -42,6 +42,7 @@ namespace SmartUro.ViewModels
         {
             _mqttService = _mqtt;
 
+
             ToggleStateCommand = new Command(async() => await ToggleState());
             ButtonText = "OFF";
             ButtonColor = Color.LightGray;

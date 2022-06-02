@@ -66,13 +66,13 @@ namespace SmartUro.ViewModels
 
         private async Task NavigateToStartView()
         {
-            var page = new NavigationPage(new StartView());
+            var page = new StartView();
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
         private async Task NavigateToAddUserView()
         {
-            var page = new AddUserView();
+            var page = new RegisterUserView();
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
     }

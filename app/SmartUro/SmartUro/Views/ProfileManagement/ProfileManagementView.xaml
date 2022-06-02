@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SmartUro.Views.ProfileManagementView">
+             x:Class="SmartUro.Views.ProfileManagementView"
+             xmlns:local="clr-namespace:SmartUro.ViewModels.ProfileManagement;assembly=SmartUro"
+             >
 
     <NavigationPage.TitleView>
         <Label
@@ -13,11 +15,26 @@
                 />
     </NavigationPage.TitleView>
 
+    <ContentPage.BindingContext>
+        <local:ProfileManagementViewModel/>
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Profile management here..."
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Your name"/>
+            <Label Text="{Binding CurrentAuthenticatedUser.Name}"/>
+            
+            <Label Text="Your e-mail"/>
+            <Label Text="{Binding CurrentAuthenticatedUser.Email}"/>
+            
+            <Button 
+                Text="Logout."
+                TextColor="White"
+                BackgroundColor="OrangeRed"
+                WidthRequest="80"
+                Margin="10,0,10,16"
+                />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

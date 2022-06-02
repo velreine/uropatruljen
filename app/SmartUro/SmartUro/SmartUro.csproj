@@ -54,7 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\AddUserView.xaml">
+    <EmbeddedResource Update="Views\RegisterUserView">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomeManagement\CreateNewHome.xaml">

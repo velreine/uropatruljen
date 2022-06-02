@@ -7,7 +7,12 @@
         <local:LoginViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Margin="100,0,100,0" VerticalOptions="Center">
+        <StackLayout Margin="70, 0" VerticalOptions="Center">
+            
+            <Label>
+                Please login to view and manage your smart devices.
+            </Label>
+            
             <Entry
                 HorizontalOptions="FillAndExpand"
                 Placeholder="e-mail"
@@ -26,28 +31,44 @@
                 FontAttributes="Italic"
                 HorizontalOptions="Center"
             />
-            <Button 
-                Text="LOGIN" 
-                HorizontalOptions="Center"
-                TextColor="white"
-                Command="{Binding LoginCommand}"
-                IsEnabled="{Binding LoginAllowed}">
-                <Button.Triggers>
-                    <Trigger TargetType="Button" Property="IsEnabled" Value="false">
-                        <Setter Property="BackgroundColor" Value="LightGray"/>
-                    </Trigger>
-                    <Trigger TargetType="Button" Property="IsEnabled" Value="true">
-                        <Setter Property="BackgroundColor" Value="DarkBlue"/>
-                    </Trigger>
-                </Button.Triggers>
-            </Button>
-            <Button
-                Text="NEW USER"
-                HorizontalOptions="Center"
-                TextColor="white"
-                BackgroundColor="DarkBlue"
-                Command="{Binding BeginAddUserCommand}"
-            />
+            
+            
+                <Button 
+                    Text="Login" 
+                    HorizontalOptions="FillAndExpand"
+                    TextColor="white"
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding LoginAllowed}"
+                    Margin="0,0"
+                >
+                    <Button.Triggers>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="false">
+                            <Setter Property="BackgroundColor" Value="LightGray"/>
+                        </Trigger>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="true">
+                            <Setter Property="BackgroundColor" Value="DarkBlue"/>
+                        </Trigger>
+                    </Button.Triggers>
+                </Button>
+                
+                <Label Margin="0,10,0,0" HorizontalOptions="Center" TextColor="CornflowerBlue" FontSize="16">
+                    Don't have a user? Register here.
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BeginAddUserCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                
+                <!--<Button
+                    Text="Register"
+                    HorizontalOptions="Start"
+                    TextColor="white"
+                    BackgroundColor="DarkBlue"
+                    Command="{Binding BeginAddUserCommand}"
+                />-->
+                
+            
+            
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

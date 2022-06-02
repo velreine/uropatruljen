@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
+using System.Threading.Tasks;
 using CommonData.Model.Action;
 
 namespace CommonData.Logic.Factory
@@ -9,5 +10,10 @@ namespace CommonData.Logic.Factory
     public interface IActionHandler
     {
         Task HandleAsync(IAction action);
+    }
+    
+    public interface IActionHandler<T> : IActionHandler where T : IAction, new()
+    {
+        Task HandleAsync(T action);
     }
 }
