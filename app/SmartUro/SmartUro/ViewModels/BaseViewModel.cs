@@ -12,9 +12,8 @@ namespace SmartUro.ViewModels
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected IRestService _restService;
 
-        public BaseViewModel()
+        protected BaseViewModel()
         {
         }
 

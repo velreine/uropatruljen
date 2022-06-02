@@ -46,11 +46,10 @@ namespace SmartUro.ViewModels
         public Command LoginCommand { get; }
         public ICommand BeginAddUserCommand { get; }
 
-        public LoginViewModel(IRestService _restService, IUserAuthenticator userAuthenticator, IDialogService dialogService)
+        public LoginViewModel(IUserAuthenticator userAuthenticator, IDialogService dialogService)
         {
             _userAuthenticator = userAuthenticator;
             _dialogService = dialogService;
-            this._restService = _restService;
             LoginError = "";
             LoginCommand = new Command(async () => await Login(), () => LoginAllowed);
             BeginAddUserCommand = new Command(async () => await NavigateToAddUserView());

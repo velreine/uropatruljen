@@ -9,6 +9,7 @@ using SmartUro.ViewModels;
 using CommonData.Model.Entity;
 using RestSharp;
 using RestSharp.Authenticators;
+using SmartUro.ViewModels.ProfileManagement;
 
 namespace SmartUro
 {
@@ -50,11 +51,11 @@ namespace SmartUro
             services.AddTransient<UroViewModel>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterUserViewModel>();
+            services.AddTransient<ProfileManagementViewModel>();
 
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();
-            services.AddSingleton<IRestService, WebAPIService>();
-
+            
             // Configure RestSharp client.
             services.AddSingleton(provider =>
             {

@@ -1,3 +1,4 @@
+using System;
 using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -16,6 +17,9 @@ namespace SmartUro.Services
     public class AuthenticationService : IUserRegistrator, IUserAuthenticator
     {
         private readonly RestClient _restClient;
+
+        private Person _lastAuthenticatedUser;
+        
         public bool IsAuthenticated { get; set; } = false;
 
         public AuthenticationService(RestClient restClient)
@@ -71,6 +75,57 @@ namespace SmartUro.Services
             return true;
         }
 
+        public Task Logout()
+        {
+            // Remove the current authenticator from the rest client.
+            _restClient.Authenticator = null;
+            _lastAuthenticatedUser = null;
+
+            // Update the state to indicate we are no longer authenticated.
+            IsAuthenticated = false;
+            
+            return Task.CompletedTask;
+        }
+
+        private struct WhoAmIResponse
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+
+            public string Email { get; set; }
+        }
         
+        public async Task<Person> GetAuthenticatedUser()
+        {
+            // If the user is not authenticated yet, then return null.
+            if (IsAuthenticated == false) return null;
+
+            // If we already know who the authenticated user is, return that.
+            if (_lastAuthenticatedUser != null) return _lastAuthenticatedUser;
+            
+            // Otherwise do a roundtrip to the cloud api for figuring out who we are.
+            var request = new RestRequest("/WhoAmI", Method.Get);
+
+            var response = await _restClient.ExecuteGetAsync(request);
+
+            if (!response.IsSuccessful || response.Content == null)
+            {
+                throw new Exception("Unable to get the currently authenticated user.");
+            }
+
+            var data = JsonConvert.DeserializeObject<WhoAmIResponse>(response.Content);
+
+            _lastAuthenticatedUser = new Person()
+            {
+                Id = data.Id,
+                Email = data.Email,
+                Name = data.Name,
+            };
+
+            return _lastAuthenticatedUser;
+
+
+
+        }
     }
 }

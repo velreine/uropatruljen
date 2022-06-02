@@ -1,9 +1,9 @@
-using System.Diagnostics;
 using System.Windows.Input;
+using SmartUro.Interfaces;
 using SmartUro.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using SmartUro.Services;
+
 
 namespace SmartUro.ViewModels
 {

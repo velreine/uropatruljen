@@ -1,6 +1,6 @@
 using System;
 
-namespace SmartUro.Services
+namespace SmartUro.Interfaces
 {
     public interface IWiFiObserver
     {
