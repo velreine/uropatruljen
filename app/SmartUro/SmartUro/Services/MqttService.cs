@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CommonData.Model.Action;
 
 namespace SmartUro.Services
 {
@@ -73,6 +74,11 @@ namespace SmartUro.Services
         public async Task SendRequest()
         {
             Debug.WriteLine("SEND REQUEST");
+
+            var action = new TurnOnOffAction();
+            action.ComponentIdentifier = 1; // TODO: Grab from hardware layout of the....
+            
+
             /*var message = new MqttApplicationMessage();
             message.Payload = new byte[] { 0xDE, 0xAD, 0xBE, 0xEF };
             message.Topic = "/device_actions/SN-ABC123";

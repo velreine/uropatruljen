@@ -24,7 +24,7 @@
                 <Label Text="Current Home"/>
                 <Picker 
                         x:Name="HomePicker"
-                        ItemsSource="{Binding AvailableHomes}"
+                        ItemsSource="{Binding UserHomes}"
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding SelectedHome}"
                         SelectedIndexChanged="HomePicker_SelectedIndexChanged"
@@ -39,7 +39,7 @@
                 <Label Text="Show only devices in room"/>
                 <Picker 
                         x:Name="RoomPicker"
-                        ItemsSource="{Binding SelectedHome.Rooms}"
+                        ItemsSource="{Binding RoomsInSelectedHome}"
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding SelectedRoom}"
                         SelectedIndexChanged="RoomPicker_SelectedIndexChanged"
@@ -62,7 +62,7 @@
                                     <Label Text="{Binding SerialNumber}" FontSize="14" FontAttributes="Italic" />
                                     <Label Text="{Binding Layout.ProductName}" FontSize="14" FontAttributes="Italic" />
                                 </StackLayout>
-                                <Button 
+                                <!--<Button 
                                     Text=">"
                                     FontSize="30"
                                     TextColor="lightSteelBlue"
@@ -70,9 +70,12 @@
                                     HorizontalOptions="EndAndExpand" 
                                     Command="{Binding BindingContext.Navigate, Source={x:Reference Page}}" 
                                     CommandParameter="{Binding ., Mode=TwoWay}">
-                                </Button>
+                                </Button>-->
                                 <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.Navigate, Source={x:Reference Page}}"/>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding BindingContext.Navigate, Source={x:Reference Page}}"
+                                        CommandParameter="{Binding ., Mode=TwoWay}"
+                                        />
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
                         </ViewCell>

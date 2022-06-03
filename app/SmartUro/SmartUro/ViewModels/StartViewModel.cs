@@ -27,13 +27,26 @@ namespace SmartUro.ViewModels
     internal class StartViewModel : BaseViewModel
     {
         private readonly IDeviceService _deviceService;
+        private readonly IHomeService _homeService;
         private UroViewModel _uvm;
 
         //public ICollection<HardwareLayout> HardwareLayouts { get; set; }
 
         private ObservableCollection<Device> _userDevices;
 
-        public ObservableCollection<Device> UserDevices { get => _userDevices; set => OnPropertyChanged(ref _userDevices, value); }
+        public ObservableCollection<Device> UserDevices
+        {
+            get => _userDevices;
+            set => OnPropertyChanged(ref _userDevices, value);
+        }
+
+        private ObservableCollection<Home> _userHomes;
+        
+        public ObservableCollection<Home> UserHomes
+        {
+            get => _userHomes;
+            set => OnPropertyChanged(ref _userHomes, value);
+        }
 
         public ICommand Navigate { get; }
         public ICommand BeginAddUroFlowCommand { get; }
@@ -43,51 +56,62 @@ namespace SmartUro.ViewModels
         public ICommand GotoRoomManagementCommand { get; }
 
         public ICommand GotoProfileManagementCommand { get; }
-
-
-        #region DEBUG_HOME_AND_ROOMS
-        private static Home home1 = new Home() {
-            Id = 1,
-            Name = "Mock Home 1",
-            Rooms = {
-                new Room() { Id = 1, Home = home1, Name = "Living Room" },
-                new Room() { Id = 2, Home = home1, Name = "Bedroom" },
-            },
-        };
-        private static Home home2 = new Home() { 
-            Id = 1,
-            Name = "Mock Home 2",
-            Rooms =
-            {
-                new Room() { Id = 3, Home = home2, Name = "Stue" },
-                new Room() { Id = 4, Home = home2, Name = "Soveværelse" },
-            }
-        };
-
-        public List<Home> AvailableHomes { get; } = new List<Home>
-        {
-            home1,
-            home2,
-        };
-
+        
         public Color IsCurrentMenuDeviceManagement { get; set; } = Color.Blue;
         public Color IsCurrentMenuHomeManagement { get; set; } = Color.Black;
         public Color IsCurrentMenuRoomManagement { get; set; } = Color.Black;
         public Color IsCurrentMenuProfileManagement { get; set; } = Color.Black;
 
-        public Home SelectedHome { get; set; } = home1;
+        private Home _selectedHome = null;
+        private Room _selectedRoom = null;
 
-        public Room SelectedRoom { get; set; } = null;
+        public Home SelectedHome
+        {
+            get => _selectedHome; 
+            set => OnPropertyChanged(ref _selectedHome, value);
+        }
+
+        public Room SelectedRoom
+        {
+            get => _selectedRoom;
+            set => OnPropertyChanged(ref _selectedRoom, value);
+        }
+
+        private List<Room> _roomsInSelectedHome;
+
+        public List<Room> RoomsInSelectedHome
+        {
+            get => _roomsInSelectedHome;
+            set => OnPropertyChanged(ref _roomsInSelectedHome, value);
+        }
         
-        #endregion DEBUG_HOME_AND_ROOMS
         
-        public StartViewModel(IDeviceService deviceService)
+        
+        public StartViewModel(IDeviceService deviceService , IHomeService homeService)
         {
             _deviceService = deviceService;
+            _homeService = homeService;
 
             LoadUserDevices();
+            LoadUserHomes();
             //HardwareLayouts = new List<HardwareLayout>();
             //GetListOfUros();
+            
+            // Register a handler for updating the AvailableRooms when the home changes.
+            this.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(SelectedHome))
+                {
+                    if (SelectedHome != null)
+                    {
+                        RoomsInSelectedHome = SelectedHome.Rooms.ToList();
+                    }
+                    else
+                    {
+                        RoomsInSelectedHome = null;
+                    }
+                }
+            };
 
             Navigate = new Command<Device>(async device => await NavigateToUroView(device));
             BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
@@ -133,6 +157,13 @@ namespace SmartUro.ViewModels
         {
             var devices = await _deviceService.GetUserDevices();
             UserDevices = new ObservableCollection<Device>(devices);
+        }
+
+        private async Task LoadUserHomes()
+        {
+            var homes = await _homeService.GetUserHomes();
+            UserHomes = new ObservableCollection<Home>(homes);
+            SelectedHome = UserHomes.Count > 0 ? UserHomes[0] : null;
         }
         
         /*private void GetListOfUros()
