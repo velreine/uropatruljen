@@ -15,6 +15,9 @@ namespace SmartUro.Services
     {
         private MqttClient _mqttClient;
 
+        public MqttClient Client {
+            get => _mqttClient;}
+        
         public MqttService()
         {
             // Configure MQTT client options.

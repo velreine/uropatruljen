@@ -17,6 +17,11 @@ public class Home : AbstractEntity
      */
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
 
+    /**
+     * OneToMany relation, inverse=Device.Home
+     */
+    public ICollection<Device> Devices { get; set; } = new List<Device>();
+
 }
 
 }

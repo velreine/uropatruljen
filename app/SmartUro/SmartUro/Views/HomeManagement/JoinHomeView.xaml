@@ -6,8 +6,8 @@
     <NavigationPage.TitleView>
         <Label
                     Text="Join existing home"
-                    HorizontalTextAlignment="Start"
-                    HorizontalOptions="Start"
+                    HorizontalTextAlignment="Center"
+                    HorizontalOptions="Center"
                     TextColor="White"
                     FontSize="18"
                 />

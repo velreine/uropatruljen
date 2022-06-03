@@ -8,7 +8,10 @@
         <Label
             Text="{Binding Device.Layout.ProductName}"
             Style="{StaticResource NavbarLabel}"
+            HorizontalTextAlignment="Center"
+            HorizontalOptions="Center"
         />
+        
     </NavigationPage.TitleView>
     
     <!--<NavigationPage.TitleView>
@@ -47,7 +50,9 @@
                                     VerticalOptions="Center"
                                     HorizontalOptions="EndAndExpand" 
                                     BackgroundColor="{Binding BindingContext.ButtonColor, Source={x:Reference page}}"
-                                    Command="{Binding BindingContext.ToggleStateCommand, Source={x:Reference page}}">
+                                    Command="{Binding BindingContext.ToggleStateCommand, Source={x:Reference page}}"
+                                    CommandParameter="{Binding .}"
+                                    >
                                 </Button>
                             </StackLayout>
                         </ViewCell>

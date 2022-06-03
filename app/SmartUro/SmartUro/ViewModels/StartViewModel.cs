@@ -33,13 +33,15 @@ namespace SmartUro.ViewModels
         
         //public ICollection<HardwareLayout> HardwareLayouts { get; set; }
 
-        private ObservableCollection<Device> _userDevices;
+        private ObservableCollection<Device> _devicesInSelectedHome;
 
-        public ObservableCollection<Device> UserDevices
+        public ObservableCollection<Device> DevicesInSelectedHome
         {
-            get => _userDevices;
-            set => OnPropertyChanged(ref _userDevices, value);
+            get => _devicesInSelectedHome;
+            set => OnPropertyChanged(ref _devicesInSelectedHome, value);
         }
+
+        private ICollection<Device> _userDevices;
 
         private ObservableCollection<Home> _userHomes;
         
@@ -93,8 +95,9 @@ namespace SmartUro.ViewModels
             _deviceService = deviceService;
             _homeService = homeService;
 
-            LoadUserDevices();
-            LoadUserHomes();
+            LoadUserData();
+            //LoadUserDevices();
+            //LoadUserHomes();
             
             // Register a handler for updating the Available Rooms when the home changes.
             this.PropertyChanged += (sender, args) =>
@@ -104,6 +107,7 @@ namespace SmartUro.ViewModels
                     if (SelectedHome != null)
                     {
                         RoomsInSelectedHome = SelectedHome.Rooms.ToList();
+                        DevicesInSelectedHome = new ObservableCollection<Device>(_userDevices.Where(d => d.Home.Id == SelectedHome.Id).ToList());
                     }
                     else
                     {
@@ -162,7 +166,29 @@ namespace SmartUro.ViewModels
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
-        private async Task LoadUserDevices()
+        private async Task LoadUserData()
+        {
+
+            var homes = await _homeService.GetUserHomes();
+            var devices = await _deviceService.GetUserDevices();
+
+            _userDevices = devices.ToList();
+            
+            UserHomes = new ObservableCollection<Home>(homes);
+            SelectedHome = UserHomes.Count > 0 ? UserHomes[0] : null;
+
+            if (UserHomes.Count > 0)
+            {
+                // how to figure out which home a device belongs to? 
+                // not loaded from api.
+                DevicesInSelectedHome =
+                    new ObservableCollection<Device>(devices.Where(d => d.Home.Id == SelectedHome.Id));
+            }
+            
+
+        }
+        
+        /*private async Task LoadUserDevices()
         {
             var devices = await _deviceService.GetUserDevices();
             UserDevices = new ObservableCollection<Device>(devices);
@@ -173,7 +199,7 @@ namespace SmartUro.ViewModels
             var homes = await _homeService.GetUserHomes();
             UserHomes = new ObservableCollection<Home>(homes);
             SelectedHome = UserHomes.Count > 0 ? UserHomes[0] : null;
-        }
+        }*/
         
         /*private void GetListOfUros()
         {
