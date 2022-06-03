@@ -38,6 +38,10 @@ public class DevelopmentController : ControllerBase
 
         // TODO: TEST MQTT SERVER IS INJECTED PROPERLY.
         
+        
+        
+        _mqttServer.InjectApplicationMessage()
+        
         /*var state = new RgbComponentState
         {
             Component = null,

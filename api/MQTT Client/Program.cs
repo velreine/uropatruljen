@@ -3,6 +3,7 @@ using MQTTnet.Client.Options;
 using MQTTnet.Formatter;
 using MQTTnet.Extensions;
 using System.Text.Json;
+using CommonData.Model.Action;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet;
@@ -78,6 +79,23 @@ namespace MQTT_Client
             // Connect the client to the server.
             var response = await client.ConnectAsync(clientOptions, CancellationToken.None);
 
+            // Publish.
+            var msg = new MqttApplicationMessage();
+            var action = new SetColorAction()
+            {
+                ComponentIdentifier = 1,
+                RValue = 100,
+                GValue = 100,
+                BValue = 100,
+            };
+
+            var actionPayload = ActionPayload.FromAction(action);
+
+            msg.Payload = actionPayload.ToPayload();
+            msg.Topic = "/device_actions/SN123";
+
+            client.PublishAsync(msg);
+            
             // Subscribe to a topic?
             Console.WriteLine("Trying to subscribe....");
             var subscribeOptions = factory.CreateSubscribeOptionsBuilder()

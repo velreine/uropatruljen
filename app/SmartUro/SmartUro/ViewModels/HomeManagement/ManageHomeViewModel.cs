@@ -5,7 +5,7 @@ using CommonData.Model.Entity;
 
 namespace SmartUro.ViewModels.HomeManagement
 {
-    public class ManageHomeViewModel
+    public class ManageHomeViewModel : BaseViewModel
     {
         private Home _home;
 

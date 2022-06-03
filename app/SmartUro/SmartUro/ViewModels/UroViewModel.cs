@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using SmartUro.Views;
 using MQTTnet;
 using System.Threading;
+using CommonData.Model.Action;
 using SmartUro.Interfaces;
 using Device = CommonData.Model.Entity.Device;
 
@@ -50,6 +51,7 @@ namespace SmartUro.ViewModels
         {
             _mqttService = mqttService;
 
+            ToggleStateCommand = new Command<Component>(async(component) => await ToggleState(component));
             DiodeColor = Color.Violet;
 
             ToggleStateCommand = new Command(async() => await ToggleState());
@@ -68,21 +70,61 @@ namespace SmartUro.ViewModels
         }
 
         private async Task ToggleState()
+        private async Task ToggleState(Component component)
         {
             await _mqttService.SendRequest();
 
+            IAction action = null;
+            
             if (ButtonText == "ON") //if current component's state is 1
             {
+
+                action = new TurnOnOffAction()
+                {
+                    ComponentIdentifier = component.Id,
+                    TurnOn = false
+                };
+                
+                
                 //await RestService.ToggleStateAsync(0);
                 ButtonText = "OFF";
                 ButtonColor = Color.LightGray;
             }
             else if (ButtonText == "OFF") //if current component's state is 0
             {
+
+                action = new TurnOnOffAction()
+                {
+                    ComponentIdentifier = component.Id,
+                    TurnOn = true
+                };
+                
                 //await RestService.ToggleStateAsync(1);
                 ButtonText = "ON";
                 ButtonColor = Color.LightGreen;
             }
+
+            if (action != null)
+            {
+                var apl = ActionPayload.FromAction(action);
+                var msg = new MqttApplicationMessage
+                {
+                    Payload = apl.ToPayload(),
+                    Topic = $"/device_actions/{Device.SerialNumber}"
+                };
+
+                
+                // { topic: "/device_actions/Device.SerialNumber", action:  
+                
+                
+                await _mqttService.Client.PublishAsync(msg);
+            }
+            
+            
+            
+            
+
+
         }
     }
 }

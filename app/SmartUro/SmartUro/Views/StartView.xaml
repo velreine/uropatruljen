@@ -14,6 +14,8 @@
         <Label
             Text="DEVICE MANAGEMENT"
             Style="{StaticResource NavbarLabel}"
+            HorizontalTextAlignment="Center"
+            HorizontalOptions="Center"
         />
     </NavigationPage.TitleView>
     
@@ -24,7 +26,7 @@
                 <Label Text="Current Home"/>
                 <Picker 
                         x:Name="HomePicker"
-                        ItemsSource="{Binding AvailableHomes}"
+                        ItemsSource="{Binding UserHomes}"
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding SelectedHome}"
                         SelectedIndexChanged="HomePicker_SelectedIndexChanged"
@@ -33,22 +35,24 @@
                 />
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Margin="40,0">                
-                <!-- TODO: How to put the picker back to NULL effectively showing all devices in that room? -->
+            <!--
+                Disabled due to uncertainty how to make an "All Rooms" option.
+            
+            <StackLayout Orientation="Horizontal"> 
                 <Label Text="Show only devices in room"/>
                 <Picker 
                         x:Name="RoomPicker"
-                        ItemsSource="{Binding SelectedHome.Rooms}"
+                        ItemsSource="{Binding RoomsInSelectedHome}"
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding SelectedRoom}"
                         SelectedIndexChanged="RoomPicker_SelectedIndexChanged"
                         Title="Select room"
                         HorizontalOptions="EndAndExpand"
                 />
-            </StackLayout>
+            </StackLayout>-->
 
             <ListView 
-                ItemsSource="{Binding UserDevices}"
+                ItemsSource="{Binding DevicesInSelectedHome}"
                 Margin="40,20,40,15"
                 RowHeight="80"
                 VerticalOptions="FillAndExpand">

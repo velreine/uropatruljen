@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,17 +10,25 @@ using Xamarin.Forms;
 
 namespace SmartUro.ViewModels.RoomManagement
 {
-    public class RoomManagementViewModel
+    public class RoomManagementViewModel : BaseViewModel
     {
 
         public ICommand GotoManageRoomCommand { get; set; }
         public ICommand GotoCreateRoomCommand { get; set; }
 
-        public List<Room> Rooms { get; set; } = new List<Room>()
+        private ObservableCollection<Room> _rooms;
+
+        public ObservableCollection<Room> Rooms
+        {
+            get => _rooms;
+            set => OnPropertyChanged(ref _rooms, value);
+        }
+
+        /*public List<Room> Rooms { get; set; } = new List<Room>()
         {
           new Room() { Id = 1, Name = "*Room 1" },
           new Room() { Id = 1, Name = "*Room 2" },
-        };
+        };*/
 
         public Room SelectedRoom { get; set; }
 
