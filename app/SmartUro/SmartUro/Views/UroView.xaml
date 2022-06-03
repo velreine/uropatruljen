@@ -38,8 +38,13 @@
                                     <Label Text="{Binding Type}" FontSize="14" FontAttributes="Italic"/>
                                 </StackLayout>
                                 <Button
-                                    Text="COLOR"
-                                    Command="{Binding BindingContext.GoToColorPickerCommand, Source={x:Reference Page}}">                                    
+                                    WidthRequest="40"
+                                    HeightRequest="40"
+                                    VerticalOptions="Center"
+                                    Margin="10,0"
+                                    BackgroundColor="{Binding BindingContext.DiodeColor, Source={x:Reference Page}}"
+                                    Command="{Binding BindingContext.GoToColorPickerCommand, Source={x:Reference Page}}"
+                                    CommandParameter="{Binding .}">
                                 </Button>
                                 <Button 
                                     Text="{Binding BindingContext.ButtonText, Source={x:Reference Page}}"

@@ -24,6 +24,7 @@ namespace SmartUro
             SetupServices(addPlatformServices);
 
             MainPage = new NavigationPage(new LoginView());
+            //MainPage = new ColorPickerView();
         }
 
         protected override void OnStart()
@@ -52,6 +53,7 @@ namespace SmartUro
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterUserViewModel>();
             services.AddTransient<ProfileManagementViewModel>();
+            services.AddTransient<ColorPickerViewModel>();
 
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();
@@ -59,6 +61,14 @@ namespace SmartUro
             // Configure RestSharp client.
             services.AddSingleton(provider =>
             {
+                var baseurl = new Uri("https://uroapp.dk");
+                var options = new RestClientOptions(baseurl)
+                {
+                    RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
+                };
+                var restClient = new RestClient(options);
+                return restClient;
+                /*
                 return new RestClient()
                 {
                     Options =
@@ -67,7 +77,7 @@ namespace SmartUro
                         //BaseUrl = new Uri("https://api.uroapp.dk")
                         BaseUrl = new Uri("https://uroapp.dk")
                     }
-                };
+                };*/
                 
             });
 

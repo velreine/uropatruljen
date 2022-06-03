@@ -22,12 +22,12 @@
                 Placeholder="password"
                 Text="{Binding PasswordInput, Mode=TwoWay}"
             />
-            <Label
+            <!--<Label
                 Text="{Binding LoginError}"
                 TextColor="Crimson"
                 FontAttributes="Italic"
                 HorizontalOptions="Center"
-            />
+            />-->
 
             <Button 
                 Text="Login" 

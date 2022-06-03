@@ -18,6 +18,7 @@ namespace SmartUro.ViewModels
     {
         private string _buttonText;
         private Color _buttonColor;
+        private Color _diodeColor;
         private Device _device;
         private readonly IMqttService _mqttService;
 
@@ -30,6 +31,11 @@ namespace SmartUro.ViewModels
         { 
             get => _buttonColor; 
             set => OnPropertyChanged(ref _buttonColor, value); 
+        }
+        public Color DiodeColor
+        {
+            get => _diodeColor;
+            set => OnPropertyChanged(ref _diodeColor, value);
         }
         public Device Device 
         { 
@@ -44,16 +50,21 @@ namespace SmartUro.ViewModels
         {
             _mqttService = mqttService;
 
+            DiodeColor = Color.Violet;
+
             ToggleStateCommand = new Command(async() => await ToggleState());
-            GoToColorPickerCommand = new Command(async () => await GoToColorPicker());
+            GoToColorPickerCommand = new Command<Component>(async _component => await GoToColorPicker(_component));
             ButtonText = "OFF";
             ButtonColor = Color.LightGray;
         }
 
-        private async Task GoToColorPicker()
+        private async Task GoToColorPicker(Component _component)
         {
             var page = new ColorPickerView();
-            await Application.Current.MainPage.Navigation.PushAsync(page, true);
+            var _cpvm = (ColorPickerViewModel)page.BindingContext;
+            _cpvm.ComponentID = _component.Id;
+            await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
+            DiodeColor = _cpvm.ColorPicked;
         }
 
         private async Task ToggleState()
