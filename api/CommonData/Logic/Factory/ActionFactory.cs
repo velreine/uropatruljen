@@ -42,6 +42,13 @@ namespace CommonData.Logic.Factory
         public void RegisterActionCreator(Type typeToCreate, Func<byte[], IAction> creatorFunc)
         {
 
+            // Ensures typeToCreate implements IAction.
+            if (!typeof(IAction).IsAssignableFrom(typeToCreate))
+            {
+                throw new Exception(
+                    $"Cannot register action creator for type: {typeToCreate} that does not implement IAction.");
+            }
+            
             if (_actionCreators.ContainsKey(typeToCreate))
             {
                 throw new Exception(

@@ -7,10 +7,10 @@ namespace CommonData.Logic.Factory
     /**
      * An Action handler takes in an action and knows what to do with it.
      */
-    public interface IActionHandler<T> where T : IAction, new()
+    /*public interface IActionHandler<T> where T : IAction, new()
     {
         Task HandleAsync(T action);
-    }
+    }*/
     
     public interface IActionHandler
     {

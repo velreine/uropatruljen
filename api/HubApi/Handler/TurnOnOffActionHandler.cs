@@ -16,6 +16,9 @@ public class TurnOnOffActionHandler : IActionHandler<TurnOnOffAction>
     /// <returns></returns>
     public Task HandleAsync(TurnOnOffAction action)
     {
+        
+        Console.WriteLine("TurnOnOffActionHandler::HandleAsync(TurnOnOffAction action) invoked.");
+        
         var componentIsOn = ComponentManager.ComponentIsOn(action.ComponentIdentifier);
         
         if (action.TurnOn && !componentIsOn)
@@ -24,5 +27,17 @@ public class TurnOnOffActionHandler : IActionHandler<TurnOnOffAction>
             ComponentManager.TurnOff(action.ComponentIdentifier);
         
         return Task.CompletedTask;
+    }
+
+    public Task HandleAsync(IAction action)
+    {
+        
+        Console.WriteLine("TurnOnOffActionHandler::HandleAsync(IAction action) invoked.");
+        
+        if (action.GetType() != typeof(TurnOnOffAction))
+        {
+            return Task.CompletedTask;
+        }
+        return HandleAsync((TurnOnOffAction)action);
     }
 }

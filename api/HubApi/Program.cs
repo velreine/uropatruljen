@@ -1,5 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using CommonData.Logic.Factory;
+using CommonData.Model.Action;
+using HubApi.Handler;
+using HubApi.Logic;
 using HubApi.Settings;
 using MQTTnet;
 using MQTTnet.Client;
@@ -32,23 +36,19 @@ namespace HubApi
             });
             
             // Loads and registers our AppSettings as a service.
-            var appSettings = LoadAndRegisterConfiguration(builder);
-
-            if (appSettings.Mqtt == null)
-            {
-                throw new Exception("Cannot instantiate Hub Api without Mqtt settings.");
-            }
-
-            if (appSettings.Hardware == null)
-            {
-                throw new Exception("Cannot instantiate Api without proper Hardware settings.");
-            }
+            LoadAndRegisterConfiguration(builder.Services);
             
-            // Configure our Hub Api's Mqtt Client.
-            ConfigureMqttClient(appSettings.Mqtt, appSettings.Hardware);
+            // Load our ActionHandlerContainer.
+            RegisterActionHandlerContainer(builder.Services);
 
+            // Register our MQTT Client wrapper.
+            builder.Services.AddSingleton<MqttClientWrapper, MqttClientWrapper>();
+            
             var app = builder.Build();
 
+            // Ensure our singleton service MqttClientWrapper gets instantiated by the DI container.
+            app.Services.GetService(typeof(MqttClientWrapper));
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -65,8 +65,28 @@ namespace HubApi
             app.Run();
         }
 
+        private static void RegisterActionHandlerContainer(IServiceCollection services)
+        {
+            // Our ActionHandlers are services themselves.
+            services.AddTransient<IActionHandler<SetColorAction>, SetColorActionHandler>();
+            services.AddTransient<IActionHandler<TurnOnOffAction>, TurnOnOffActionHandler>();
+            
+            
+            // Add our ActionHandlerContainer, which holds all our Action Handler Services.
+            services.AddSingleton(sp =>
+            {
+                var ahl = new ActionHandlerContainer();
+                ahl
+                    .RegisterHandler(sp.GetService<IActionHandler<SetColorAction>>())
+                    .RegisterHandler(sp.GetService<IActionHandler<TurnOnOffAction>>())
+                    ;
+
+                return ahl;
+            });
+        }
+        
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        private static AppSettings LoadAndRegisterConfiguration(WebApplicationBuilder builder)
+        private static void LoadAndRegisterConfiguration(IServiceCollection services)
         {
             // Read configuration.
             var config = new ConfigurationBuilder()
@@ -78,58 +98,21 @@ namespace HubApi
             
             // Register our AppSettings as a scoped service.
             // scoped: container will create an instance of the specified service type once per request and will be shared in a single request.
-            builder.Services.AddScoped(provider => appSettings);
+            services.AddTransient(provider => appSettings);
+
+            if (appSettings.Mqtt == null)
+            {
+                throw new Exception("Cannot instantiate Hub Api without Mqtt settings.");
+            }
+
+            if (appSettings.Hardware == null)
+            {
+                throw new Exception("Cannot instantiate Api without proper Hardware settings.");
+            }
             
             Console.WriteLine("HubApi launches with the following settings:");
             appSettings.DumpToConsole();
-            
-            return appSettings;
         }
-
-        private static void ConfigureMqttClient(MqttAppSettings mqttAppSettings, HardwareSettings hardwareSettings)
-        {
-            // Use the MqttClientOptionsBuild to build some client options.
-            var mqttClientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer(mqttAppSettings.Endpoint)
-                /*.WithTls(options =>
-                {
-                    options.SslProtocol = SslProtocols.Tls12;
-                    options.AllowUntrustedCertificates = true;
-                })*/
-                .Build();
-
-            // Instantiate our custom MqttClient wrapper which creates some default event handlers etc.
-            var mqttClientWrapper = new MqttClientWrapper();
-
-
-            // Connect the client to the server, then subscribe to the valid topics.
-            mqttClientWrapper.Client
-                .ConnectAsync(mqttClientOptions)
-                .ContinueWith(previousConnectTask =>
-                {
-                    var factory = new MqttFactory();
-
-                    // Build the options for the topics we are interested in subscribing to.
-                    // The Hub Api is primarily interested in being "controlled" from the cloud.
-                    var mqttSubscribeOptions = factory.CreateSubscribeOptionsBuilder()
-                        .WithTopicFilter(filter =>
-                        {
-                            filter.WithTopic($"/device_actions/{hardwareSettings.SerialNumber}");
-                        })
-                        .Build();
-
-                    // Subscribe to topics.
-                    mqttClientWrapper.Client
-                        .SubscribeAsync(mqttSubscribeOptions, CancellationToken.None)
-                        .ContinueWith(previousSubscribeTask =>
-                        {
-                            Console.WriteLine("The client successfully subscribed to its topics!");
-                            previousSubscribeTask.Result.DumpToConsole();
-                            return Task.CompletedTask;
-                        });
-
-                    return Task.CompletedTask;
-                });
-        }
+        
     }
 }

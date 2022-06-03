@@ -18,6 +18,9 @@ public class SetColorActionHandler : IActionHandler<SetColorAction>
     /// <exception cref="Exception"></exception>
     public Task HandleAsync(SetColorAction action)
     {
+        
+        Console.WriteLine("SetColorActionHandler::HandleAsync(SetColorAction action) invoked.");
+        
         ComponentManager.SetColorComponent
             (
                 action.ComponentIdentifier, 
@@ -27,5 +30,17 @@ public class SetColorActionHandler : IActionHandler<SetColorAction>
             );
 
         return Task.CompletedTask;
+    }
+
+    public Task HandleAsync(IAction action)
+    {
+        
+        Console.WriteLine("SetColorActionHandler::HandleAsync(IAction action) invoked.");
+        
+        if (action.GetType() != typeof(SetColorAction))
+        {
+            return Task.CompletedTask;
+        }
+        return HandleAsync((SetColorAction)action);
     }
 }
