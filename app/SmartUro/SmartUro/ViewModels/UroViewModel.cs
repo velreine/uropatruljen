@@ -50,11 +50,9 @@ namespace SmartUro.ViewModels
         public UroViewModel(IMqttService mqttService)
         {
             _mqttService = mqttService;
-
-            ToggleStateCommand = new Command<Component>(async(component) => await ToggleState(component));
             DiodeColor = Color.Violet;
 
-            ToggleStateCommand = new Command(async() => await ToggleState());
+            ToggleStateCommand = new Command<Component>(async (component) => await ToggleState(component));
             GoToColorPickerCommand = new Command<Component>(async _component => await GoToColorPicker(_component));
             ButtonText = "OFF";
             ButtonColor = Color.LightGray;
@@ -69,7 +67,6 @@ namespace SmartUro.ViewModels
             DiodeColor = _cpvm.ColorPicked;
         }
 
-        private async Task ToggleState()
         private async Task ToggleState(Component component)
         {
             await _mqttService.SendRequest();
