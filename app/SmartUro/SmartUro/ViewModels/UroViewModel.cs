@@ -37,14 +37,22 @@ namespace SmartUro.ViewModels
         }
 
         public ICommand ToggleStateCommand { get; }
+        public ICommand GoToColorPickerCommand { get; set; }
 
         public UroViewModel(IMqttService _mqtt)
         {
             _mqttService = _mqtt;
 
             ToggleStateCommand = new Command(async() => await ToggleState());
+            GoToColorPickerCommand = new Command(async () => await GoToColorPicker());
             ButtonText = "OFF";
             ButtonColor = Color.LightGray;
+        }
+
+        private async Task GoToColorPicker()
+        {
+            var page = new ColorPickerView();
+            await Application.Current.MainPage.Navigation.PushAsync(page, true);
         }
 
         private async Task ToggleState()

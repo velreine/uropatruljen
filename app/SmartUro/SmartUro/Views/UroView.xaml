@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.UroView"
-             x:Name="page">
+             x:Name="Page">
     <NavigationPage.TitleView>
         <Label
             Text="{Binding HardwareLayout.ProductName}"
@@ -20,16 +20,20 @@
                                     <Label Text="{Binding Name}" FontSize="20"/>
                                     <Label Text="{Binding Type}" FontSize="14" FontAttributes="Italic"/>
                                 </StackLayout>
+                                <Button
+                                    Text="COLOR"
+                                    Command="{Binding BindingContext.GoToColorPickerCommand, Source={x:Reference Page}}">                                    
+                                </Button>
                                 <Button 
-                                    Text="{Binding BindingContext.ButtonText, Source={x:Reference page}}"
+                                    Text="{Binding BindingContext.ButtonText, Source={x:Reference Page}}"
                                     TextColor="White"
                                     WidthRequest="50"
                                     HeightRequest="50"
                                     CornerRadius="25"
                                     VerticalOptions="Center"
                                     HorizontalOptions="EndAndExpand" 
-                                    BackgroundColor="{Binding BindingContext.ButtonColor, Source={x:Reference page}}"
-                                    Command="{Binding BindingContext.ToggleStateCommand, Source={x:Reference page}}">
+                                    BackgroundColor="{Binding BindingContext.ButtonColor, Source={x:Reference Page}}"
+                                    Command="{Binding BindingContext.ToggleStateCommand, Source={x:Reference Page}}">
                                 </Button>
                             </StackLayout>
                         </ViewCell>
