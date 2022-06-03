@@ -1,5 +1,7 @@
 ﻿using CloudApi.Data;
+using CommonData.Model.Action;
 using Microsoft.AspNetCore.Mvc;
+using MQTTnet;
 using MQTTnet.Server;
 
 namespace CloudApi.Controllers;
@@ -37,6 +39,24 @@ public class DevelopmentController : ControllerBase
     {
 
         // TODO: TEST MQTT SERVER IS INJECTED PROPERLY.
+        
+        var msg = new MqttApplicationMessage();
+        var action = new SetColorAction()
+        {
+            ComponentIdentifier = 1,
+            RValue = 100,
+            GValue = 100,
+            BValue = 100,
+        };
+
+        var actionPayload = ActionPayload.FromAction(action);
+
+        msg.Payload = actionPayload.ToPayload();
+        msg.Topic = "/device_actions/SN123";
+
+        _mqttServer.InjectApplicationMessage()
+        
+        
         
         /*var state = new RgbComponentState
         {

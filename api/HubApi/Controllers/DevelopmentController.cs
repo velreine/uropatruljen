@@ -1,5 +1,8 @@
 using System.Device.Gpio;
+using CommonData.Model.Action;
 using Microsoft.AspNetCore.Mvc;
+using MQTTnet;
+
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 #pragma warning disable CS8618
@@ -41,9 +44,6 @@ public class DevelopmentController
         controller.Write(ledPin1, PinValue.Low);
         PinValue value = controller.Read(ledPin1);
         
-        
-        
-        
         var response = new ActionResult<object>(new 
         {
             Echo = request.Echo,
@@ -51,5 +51,4 @@ public class DevelopmentController
 
         return response;
     }
-    
 }

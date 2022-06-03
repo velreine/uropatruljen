@@ -3,6 +3,7 @@ using MQTTnet.Client.Options;
 using MQTTnet.Formatter;
 using MQTTnet.Extensions;
 using System.Text.Json;
+using CommonData.Model.Action;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet;
@@ -67,7 +68,7 @@ namespace MQTT_Client
             // Initialize client.
             var factory = new MqttFactory();
             using var client = factory.CreateMqttClient();
-            var clientOptions = new MqttClientOptionsBuilder().WithTcpServer("127.0.0.1").Build();
+            var clientOptions = new MqttClientOptionsBuilder().WithTcpServer("UroApp.dk").Build();
 
             // Subscribe our handler methods to the different events.
             client.ConnectedHandler = this._handlers;
@@ -89,6 +90,24 @@ namespace MQTT_Client
 
             // Dump the result for debugging.
             response.DumpToConsole();
+
+            var message = new MqttApplicationMessage();
+            // var action = new SetColorAction()
+            // {
+            //     RValue = 255,
+            //     GValue = 255,
+            //     BValue = 255,
+            //     ComponentIdentifier = 1
+            // };
+            var action = new TurnOnOffAction()
+            {
+                ComponentIdentifier = 1,
+                TurnOn = true
+            };
+            var apl = ActionPayload.FromAction(action);
+            message.Payload = apl.ToPayload();
+            message.Topic = "/device_actions/SN-ABC123";
+            await client.PublishAsync(message);
 
 
             Console.WriteLine("Press enter to disconnect!");

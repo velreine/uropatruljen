@@ -65,8 +65,8 @@ namespace CommonData.Model.Action
         private static void InitializeMap()
         {
             
-            _actionTypeToActionIdentifier.Add(typeof(TurnOnOffAction), _currentIdentifier++);
-            _actionTypeToActionIdentifier.Add(typeof(SetColorAction), _currentIdentifier++);
+            _actionTypeToActionIdentifier.Add(typeof(TurnOnOffAction), 45);
+            _actionTypeToActionIdentifier.Add(typeof(SetColorAction), 700);
 
 
             // Mark the map as initialized.

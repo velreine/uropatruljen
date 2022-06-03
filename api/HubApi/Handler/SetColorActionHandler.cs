@@ -18,6 +18,10 @@ public class SetColorActionHandler : IActionHandler<SetColorAction>
     /// <exception cref="Exception"></exception>
     public Task HandleAsync(SetColorAction action)
     {
+        if (!(action is SetColorAction))
+        {
+            
+        }
         ComponentManager.SetColorComponent
             (
                 action.ComponentIdentifier, 

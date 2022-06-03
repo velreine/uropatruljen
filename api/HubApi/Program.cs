@@ -1,5 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using CommonData.Logic.Factory;
+using CommonData.Model.Action;
+using HubApi.Handler;
+using HubApi.Logic;
 using HubApi.Settings;
 using MQTTnet;
 using MQTTnet.Client;
@@ -24,6 +28,11 @@ namespace HubApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
+            builder.Services.AddTransient<IActionHandler<SetColorAction>, SetColorActionHandler>();
+            builder.Services.AddTransient<IActionHandler<TurnOnOffAction>, TurnOnOffActionHandler>();
+            builder.Services.AddTransient<IDefaultActionHandlers, DefaultActionHandlers>();
+            builder.Services.AddSingleton<MqttClientWrapper, MqttClientWrapper>();
+
             // Enables swagger to read triple-slash comments on endpoints and build documentation from that.
             builder.Services.AddSwaggerGen(swaggerGenOptions =>
             {
@@ -44,10 +53,11 @@ namespace HubApi
                 throw new Exception("Cannot instantiate Api without proper Hardware settings.");
             }
             
-            // Configure our Hub Api's Mqtt Client.
-            ConfigureMqttClient(appSettings.Mqtt, appSettings.Hardware);
-
             var app = builder.Build();
+
+            // Rider is wrong, this is used, the DI container will new() it and run the construct where the main logic to configure 
+            // the client resides.
+            var mqttClient = app.Services.GetService(typeof(MqttClientWrapper));
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -78,58 +88,12 @@ namespace HubApi
             
             // Register our AppSettings as a scoped service.
             // scoped: container will create an instance of the specified service type once per request and will be shared in a single request.
-            builder.Services.AddScoped(provider => appSettings);
+            builder.Services.AddTransient(provider => appSettings);
             
             Console.WriteLine("HubApi launches with the following settings:");
             appSettings.DumpToConsole();
             
             return appSettings;
-        }
-
-        private static void ConfigureMqttClient(MqttAppSettings mqttAppSettings, HardwareSettings hardwareSettings)
-        {
-            // Use the MqttClientOptionsBuild to build some client options.
-            var mqttClientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer(mqttAppSettings.Endpoint)
-                /*.WithTls(options =>
-                {
-                    options.SslProtocol = SslProtocols.Tls12;
-                    options.AllowUntrustedCertificates = true;
-                })*/
-                .Build();
-
-            // Instantiate our custom MqttClient wrapper which creates some default event handlers etc.
-            var mqttClientWrapper = new MqttClientWrapper();
-
-
-            // Connect the client to the server, then subscribe to the valid topics.
-            mqttClientWrapper.Client
-                .ConnectAsync(mqttClientOptions)
-                .ContinueWith(previousConnectTask =>
-                {
-                    var factory = new MqttFactory();
-
-                    // Build the options for the topics we are interested in subscribing to.
-                    // The Hub Api is primarily interested in being "controlled" from the cloud.
-                    var mqttSubscribeOptions = factory.CreateSubscribeOptionsBuilder()
-                        .WithTopicFilter(filter =>
-                        {
-                            filter.WithTopic($"/device_actions/{hardwareSettings.SerialNumber}");
-                        })
-                        .Build();
-
-                    // Subscribe to topics.
-                    mqttClientWrapper.Client
-                        .SubscribeAsync(mqttSubscribeOptions, CancellationToken.None)
-                        .ContinueWith(previousSubscribeTask =>
-                        {
-                            Console.WriteLine("The client successfully subscribed to its topics!");
-                            previousSubscribeTask.Result.DumpToConsole();
-                            return Task.CompletedTask;
-                        });
-
-                    return Task.CompletedTask;
-                });
         }
     }
 }

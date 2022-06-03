@@ -8,15 +8,17 @@ namespace HubApi.Logic;
 /// <summary>
 /// Represents our default Action Handlers.
 /// </summary>
-public class DefaultActionHandlers : IActionHandler
+public class DefaultActionHandlers : IActionHandler, IDefaultActionHandlers
 {
+    private readonly IEnumerable<IActionHandler<IAction>> actionHandlers;
     private readonly Dictionary<Type, Action<IAction>> _handlers;
 
     /// <summary>
     /// Instantiate Default Action handlers for the Hub Api.
     /// </summary>
-    public DefaultActionHandlers()
+    public DefaultActionHandlers(IEnumerable<IActionHandler<IAction>> actionHandlers)
     {
+        this.actionHandlers = actionHandlers;
         _handlers = new Dictionary<Type, Action<IAction>>()
         {
             {typeof(SetColorAction), HandleSetColorAction},
@@ -55,5 +57,46 @@ public class DefaultActionHandlers : IActionHandler
         actionHandler.Invoke(action);
 
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="action"></param>
+    /// <returns></returns>
+    public async Task AssignToHandler(IAction action)
+    {
+        switch (action)
+        {
+            case SetColorAction:
+                IActionHandler<IAction>? setColor = null;
+                foreach (var ah in actionHandlers)
+                {
+                    if ((Type)ah == typeof(IActionHandler<SetColorAction>))
+                    {
+                        setColor = ah;
+                        await setColor.HandleAsync(action);
+                        break;
+                    }
+                }
+                break;
+            case TurnOnOffAction:
+                IActionHandler<IAction>? onOff = null;
+                foreach (var ah in actionHandlers)
+                {
+                    if ((Type)ah == typeof(IActionHandler<TurnOnOffAction>))
+                    {
+                        onOff = ah;
+                        await onOff.HandleAsync(action);
+                        break;
+                    }
+                }
+                
+                break;
+        }
+        // foreach (var handler in actionHandlers)
+        // {
+        //     await handler.HandleAsync(action);
+        // }
     }
 }
