@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace SmartUro.ViewModels.HomeManagement
 {
-    public class CreateNewHomeViewModel
+    public class CreateNewHomeViewModel : BaseViewModel
     {
 
         public ICommand CreateHomeCommand { get; set; }

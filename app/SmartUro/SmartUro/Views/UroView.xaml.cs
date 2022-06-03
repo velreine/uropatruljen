@@ -16,7 +16,8 @@ namespace SmartUro.Views
     {
         public UroView()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            this.BindingContext = App.GetViewModel<UroViewModel>();
         }
     }
 }

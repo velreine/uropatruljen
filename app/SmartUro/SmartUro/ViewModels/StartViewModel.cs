@@ -19,6 +19,8 @@ using MQTTnet;
 using MQTTnet.Client;
 using SmartUro.Views.AddUroFlow;
 using SmartUro.Interfaces;
+using SmartUro.ViewModels.HomeManagement;
+using SmartUro.ViewModels.RoomManagement;
 using SmartUro.Views.RoomManagement;
 using Device = CommonData.Model.Entity.Device;
 
@@ -28,8 +30,7 @@ namespace SmartUro.ViewModels
     {
         private readonly IDeviceService _deviceService;
         private readonly IHomeService _homeService;
-        private UroViewModel _uvm;
-
+        
         //public ICollection<HardwareLayout> HardwareLayouts { get; set; }
 
         private ObservableCollection<Device> _userDevices;
@@ -94,10 +95,8 @@ namespace SmartUro.ViewModels
 
             LoadUserDevices();
             LoadUserHomes();
-            //HardwareLayouts = new List<HardwareLayout>();
-            //GetListOfUros();
             
-            // Register a handler for updating the AvailableRooms when the home changes.
+            // Register a handler for updating the Available Rooms when the home changes.
             this.PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName == nameof(SelectedHome))
@@ -134,22 +133,32 @@ namespace SmartUro.ViewModels
 
         private async Task GotoRoomManagement()
         {
-            var page = new Views.RoomManagement.RoomManagementView();
+            var page = new RoomManagementView();
+            var vm = (RoomManagementViewModel)page.BindingContext;
+
+            var rooms = SelectedHome != null 
+                ? new ObservableCollection<Room>(SelectedHome.Rooms) 
+                : null;
+
+            vm.Rooms = rooms;
+            
             await Application.Current.MainPage.Navigation.PushAsync(page, true);
         }
 
         private async Task GoToHomeManagement()
         {
             var page = new HomeManagementView();
+            var vm = (HomeManagementViewModel)page.BindingContext;
+            vm.Homes = UserHomes;
             await Application.Current.MainPage.Navigation.PushAsync(page, true);
         }
 
         private async Task NavigateToUroView(Device device)
         {
             var page = new UroView();
-            page.BindingContext = _uvm = (UroViewModel)App.GetViewModel<UroViewModel>();
-            _uvm.Device = device;
-
+            var vm = (UroViewModel)page.BindingContext;
+            vm.Device = device;
+            
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

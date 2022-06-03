@@ -9,7 +9,9 @@ using SmartUro.ViewModels;
 using CommonData.Model.Entity;
 using RestSharp;
 using RestSharp.Authenticators;
+using SmartUro.ViewModels.HomeManagement;
 using SmartUro.ViewModels.ProfileManagement;
+using SmartUro.ViewModels.RoomManagement;
 
 namespace SmartUro
 {
@@ -52,6 +54,8 @@ namespace SmartUro
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterUserViewModel>();
             services.AddTransient<ProfileManagementViewModel>();
+            services.AddTransient<RoomManagementViewModel>();
+            services.AddTransient<HomeManagementViewModel>();
 
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();
