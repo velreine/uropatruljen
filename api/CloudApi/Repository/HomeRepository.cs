@@ -1,5 +1,6 @@
 ﻿using CloudApi.Data;
 using CommonData.Model.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CloudApi.Repository;
 
@@ -25,7 +26,12 @@ public class HomeRepository
     /// <returns>The homes the user has access to.</returns>
     public IEnumerable<Home> GetUserHomes(int userId)
     {
-        var homes = _dbContext.Homes.Where(home => home.Residents.Any(p => p.Id == userId));
+        var homes = 
+            _dbContext
+                .Homes
+                .Where(home => home.Residents.Any(p => p.Id == userId))
+                .Include(home => home.Rooms)
+            ;
 
         return homes;
     }
