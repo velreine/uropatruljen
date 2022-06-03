@@ -30,7 +30,7 @@ namespace HubApi
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 swaggerGenOptions.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
-
+            
             // Loads and registers our AppSettings as a service.
             var appSettings = LoadAndRegisterConfiguration(builder);
 
