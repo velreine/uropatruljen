@@ -10,6 +10,7 @@ using SmartUro.Views;
 using MQTTnet;
 using System.Threading;
 using SmartUro.Interfaces;
+using Device = CommonData.Model.Entity.Device;
 
 namespace SmartUro.ViewModels
 {
@@ -17,8 +18,8 @@ namespace SmartUro.ViewModels
     {
         private string _buttonText;
         private Color _buttonColor;
-        private HardwareLayout _hardwareLayout;
-        private IMqttService _mqttService;
+        private Device _device;
+        private readonly IMqttService _mqttService;
 
         public string ButtonText 
         { 
@@ -30,18 +31,18 @@ namespace SmartUro.ViewModels
             get => _buttonColor; 
             set => OnPropertyChanged(ref _buttonColor, value); 
         }
-        public HardwareLayout HardwareLayout 
+        public Device Device 
         { 
-            get => _hardwareLayout; 
-            set => OnPropertyChanged(ref _hardwareLayout, value); 
+            get => _device; 
+            set => OnPropertyChanged(ref _device, value); 
         }
 
         public ICommand ToggleStateCommand { get; }
         public ICommand GoToColorPickerCommand { get; set; }
 
-        public UroViewModel(IMqttService _mqtt)
+        public UroViewModel(IMqttService mqttService)
         {
-            _mqttService = _mqtt;
+            _mqttService = mqttService;
 
             ToggleStateCommand = new Command(async() => await ToggleState());
             GoToColorPickerCommand = new Command(async () => await GoToColorPicker());

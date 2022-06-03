@@ -6,6 +6,10 @@
              x:Name="Page"
              NavigationPage.HasBackButton="False"
              >
+    <!--<ContentPage.BindingContext>
+        <local:StartViewModel/>
+    </ContentPage.BindingContext>-->
+    
     <NavigationPage.TitleView>
         <Label
             Text="DEVICE MANAGEMENT"
@@ -43,14 +47,19 @@
                 />
             </StackLayout>
 
-            <ListView ItemsSource="{Binding HardwareLayouts}" Margin="40,20,40,0" RowHeight="60">
+            <ListView 
+                ItemsSource="{Binding UserDevices}"
+                Margin="40,20,40,15"
+                RowHeight="80"
+                VerticalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate >
                         <ViewCell>
                             <StackLayout Orientation="Horizontal">
                                 <StackLayout Orientation="Vertical">
-                                    <Label Text="{Binding ProductName}" FontSize="20"/>
-                                    <Label Text="{Binding ModelNumber}" FontSize="14" FontAttributes="Italic" />
+                                    <Label Text="{Binding Name}" FontSize="20"/>
+                                    <Label Text="{Binding SerialNumber}" FontSize="14" FontAttributes="Italic" />
+                                    <Label Text="{Binding Layout.ProductName}" FontSize="14" FontAttributes="Italic" />
                                 </StackLayout>
                                 <Label
                                     Text=">"
@@ -69,6 +78,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            
             <Button
                 Text="+"
                 TextColor="White"

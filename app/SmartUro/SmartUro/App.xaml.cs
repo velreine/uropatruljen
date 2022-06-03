@@ -7,13 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartUro.Interfaces;
 using SmartUro.ViewModels;
 using CommonData.Model.Entity;
+using RestSharp;
+using RestSharp.Authenticators;
+using SmartUro.ViewModels.ProfileManagement;
 
 namespace SmartUro
 {
     public partial class App : Application
     {
         protected static IServiceProvider AppServiceProvider { get; set; }
-        
+
         public App(Action<IServiceCollection> addPlatformServices = null)
         {
             InitializeComponent();
@@ -26,9 +29,11 @@ namespace SmartUro
         protected override void OnStart()
         {
         }
+
         protected override void OnSleep()
         {
         }
+
         protected override void OnResume()
         {
         }
@@ -45,10 +50,40 @@ namespace SmartUro
             services.AddTransient<StartViewModel>();
             services.AddTransient<UroViewModel>();
             services.AddTransient<LoginViewModel>();
+            services.AddTransient<RegisterUserViewModel>();
+            services.AddTransient<ProfileManagementViewModel>();
 
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();
-            services.AddSingleton<IRestService, WebAPIService>();
+            
+            // Configure RestSharp client.
+            services.AddSingleton(provider =>
+            {
+                return new RestClient()
+                {
+                    Options =
+                    {
+                        RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true,
+                        //BaseUrl = new Uri("https://api.uroapp.dk")
+                        BaseUrl = new Uri("https://uroapp.dk")
+                    }
+                };
+                
+            });
+
+            // Configure Dialog service for displaying errors, messages etc.
+            services.AddSingleton<IDialogService, DialogService>();
+            
+            // Configure Authentication services.
+            services.AddSingleton<AuthenticationService>();
+            services.AddSingleton(provider =>
+                (IUserAuthenticator)provider.GetService(typeof(AuthenticationService)));
+            services.AddSingleton(provider =>
+                (IUserRegistrator)provider.GetService(typeof(AuthenticationService)));
+            
+            // Configure data fetching services.
+            services.AddSingleton<IDeviceService, DeviceService>();
+
 
             AppServiceProvider = services.BuildServiceProvider();
         }

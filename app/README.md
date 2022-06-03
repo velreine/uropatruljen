@@ -8,3 +8,4 @@ Vores mobilappliaktion.
 * MQTTnet
 * RestSharp
 * NetStandard.Library
+* Netonsoft.Json

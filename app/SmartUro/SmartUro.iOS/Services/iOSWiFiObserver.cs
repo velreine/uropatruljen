@@ -3,6 +3,7 @@ using System.Diagnostics;
 using CoreFoundation;
 using Network;
 using NetworkExtension;
+using SmartUro.Interfaces;
 using SmartUro.Services;
 using NWPathStatus = Network.NWPathStatus;
 

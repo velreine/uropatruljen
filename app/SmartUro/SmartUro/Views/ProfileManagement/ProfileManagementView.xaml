@@ -1,40 +1,49 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.ProfileManagementView"
-             xmlns:local="clr-namespace:SmartUro.ViewModels.ProfileManagement;assembly=SmartUro"
-             >
+             xmlns:local="clr-namespace:SmartUro.ViewModels.ProfileManagement;assembly=SmartUro">
 
     <NavigationPage.TitleView>
         <Label
-                    Text="Profile Management"
-                    HorizontalTextAlignment="Start"
-                    HorizontalOptions="Start"
-                    TextColor="White"
-                    FontSize="18"
-                />
+            Text="Profile Management"
+            HorizontalTextAlignment="Start"
+            HorizontalOptions="Start"
+            TextColor="White"
+            FontSize="18" />
     </NavigationPage.TitleView>
 
-    <ContentPage.BindingContext>
-        <local:ProfileManagementViewModel/>
-    </ContentPage.BindingContext>
-    
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Your name"/>
-            <Label Text="{Binding CurrentAuthenticatedUser.Name}"/>
-            
-            <Label Text="Your e-mail"/>
-            <Label Text="{Binding CurrentAuthenticatedUser.Email}"/>
-            
-            <Button 
-                Text="Logout."
-                TextColor="White"
-                BackgroundColor="OrangeRed"
-                WidthRequest="80"
-                Margin="10,0,10,16"
+            <ActivityIndicator 
+                IsRunning="{Binding ShowLoader}"
+                Color="Blue" 
+                IsVisible="{Binding ShowLoader}"
+                Margin="0,15,0,0"
                 />
-            
+
+            <StackLayout IsVisible="{Binding IsUserLoaded}">
+                
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Your name" />
+                    <Label Text="{Binding CurrentAuthenticatedUser.Name}" />
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Your e-mail" />
+                    <Label Text="{Binding CurrentAuthenticatedUser.Email}" />
+                </StackLayout>
+                
+                <Button
+                    Text="Logout."
+                    TextColor="White"
+                    BackgroundColor="OrangeRed"
+                    WidthRequest="80"
+                    Margin="10,0,10,16"
+                    Command="{Binding LogoutCommand}" />
+
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
