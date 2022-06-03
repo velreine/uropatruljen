@@ -20,7 +20,7 @@ public class MqttClientWrapper
     // And injected through the constructor, i suppose this MqttClientWrapper could also be a service.
     private static DefaultActionHandlers _actionHandlers = new DefaultActionHandlers();
     private static DefaultActionFactory _actionFactory = new DefaultActionFactory();
-    
+
     /// <summary>
     /// This class is a wrapper class for the MQTTnet MqttClient.
     /// It registers some default event handlers to the client upon construction.

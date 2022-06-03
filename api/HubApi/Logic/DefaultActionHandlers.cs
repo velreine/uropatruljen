@@ -1,6 +1,6 @@
 ﻿using CommonData.Logic.Factory;
 using CommonData.Model.Action;
-
+using HubApi.Handler;
 
 
 namespace HubApi.Logic;
@@ -24,14 +24,14 @@ public class DefaultActionHandlers : IActionHandler
         };
     }
 
-    private void HandleSetColorAction(IAction obj)
+    private void HandleSetColorAction(IAction action)
     {
-        throw new NotImplementedException();
+        new SetColorActionHandler().HandleAsync((SetColorAction)action);
     }
 
-    private void HandleTurnOnOffAction(IAction obj)
+    private void HandleTurnOnOffAction(IAction action)
     {
-        throw new NotImplementedException();
+        new TurnOnOffActionHandler().HandleAsync((TurnOnOffAction)action);
     }
 
     /// <summary>
