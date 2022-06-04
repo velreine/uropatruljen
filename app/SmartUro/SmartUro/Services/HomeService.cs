@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
+using CommonData.Model.DTO;
 using CommonData.Model.Entity;
 using Newtonsoft.Json;
 using RestSharp;
@@ -17,20 +20,36 @@ namespace SmartUro.Services
             _client = client;
         }
         
-        public async Task<IEnumerable<Home>> GetUserHomes()
+        public async Task<IEnumerable<AuthenticatedUserHome>> GetUserHomes()
         {
             var request = new RestRequest("/Home/GetAuthenticatedUserHomes", Method.Get);
 
-            var response = await _client.ExecuteGetAsync(request);
+            var response = await _client.ExecuteGetAsync<IEnumerable<AuthenticatedUserHome>>(request);
+
+            /*if (!response.IsSuccessful || response.Content == null)
+            {
+                return Enumerable.Empty<AuthenticatedUserHome>();
+            }*/
+            
+            //var data = JsonConvert.DeserializeObject<IEnumerable<AuthenticatedUserHome>>(response.Content);
+
+            return response.Data;
+        }
+
+        public async Task<CreateHomeResponseDTO> CreateHome(CreateHomeRequestDTO home)
+        {
+            var request = new RestRequest("/Home/CreateHome", Method.Post)
+                .AddJsonBody(home);
+
+            var response = await _client.ExecutePostAsync<CreateHomeResponseDTO>(request);
 
             if (!response.IsSuccessful || response.Content == null)
             {
-                return ImmutableArray<Home>.Empty;
+                throw new Exception("It was not possible to create the home.");
             }
-            
-            var data = JsonConvert.DeserializeObject<List<Home>>(response.Content);
 
-            return data;
+            return response.Data;
         }
+        
     }
 }

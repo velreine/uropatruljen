@@ -169,10 +169,12 @@ namespace SmartUro.ViewModels
         private async Task LoadUserData()
         {
 
-            var homes = await _homeService.GetUserHomes();
-            var devices = await _deviceService.GetUserDevices();
+            var homesData = await _homeService.GetUserHomes();
+            var homes = homesData.Select(homeData => new Home() { Id = homeData.Id, Name = homeData.Name });
+            
+            var devicesData = await _deviceService.GetUserDevices();
 
-            _userDevices = devices.ToList();
+            _userDevices = devicesData.ToList();
             
             UserHomes = new ObservableCollection<Home>(homes);
             SelectedHome = UserHomes.Count > 0 ? UserHomes[0] : null;
@@ -182,7 +184,7 @@ namespace SmartUro.ViewModels
                 // how to figure out which home a device belongs to? 
                 // not loaded from api.
                 DevicesInSelectedHome =
-                    new ObservableCollection<Device>(devices.Where(d => d.Home.Id == SelectedHome.Id));
+                    new ObservableCollection<Device>(devicesData.Where(d => d.Home.Id == SelectedHome.Id));
             }
             
 

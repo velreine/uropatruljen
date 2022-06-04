@@ -48,7 +48,7 @@ namespace SmartUro
             // Add platform specific services
             addPlatformServices?.Invoke(services);
 
-            // Add ViewModels
+            // Add ViewModels , (Maybe this could be done using reflection, so we don't need to remember to add view models here.)
             services.AddTransient<SelectUserWiFiViewModel>();
             services.AddTransient<StartViewModel>();
             services.AddTransient<UroViewModel>();
@@ -58,6 +58,7 @@ namespace SmartUro
             services.AddTransient<RoomManagementViewModel>();
             services.AddTransient<HomeManagementViewModel>();
             services.AddTransient<ColorPickerViewModel>();
+            services.AddTransient<CreateNewHomeViewModel>();
 
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();

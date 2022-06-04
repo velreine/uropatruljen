@@ -68,7 +68,7 @@ namespace MQTT_Client
             // Initialize client.
             var factory = new MqttFactory();
             using var client = factory.CreateMqttClient();
-            var clientOptions = new MqttClientOptionsBuilder().WithTcpServer("127.0.0.1").Build();
+            var clientOptions = new MqttClientOptionsBuilder().WithTcpServer("mqtt.uroapp.dk").Build();
 
             // Subscribe our handler methods to the different events.
             client.ConnectedHandler = this._handlers;
@@ -92,9 +92,9 @@ namespace MQTT_Client
             var actionPayload = ActionPayload.FromAction(action);
 
             msg.Payload = actionPayload.ToPayload();
-            msg.Topic = "/device_actions/SN123";
+            msg.Topic = "/device_actions/SN-ABC123";
 
-            client.PublishAsync(msg);
+            await client.PublishAsync(msg);
             
             // Subscribe to a topic?
             Console.WriteLine("Trying to subscribe....");

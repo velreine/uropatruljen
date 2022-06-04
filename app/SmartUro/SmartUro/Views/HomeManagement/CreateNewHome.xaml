@@ -1,33 +1,62 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.HomeManagement.CreateNewHome"
              xmlns:local="clr-namespace:SmartUro.ViewModels.HomeManagement"
-             >
+             xmlns:converters="clr-namespace:SmartUro.Converters;assembly=SmartUro"
+             x:DataType="local:CreateNewHomeViewModel">
 
     <NavigationPage.TitleView>
         <Label
-                    Text="Create New Home"
-                    HorizontalTextAlignment="Center"
-                    HorizontalOptions="Center"
-                    TextColor="White"
-                    FontSize="18"
-                />
+            Text="Create New Home"
+            HorizontalTextAlignment="Center"
+            HorizontalOptions="Center"
+            TextColor="White"
+            FontSize="18" />
     </NavigationPage.TitleView>
 
-    <ContentPage.BindingContext>
-        <local:CreateNewHomeViewModel/>
-    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Create a new home."
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
 
-            <Entry Placeholder="Enter name of home..." Text="{Binding HomeName}"/>
+        <StackLayout Orientation="Vertical">
 
-            <Button Text="Create!" Command="{Binding CreateHomeCommand}"/>
+
+            <!-- Show this stack layout if we are not busy... -->
+            <StackLayout Orientation="Vertical"
+                         IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}, Mode=OneWayToSource}">
+                <Entry
+                    Placeholder="Enter name of home..."
+                    Text="{Binding HomeName}" />
+
+                <Button
+                    Text="Create!"
+                    Margin="0,10"
+                    Command="{Binding CreateHomeCommand}" />
+
+            </StackLayout>
+
+            <!-- Show this stack layout when the application is working... -->
+            <!--<StackLayout Orientation="Vertical" IsVisible="{Binding IsBusy}">-->
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator
+                    IsRunning="True"
+                    IsVisible="True"
+                    Color="Blue"
+                    Margin="0,15,0,0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" />
+                <Label 
+                    Text="Please wait working on it..."
+                    HorizontalOptions="Center"
+                    />
+            </StackLayout>
+
 
         </StackLayout>
     </ContentPage.Content>

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CommonData.Model.Entity;
+using CommonData.Model.DTO;
 
 namespace SmartUro.Interfaces
 {
     public interface IHomeService
     {
-        Task<IEnumerable<Home>> GetUserHomes();
+        Task<IEnumerable<AuthenticatedUserHome>> GetUserHomes();
     }
 }

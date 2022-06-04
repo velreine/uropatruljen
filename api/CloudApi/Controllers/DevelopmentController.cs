@@ -40,7 +40,7 @@ public class DevelopmentController : ControllerBase
         
         
         
-        _mqttServer.InjectApplicationMessage()
+        //_mqttServer.InjectApplicationMessage()
         
         /*var state = new RgbComponentState
         {

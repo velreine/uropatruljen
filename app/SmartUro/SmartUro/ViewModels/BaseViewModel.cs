@@ -13,6 +13,16 @@ namespace SmartUro.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        private bool _isBusy;
+
+        // Indicates if the ViewModel is busy, (fetching data, performing some other operation.)
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => OnPropertyChanged(ref _isBusy, value);
+        }
+        
         protected BaseViewModel()
         {
         }

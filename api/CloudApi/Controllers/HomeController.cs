@@ -1,5 +1,6 @@
 ﻿using CloudApi.Data;
 using CloudApi.Repository;
+using CommonData.Model.DTO;
 using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,8 @@ public class HomeController : AbstractController
     /// </summary>
     public HomeController(UroContext dbContext, HomeRepository homeRepository, PersonRepository personRepository) : base(personRepository)
     {
-        this._dbContext = dbContext;
-        this._homeRepository = homeRepository;
+        _dbContext = dbContext;
+        _homeRepository = homeRepository;
     }
 
     /// <summary>
@@ -30,7 +31,7 @@ public class HomeController : AbstractController
     /// </summary>
     [Authorize]
     [HttpGet("GetAuthenticatedUserHomes")]
-    public ActionResult<IEnumerable<Home>> GetAuthenticatedUserHomes()
+    public ActionResult<IEnumerable<AuthenticatedUserHome>> GetAuthenticatedUserHomes()
     {
         // Extracting person id from the token.
         var personId = GetAuthenticatedUserId();
@@ -40,26 +41,24 @@ public class HomeController : AbstractController
             return BadRequest("Unable to authorize user.");
         }
         
+        // Get all Home Entities.
         var homes = _homeRepository.GetUserHomes((int)personId);
+
+        // Map/Transform the homes.
+        var responseData = homes.Select(homeEntity => new AuthenticatedUserHome(homeEntity.Id, homeEntity.Name));
         
-        return Ok(homes);
+        // Return the data.
+        return Ok(responseData);
     }
-
-
-
-    /// <summary>
-    /// Represents a DTO object for when creating homes.
-    /// </summary>
-    public record CreateHomeRequestDTO(string Name);
     
     /// <summary>
     /// Creates a home for the current authenticated user, and automatically puts the user inside it. 
     /// </summary>
     [Authorize]
     [HttpPost("CreateHome")]
-    public ActionResult<Home> CreateHome([FromBody] CreateHomeRequestDTO dto)
+    public ActionResult<CreateHomeResponseDTO> CreateHome([FromBody] CreateHomeRequestDTO dto)
     {
-
+        
         // Grab the current authenticated user id from the token.
         var personId = GetAuthenticatedUserId();
 
@@ -69,7 +68,7 @@ public class HomeController : AbstractController
             return BadRequest("Unable to authorize user.");
         }
 
-        // Ghost person because this object is manually attached to the context.
+        // Ghost person because this object is manually attached to the database context.
         // This saves a roundtrip to the database.
         var ghostPerson = new Person() { Id = (int)personId };
 
@@ -84,13 +83,16 @@ public class HomeController : AbstractController
         home.Residents.Add(ghostPerson);
 
         // Mark the home for tracking by the ORM.
-        var newHome = _dbContext.Homes.Add(home);
+        var newHome = _dbContext.Homes.Add(home).Entity;
 
+        // Map to DTO.
+        var responseData = new CreateHomeResponseDTO(newHome.Id, newHome.Name);
+        
         // Save the changes.
         _dbContext.SaveChanges();
 
         // Return the created home object.
-        return Ok(newHome.Entity);
+        return Ok(responseData);
     }
     
     
