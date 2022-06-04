@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CommonData.Model.Entity.Contracts;
 
@@ -13,10 +14,10 @@ namespace CommonData.Model.Entity {
 
         private ICollection<Device> _devices = new List<Device>();
 
-        public ICollection<Device> Devices
+        public IImmutableList<Device> Devices
         {
-            get => _devices; 
-            set => _devices = value;
+            get => _devices.ToImmutableList(); 
+            set => _devices = (ICollection<Device>)value;
         }
 
         public Room AddDevice(Device device)

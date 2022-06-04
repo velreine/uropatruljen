@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CommonData.Model.Entity.Contracts;
 
@@ -15,27 +16,27 @@ namespace CommonData.Model.Entity
         /**
         * ManyToMany relation, inverse=Person.ConnectedHomes
         */
-        public ICollection<Person> Residents
+        public IImmutableList<Person> Residents
         {
-            get => _residents;
-            set => _residents = value;
+            get => _residents.ToImmutableList();
+            set => _residents = (ICollection<Person>)value;
         }
 
         /**
         * OneToMany relation, inverse=Room.Home
         */
-        public ICollection<Room> Rooms { 
-            get => _rooms;
-            set => _rooms = value;
+        public IImmutableList<Room> Rooms { 
+            get => _rooms.ToImmutableList();
+            set => _rooms = (ICollection<Room>)value;
         }
 
         /**
         * OneToMany relation, inverse=Device.Home
         */
-        public ICollection<Device> Devices
+        public IImmutableList<Device> Devices
         {
-            get => _devices; 
-            set => _devices = value;
+            get => _devices.ToImmutableList(); 
+            set => _devices = (ICollection<Device>)value;
         } 
 
         public Home AddPerson(Person person)

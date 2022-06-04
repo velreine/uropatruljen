@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CommonData.Model.Entity.Contracts;
 
@@ -19,10 +20,10 @@ public class HardwareLayout : AbstractEntity
 
     private ICollection<Component> _attachedComponents = new List<Component>();
 
-    public ICollection<Component> AttachedComponents
+    public IImmutableList<Component> AttachedComponents
     {
-        get => _attachedComponents;
-        set => _attachedComponents = value;
+        get => _attachedComponents.ToImmutableList();
+        set => _attachedComponents = (ICollection<Component>)value;
     }
 
     public HardwareLayout AddComponent(Component component)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CommonData.Model.Entity.Contracts;
 using CommonData.Model.Static;
@@ -21,9 +22,9 @@ public class Component : AbstractEntity
         
         private ICollection<Pin> _pins = new List<Pin>();
         
-        public ICollection<Pin> Pins { 
-            get => _pins;
-            set => _pins = value;
+        public IImmutableList<Pin> Pins { 
+            get => _pins.ToImmutableList();
+            set => _pins = (ICollection<Pin>)value;
         }
 
         public Component AddPin(Pin pin)

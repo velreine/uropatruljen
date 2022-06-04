@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using CommonData.Model.Entity.Contracts;
 
@@ -18,9 +19,9 @@ public class Person : AbstractEntity
     /**
      * ManyToMany relation, inverse=Home.Residents
      */
-    public ICollection<Home> ConnectedHomes { 
-        get => _homes;
-        set => _homes = value;
+    public IImmutableList<Home> ConnectedHomes { 
+        get => _homes.ToImmutableList();
+        set => _homes = (ICollection<Home>)value;
     }
     
     public Person AddHome(Home home)
