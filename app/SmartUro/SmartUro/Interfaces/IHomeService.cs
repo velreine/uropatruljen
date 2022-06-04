@@ -7,5 +7,7 @@ namespace SmartUro.Interfaces
     public interface IHomeService
     {
         Task<IEnumerable<AuthenticatedUserHome>> GetUserHomes();
+
+        Task<CreateHomeResponseDTO> CreateHome(CreateHomeRequestDTO home);
     }
 }

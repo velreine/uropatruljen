@@ -47,6 +47,13 @@ namespace SmartUro.ViewModels.HomeManagement
         public async Task GotoCreateHome()
         {
             var page = new CreateNewHome();
+            var vm = (CreateNewHomeViewModel)page.BindingContext;
+            
+            // Pass along a reference to the ObservableCollection of UserHomes.
+            // So that the CreateHomeViewModel may append it with the newly created home, if one was added.
+            vm.UserHomes = Homes;
+            
+            
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
