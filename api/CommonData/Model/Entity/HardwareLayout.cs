@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using CommonData.Model.Entity.Contracts;
 
 namespace CommonData.Model.Entity {
@@ -16,7 +17,45 @@ public class HardwareLayout : AbstractEntity
     // A string that uniquely identifies this hardware configuration.
     public string ModelNumber { get; set; }
 
-    public ICollection<Component> AttachedComponents { get; set; } = new List<Component>();
+    private ICollection<Component> _attachedComponents = new List<Component>();
+
+    public ICollection<Component> AttachedComponents
+    {
+        get => _attachedComponents;
+        set => _attachedComponents = value;
+    }
+
+    public HardwareLayout AddComponent(Component component)
+    {
+        // If the list already contains this component return and do nothing.
+        if (AttachedComponents.Any(c => c.Id == component.Id)) return this;
+
+        // Otherwise add the component.
+        AttachedComponents.Add(component);
+        // And also populate the inverse side.
+        component.Layout = this;
+
+        return this;
+    }
+
+    public HardwareLayout RemoveComponent(Component component)
+    {
+        // If the list contains the component, remove it.
+        if (AttachedComponents.Any(c => c.Id == component.Id))
+        {
+            AttachedComponents.Remove(component);
+
+            // And also update the inverse side (unless already changed.)
+            if (component.Layout == this)
+            {
+                component.Layout = null;
+            }
+                
+        }
+
+        return this;
+    }
+    
 }
 
 }
