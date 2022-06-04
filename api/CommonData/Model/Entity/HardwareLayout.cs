@@ -20,12 +20,15 @@ public class HardwareLayout : AbstractEntity
 
     private ICollection<Component> _attachedComponents = new List<Component>();
 
-    public IImmutableList<Component> AttachedComponents
-    {
-        get => _attachedComponents.ToImmutableList();
-        set => _attachedComponents = (ICollection<Component>)value;
-    }
+    public IImmutableList<Component> AttachedComponents { get => _attachedComponents.ToImmutableList(); }
 
+    public HardwareLayout SetAttachedComponents(ICollection<Component> components)
+    {
+        this._attachedComponents = components;
+
+        return this;
+    }
+    
     public HardwareLayout AddComponent(Component component)
     {
         // If the list already contains this component return and do nothing.

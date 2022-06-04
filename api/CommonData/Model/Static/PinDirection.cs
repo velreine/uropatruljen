@@ -1,9 +1,8 @@
-namespace CommonData.Model.Static {
-
-public enum PinDirection
+namespace CommonData.Model.Static
 {
-    Input, // 0
-    Output, // 1
-}
-
+    public enum PinDirection
+    {
+        Input, // 0
+        Output, // 1
+    }
 }

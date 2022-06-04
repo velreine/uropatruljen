@@ -19,9 +19,13 @@ public class Person : AbstractEntity
     /**
      * ManyToMany relation, inverse=Home.Residents
      */
-    public IImmutableList<Home> ConnectedHomes { 
-        get => _homes.ToImmutableList();
-        set => _homes = (ICollection<Home>)value;
+    public IImmutableList<Home> ConnectedHomes { get => _homes.ToImmutableList(); }
+
+    public Person SetConnectedHomes(ICollection<Home> homes)
+    {
+        _homes = homes;
+
+        return this;
     }
     
     public Person AddHome(Home home)

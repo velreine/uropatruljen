@@ -14,10 +14,13 @@ namespace CommonData.Model.Entity {
 
         private ICollection<Device> _devices = new List<Device>();
 
-        public IImmutableList<Device> Devices
+        public IImmutableList<Device> Devices { get => _devices.ToImmutableList(); }
+
+        public Room SetDevices(ICollection<Device> devices)
         {
-            get => _devices.ToImmutableList(); 
-            set => _devices = (ICollection<Device>)value;
+            _devices = devices;
+
+            return this;
         }
 
         public Room AddDevice(Device device)

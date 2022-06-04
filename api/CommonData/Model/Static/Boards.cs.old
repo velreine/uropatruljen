@@ -1,0 +1,63 @@
+using System.Collections.Generic;
+using CommonData.Model.Entity;
+
+namespace CommonData.Model.Static {
+
+public static class Board
+{
+    
+    public static HardwareLayout SmartUroV1()
+    {
+        
+        var component = new Component()
+        {
+            Id = 1,
+            Name = "RGB_DIODE_1",
+            Type = ComponentType.RgbDiode,
+        };
+        
+        var pins = new List<Pin>()
+        {
+            new() {Id=1, Component = component, Direction = PinDirection.Input, Descriptor = "r", HwPinNumber = 10 },
+            new() {Id=2, Component = component, Direction = PinDirection.Input, Descriptor = "g", HwPinNumber = 11 },
+            new() {Id=3, Component = component, Direction = PinDirection.Input, Descriptor = "b", HwPinNumber = 12 },
+        };
+        
+        HardwareLayout hl = new HardwareLayout()
+        {
+            Id = 1,
+            ProductName = "Smart Uro V1",
+            ModelNumber = "ABC-123-123",
+        };
+
+
+        hl.AddComponent(component);
+        
+        return hl;
+    }
+    
+    // TODO: Should come from a central Database
+    public static HardwareLayout SmartUroV1X { get; } = new HardwareLayout()
+    {
+        Id = 1,
+        ProductName = "Smart Uro V1",
+        ModelNumber = "ABC-123-123",
+        AttachedComponents = new List<Component>()
+        {
+            new Component()
+            {
+                Id = 1,
+                Name = "RGB_DIODE_1",
+                Type = ComponentType.RgbDiode,
+                Pins = new List<Pin>()
+                {
+                     new Pin() {Id=1, Direction = PinDirection.Input, Descriptor = "r", HwPinNumber = 10 },
+                     new Pin() {Id=2, Direction = PinDirection.Input, Descriptor = "g", HwPinNumber = 11 },
+                     new Pin() {Id=3, Direction = PinDirection.Input, Descriptor = "b", HwPinNumber = 12 },
+                }
+            }
+        }
+    };
+}
+
+}

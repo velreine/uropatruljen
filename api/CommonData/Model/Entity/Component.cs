@@ -22,11 +22,15 @@ public class Component : AbstractEntity
         
         private ICollection<Pin> _pins = new List<Pin>();
         
-        public IImmutableList<Pin> Pins { 
-            get => _pins.ToImmutableList();
-            set => _pins = (ICollection<Pin>)value;
-        }
+        public IImmutableList<Pin> Pins { get => _pins.ToImmutableList(); }
 
+        public Component SetPins(ICollection<Pin> pins)
+        {
+            this._pins = pins;
+
+            return this;
+        }
+        
         public Component AddPin(Pin pin)
         {
             // If the list already contains this pin return and do nothing.

@@ -16,28 +16,40 @@ namespace CommonData.Model.Entity
         /**
         * ManyToMany relation, inverse=Person.ConnectedHomes
         */
-        public IImmutableList<Person> Residents
-        {
-            get => _residents.ToImmutableList();
-            set => _residents = (ICollection<Person>)value;
-        }
+        public IImmutableList<Person> Residents { get => _residents.ToImmutableList(); }
 
         /**
         * OneToMany relation, inverse=Room.Home
         */
-        public IImmutableList<Room> Rooms { 
-            get => _rooms.ToImmutableList();
-            set => _rooms = (ICollection<Room>)value;
-        }
+        public IImmutableList<Room> Rooms { get => _rooms.ToImmutableList(); }
 
         /**
         * OneToMany relation, inverse=Device.Home
         */
-        public IImmutableList<Device> Devices
+        public IImmutableList<Device> Devices { get => _devices.ToImmutableList(); } 
+        
+        public Home SetResidents(ICollection<Person> persons)
         {
-            get => _devices.ToImmutableList(); 
-            set => _devices = (ICollection<Device>)value;
-        } 
+            this._residents = persons;
+
+            return this;
+        }
+
+        public Home SetRooms(ICollection<Room> rooms)
+        {
+            _rooms = rooms;
+
+            return this;
+        }
+
+        public Home SetDevices(ICollection<Device> devices)
+        {
+            _devices = devices;
+
+            return this;
+        }
+        
+
 
         public Home AddPerson(Person person)
         {
@@ -127,8 +139,5 @@ namespace CommonData.Model.Entity
 
             return this;
         }
-        
-        
-        
     }
 }
