@@ -3,7 +3,7 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace CommonData.Model.DTO;
+namespace CommonData.Model.DTO {
 
 /// <summary>
 /// DTO object for a "AuthenticatedUserHomeItem"
@@ -19,4 +19,5 @@ public class AuthenticatedUserHome
         Id = id;
         Name = name;
     }
+}
 }

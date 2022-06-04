@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace SmartUro.Converters;
+namespace SmartUro.Converters {
 
 /// <summary>
 /// This seems so idiotic but this prevents us from having to keep 2 properties for controlling 1 state.
@@ -29,4 +29,5 @@ public class InverseBoolConverter : IValueConverter
         
         return !(bool)value;
     }
+}
 }

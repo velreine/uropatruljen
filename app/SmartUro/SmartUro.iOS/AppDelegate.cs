@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ColorPicker.iOS;
+//using ColorPicker.iOS;
 using Foundation;
 using Microsoft.Extensions.DependencyInjection;
 using SmartUro.Interfaces;
@@ -31,7 +31,7 @@ namespace SmartUro.iOS
 
             DependencyService.Register<IAppMessage, iOSMessage>();
 
-            ColorPickerEffects.Init();
+            //ColorPickerEffects.Init();
 
             LoadApplication(new App(AddServices));
 

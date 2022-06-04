@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommonData.Model.DTO;
+using SmartUro.Interfaces;
 using SmartUro.Services;
 using Xamarin.Forms;
 
@@ -12,13 +13,13 @@ namespace SmartUro.ViewModels.HomeManagement
 {
     public class CreateNewHomeViewModel : BaseViewModel
     {
-        private readonly HomeService _homeService;
+        private readonly IHomeService _homeService;
         
         public ICommand CreateHomeCommand { get; }
 
         public string HomeName { get; set; }
 
-        public CreateNewHomeViewModel(HomeService homeService)
+        public CreateNewHomeViewModel(IHomeService homeService)
         {
             _homeService = homeService;
             CreateHomeCommand = new Command(() => CreateHome());

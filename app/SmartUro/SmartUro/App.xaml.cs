@@ -98,7 +98,7 @@ namespace SmartUro
             
             // Configure data fetching services.
             services.AddSingleton<IDeviceService, DeviceService>();
-            services.AddSingleton<IHomeService, HomeService>();
+            services.AddTransient<IHomeService, HomeService>();
 
 
             AppServiceProvider = services.BuildServiceProvider();
