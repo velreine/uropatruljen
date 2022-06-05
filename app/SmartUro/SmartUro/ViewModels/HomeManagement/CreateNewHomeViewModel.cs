@@ -49,7 +49,7 @@ namespace SmartUro.ViewModels.HomeManagement
                     Name = result.Name
                 };
                 
-                currentUser.ConnectedHomes.Add(newHome);
+                currentUser.AddHome(newHome);
             }
             
             // Indicate that work is done.

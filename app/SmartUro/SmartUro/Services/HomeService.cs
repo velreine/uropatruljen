@@ -20,11 +20,11 @@ namespace SmartUro.Services
             _client = client;
         }
         
-        public async Task<IEnumerable<AuthenticatedUserHome>> GetUserHomes()
+        public async Task<IEnumerable<AuthenticatedUserHomeResponseDTO>> GetUserHomes()
         {
             var request = new RestRequest("/Home/GetAuthenticatedUserHomes", Method.Get);
 
-            var response = await _client.ExecuteGetAsync<IEnumerable<AuthenticatedUserHome>>(request);
+            var response = await _client.ExecuteGetAsync<IEnumerable<AuthenticatedUserHomeResponseDTO>>(request);
             
             return response.Data;
         }
