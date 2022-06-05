@@ -12,17 +12,17 @@ namespace CommonData.Model.DTO
         
         public int HomeId { get; }
         
-        public int LayoutId { get; }
+        public int HardwareLayoutId { get; }
         
         public int? RoomId { get; }
 
-        public AuthenticatedUserDevice(int id, string serialNumber, string name, int homeId, /*int layoutId,*/ int? roomId)
+        public AuthenticatedUserDevice(int id, string serialNumber, string name, int homeId, int hardwareLayoutId, int? roomId)
         {
             Id = id;
             SerialNumber = serialNumber;
             Name = name;
             HomeId = homeId;
-            //LayoutId = layoutId;
+            HardwareLayoutId = hardwareLayoutId;
             RoomId = roomId;
         }
     }

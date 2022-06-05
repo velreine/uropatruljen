@@ -64,7 +64,7 @@ public class DeviceController : AbstractController
                     entityDevice.SerialNumber,
                     entityDevice.Name,
                     entityDevice.HomeId,
-                    //entityDevice.HardwareLayoutId,
+                    entityDevice.HardwareLayoutId,
                     entityDevice.RoomId)
             );
         
