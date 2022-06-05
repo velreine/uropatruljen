@@ -62,7 +62,7 @@ namespace SmartUro.ViewModels
         {
             var page = new ColorPickerView();
             var _cpvm = (ColorPickerViewModel)page.BindingContext;
-            _cpvm.ComponentID = _component.Id;
+            _cpvm.ComponentID = (int)_component.Id!;
             await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
             DiodeColor = _cpvm.ColorPicked;
         }
@@ -78,7 +78,7 @@ namespace SmartUro.ViewModels
 
                 action = new TurnOnOffAction()
                 {
-                    ComponentIdentifier = component.Id,
+                    ComponentIdentifier = (int)component.Id!,
                     TurnOn = false
                 };
                 
@@ -92,7 +92,7 @@ namespace SmartUro.ViewModels
 
                 action = new TurnOnOffAction()
                 {
-                    ComponentIdentifier = component.Id,
+                    ComponentIdentifier = (int)component.Id!,
                     TurnOn = true
                 };
                 
