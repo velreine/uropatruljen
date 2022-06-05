@@ -15,6 +15,7 @@ using CommonData.Model;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using CommonData.Model.DTO;
 using MQTTnet;
 using MQTTnet.Client;
 using SmartUro.Views.AddUroFlow;
@@ -30,7 +31,8 @@ namespace SmartUro.ViewModels
     {
         private readonly IDeviceService _deviceService;
         private readonly IHomeService _homeService;
-        
+        private readonly IHardwareLayoutService _hardwareLayoutService;
+
         //public ICollection<HardwareLayout> HardwareLayouts { get; set; }
 
         private ObservableCollection<Device> _devicesInSelectedHome;
@@ -44,7 +46,7 @@ namespace SmartUro.ViewModels
         private ICollection<Device> _userDevices;
 
         private ObservableCollection<Home> _userHomes;
-        
+
         public ObservableCollection<Home> UserHomes
         {
             get => _userHomes;
@@ -59,7 +61,7 @@ namespace SmartUro.ViewModels
         public ICommand GotoRoomManagementCommand { get; }
 
         public ICommand GotoProfileManagementCommand { get; }
-        
+
         public Color IsCurrentMenuDeviceManagement { get; set; } = Color.Blue;
         public Color IsCurrentMenuHomeManagement { get; set; } = Color.Black;
         public Color IsCurrentMenuRoomManagement { get; set; } = Color.Black;
@@ -70,7 +72,7 @@ namespace SmartUro.ViewModels
 
         public Home SelectedHome
         {
-            get => _selectedHome; 
+            get => _selectedHome;
             set => OnPropertyChanged(ref _selectedHome, value);
         }
 
@@ -87,18 +89,19 @@ namespace SmartUro.ViewModels
             get => _roomsInSelectedHome;
             set => OnPropertyChanged(ref _roomsInSelectedHome, value);
         }
-        
-        
-        
-        public StartViewModel(IDeviceService deviceService , IHomeService homeService)
+
+
+        public StartViewModel(IDeviceService deviceService, IHomeService homeService,
+            IHardwareLayoutService hardwareLayoutService)
         {
             _deviceService = deviceService;
             _homeService = homeService;
+            _hardwareLayoutService = hardwareLayoutService;
 
             LoadUserData();
             //LoadUserDevices();
             //LoadUserHomes();
-            
+
             // Register a handler for updating the Available Rooms when the home changes.
             this.PropertyChanged += (sender, args) =>
             {
@@ -107,7 +110,9 @@ namespace SmartUro.ViewModels
                     if (SelectedHome != null)
                     {
                         RoomsInSelectedHome = SelectedHome.Rooms.ToList();
-                        DevicesInSelectedHome = new ObservableCollection<Device>(_userDevices.Where(d => d.Home.Id == SelectedHome.Id).ToList());
+                        DevicesInSelectedHome =
+                            new ObservableCollection<Device>(_userDevices.Where(d => d.Home.Id == SelectedHome.Id)
+                                .ToList());
                     }
                     else
                     {
@@ -140,12 +145,12 @@ namespace SmartUro.ViewModels
             var page = new RoomManagementView();
             var vm = (RoomManagementViewModel)page.BindingContext;
 
-            var rooms = SelectedHome != null 
-                ? new ObservableCollection<Room>(SelectedHome.Rooms) 
+            var rooms = SelectedHome != null
+                ? new ObservableCollection<Room>(SelectedHome.Rooms)
                 : null;
 
             vm.Rooms = rooms;
-            
+
             await Application.Current.MainPage.Navigation.PushAsync(page, true);
         }
 
@@ -162,36 +167,81 @@ namespace SmartUro.ViewModels
             var page = new UroView();
             var vm = (UroViewModel)page.BindingContext;
             vm.Device = device;
-            
+
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
         private async Task LoadUserData()
         {
-
+            Debug.WriteLine("LoadUserData() invoked...");
+            
             // Load all user data and stitch it together.
             var homesData = await _homeService.GetUserHomes();
-            var homes = homesData.Select(homeData => new Home() { Id = homeData.Id, Name = homeData.Name });
-            
-            var devicesData = await _deviceService.GetUserDevices();
-            
 
-            _userDevices = devicesData.ToList();
+            var x = 1;
             
-            UserHomes = new ObservableCollection<Home>(homes);
-            SelectedHome = UserHomes.Count > 0 ? UserHomes[0] : null;
+            Debug.WriteLine("x;");
 
-            if (UserHomes.Count > 0)
+
+            // Convert AuthenticatedUserHomeResponseDTO to Home domain-model objects.
+            var homes = new ObservableCollection<Home>();
+            foreach (AuthenticatedUserHomeResponseDTO homeData in homesData)
             {
-                // how to figure out which home a device belongs to? 
-                // not loaded from api.
-                DevicesInSelectedHome =
-                    new ObservableCollection<Device>(devicesData.Where(d => d.Home.Id == SelectedHome.Id));
+                
+                // Convert the AuthenticatedUserRoom objects to Room domain-model objects.
+                var rooms = new ObservableCollection<Room>();
+                foreach (AuthenticatedUserRoom roomData in homeData.Rooms)
+                {
+                    var room = new Room(roomData.Name, roomData.HomeId);
+                    rooms.Add(room);
+                }
+                
+                // Create a Home domain-model object.
+                var home = new Home(
+                    homeData.Name,
+                    new ObservableCollection<Person>(), 
+                    rooms,
+                    new ObservableCollection<Device>()
+                    );
+                home.Id = homeData.Id;
+
+                // Add the home to the list.
+                homes.Add(home);
             }
             
+            
+            // Load user used hardware layouts and devices.
+            var usedLayouts = await _hardwareLayoutService.GetUserHardwareLayouts();
+            var devicesData = await _deviceService.GetUserDevices();
 
+            // Convert AuthenticatedUserDevice to Device domain-model objects.
+            var devices = new ObservableCollection<Device>();
+            foreach (AuthenticatedUserDevice deviceData in devicesData)
+            {
+                var zz = 5;
+                var layout = usedLayouts.First(l => l.Id == deviceData.HardwareLayoutId);
+                var home = homes.First(h => h.Id == deviceData.HomeId);
+                var room = home.Rooms.FirstOrDefault(r => r.Id == deviceData.RoomId);
+
+                var device = new Device(deviceData.Name, deviceData.SerialNumber, layout, home, room);
+
+                devices.Add(device);
+                home.AddDevice(device);
+            }
+
+
+            var z = 3;
+
+            UserHomes = homes;
+            
+            SelectedHome = UserHomes.Count > 0 ? UserHomes[0] : null;
+
+            _userDevices = (ObservableCollection<Device>)SelectedHome?.Devices;
+            DevicesInSelectedHome = (ObservableCollection<Device>)SelectedHome?.Devices;
+
+            
         }
-        
+
         /*private async Task LoadUserDevices()
         {
             var devices = await _deviceService.GetUserDevices();
@@ -204,7 +254,7 @@ namespace SmartUro.ViewModels
             UserHomes = new ObservableCollection<Home>(homes);
             SelectedHome = UserHomes.Count > 0 ? UserHomes[0] : null;
         }*/
-        
+
         /*private void GetListOfUros()
         {
             //Dummy data for testing

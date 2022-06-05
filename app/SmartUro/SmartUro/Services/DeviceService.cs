@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonData.Model.DTO;
 using CommonData.Model.Entity;
 using Newtonsoft.Json;
 using RestSharp;
@@ -24,7 +25,7 @@ namespace SmartUro.Services
         /// Requires the user to be authenticated.
         /// </summary>
         /// <returns>A collection of Devices (possibly empty).</returns>
-        public async Task<IEnumerable<Device>> GetUserDevices()
+        public async Task<IEnumerable<AuthenticatedUserDevice>> GetUserDevices()
         {
             var request = new RestRequest("/Device/GetAuthenticatedUserDevices", Method.Get);
 
@@ -32,10 +33,10 @@ namespace SmartUro.Services
 
             if (!response.IsSuccessful || response.Content == null)
             {
-                return ImmutableArray<Device>.Empty;
+                return Enumerable.Empty<AuthenticatedUserDevice>();
             }
             
-            var data = JsonConvert.DeserializeObject<List<Device>>(response.Content);
+            var data = JsonConvert.DeserializeObject<List<AuthenticatedUserDevice>>(response.Content);
 
             return data;
         }

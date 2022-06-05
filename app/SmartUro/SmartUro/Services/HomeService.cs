@@ -24,9 +24,16 @@ namespace SmartUro.Services
         {
             var request = new RestRequest("/Home/GetAuthenticatedUserHomes", Method.Get);
 
-            var response = await _client.ExecuteGetAsync<IEnumerable<AuthenticatedUserHomeResponseDTO>>(request);
+            var response = await _client.ExecuteGetAsync(request);
+
+            if (response.Content == null || !response.IsSuccessful)
+            {
+                return Enumerable.Empty<AuthenticatedUserHomeResponseDTO>();
+            }
             
-            return response.Data;
+            var data = JsonConvert.DeserializeObject<IEnumerable<AuthenticatedUserHomeResponseDTO>>(response.Content);
+
+            return data;
         }
 
         public async Task<CreateHomeResponseDTO> CreateHome(CreateHomeRequestDTO home)
