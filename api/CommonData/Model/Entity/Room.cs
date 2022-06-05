@@ -14,6 +14,9 @@ namespace CommonData.Model.Entity {
 
         public Home Home { get; set; }
 
+        // This needs to be here only because of EF.
+        public int HomeId { get; set; }
+        
         private ICollection<Device> _devices = new List<Device>();
 
         public IReadOnlyCollection<Device> Devices { get => (IReadOnlyCollection<Device>)_devices; }
@@ -26,6 +29,12 @@ namespace CommonData.Model.Entity {
             Name = name;
             Home = home;
             _devices = devices;
+        }
+
+        public Room(string name, int homeId)
+        {
+            HomeId = homeId;
+            Name = name;
         }
         
         public Room AddDevice(Device device)

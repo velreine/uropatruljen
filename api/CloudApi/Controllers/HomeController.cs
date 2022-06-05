@@ -31,7 +31,7 @@ public class HomeController : AbstractController
     /// </summary>
     [Authorize]
     [HttpGet("GetAuthenticatedUserHomes")]
-    public ActionResult<IEnumerable<AuthenticatedUserHome>> GetAuthenticatedUserHomes()
+    public ActionResult<IEnumerable<AuthenticatedUserHomeResponseDTO>> GetAuthenticatedUserHomes()
     {
         // Extracting person id from the token.
         var personId = GetAuthenticatedUserId();
@@ -45,7 +45,15 @@ public class HomeController : AbstractController
         var homes = _homeRepository.GetUserHomes((int)personId);
 
         // Map/Transform the homes.
-        var responseData = homes.Select(homeEntity => new AuthenticatedUserHome(homeEntity.Id, homeEntity.Name)).ToList();
+        var responseData = homes.Select(homeEntity =>
+        {
+            // Map Room entities to type AuthenticatedUserRoom.
+            var rooms = homeEntity.Rooms.Select(roomEntity =>
+                new AuthenticatedUserRoom(roomEntity.Id, roomEntity.Name, roomEntity.HomeId));
+
+            // Map Home entities to type AuthenticatedUserHomeResponseDTO
+            return new AuthenticatedUserHomeResponseDTO(homeEntity.Id, homeEntity.Name, rooms.ToList());
+        }).ToList();
         
         // Return the data.
         return Ok(responseData);
