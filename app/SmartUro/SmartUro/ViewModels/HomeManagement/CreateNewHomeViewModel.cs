@@ -49,7 +49,8 @@ namespace SmartUro.ViewModels.HomeManagement
                     Name = result.Name
                 };
                 
-                currentUser.AddHome(newHome);
+                // Track the "new" home as well.
+                UserHomes.Add(newHome);
             }
             
             // Indicate that work is done.

@@ -2,10 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.UroView"
-             x:Name="Page">
+             x:Name="Page"
+             xmlns:local="clr-namespace:SmartUro.ViewModels"
+>
+    
+    
+    <!--x:DataType="local:UroViewModel"-->
+    
     <NavigationPage.TitleView>
         <Label
-            Text="{Binding Device.Layout.ProductName}"
+            Text="{Binding Device.Name}"
             Style="{StaticResource NavbarLabel}"
             HorizontalTextAlignment="Center"
             HorizontalOptions="Center"
@@ -31,9 +37,9 @@
                     TextColor="Black" 
                     FontSize="30"/>-->
 
-            <ListView ItemsSource="{Binding Device.Layout.AttachedComponents}" Margin="40,20,40,0" RowHeight="60">
+            <ListView ItemsSource="{Binding Device.HardwareLayout.Components}" Margin="40,20,40,0" RowHeight="60">
                 <ListView.ItemTemplate>
-                    <DataTemplate >
+                    <DataTemplate>
                         <ViewCell>
                             <StackLayout Orientation="Horizontal">
                                 <StackLayout Orientation="Vertical">

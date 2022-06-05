@@ -103,23 +103,21 @@ namespace SmartUro.ViewModels
             //LoadUserHomes();
 
             // Register a handler for updating the Available Rooms when the home changes.
-            this.PropertyChanged += (sender, args) =>
+            /*this.PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName == nameof(SelectedHome))
                 {
                     if (SelectedHome != null)
                     {
-                        RoomsInSelectedHome = SelectedHome.Rooms.ToList();
-                        DevicesInSelectedHome =
-                            new ObservableCollection<Device>(_userDevices.Where(d => d.Home.Id == SelectedHome.Id)
-                                .ToList());
+                        //RoomsInSelectedHome = SelectedHome.Rooms.ToList();
+                        DevicesInSelectedHome = (ObservableCollection<Device>)SelectedHome.Devices;
                     }
                     else
                     {
                         RoomsInSelectedHome = null;
                     }
                 }
-            };
+            };*/
 
             Navigate = new Command<Device>(async device => await NavigateToUroView(device));
             BeginAddUroFlowCommand = new Command(async () => await NavigateToSelectUserWifi());
@@ -174,12 +172,12 @@ namespace SmartUro.ViewModels
         private async Task LoadUserData()
         {
             Debug.WriteLine("LoadUserData() invoked...");
-            
+
             // Load all user data and stitch it together.
             var homesData = await _homeService.GetUserHomes();
 
             var x = 1;
-            
+
             Debug.WriteLine("x;");
 
 
@@ -187,7 +185,6 @@ namespace SmartUro.ViewModels
             var homes = new ObservableCollection<Home>();
             foreach (AuthenticatedUserHomeResponseDTO homeData in homesData)
             {
-                
                 // Convert the AuthenticatedUserRoom objects to Room domain-model objects.
                 var rooms = new ObservableCollection<Room>();
                 foreach (AuthenticatedUserRoom roomData in homeData.Rooms)
@@ -195,21 +192,21 @@ namespace SmartUro.ViewModels
                     var room = new Room(roomData.Name, roomData.HomeId);
                     rooms.Add(room);
                 }
-                
+
                 // Create a Home domain-model object.
                 var home = new Home(
                     homeData.Name,
-                    new ObservableCollection<Person>(), 
+                    new ObservableCollection<Person>(),
                     rooms,
                     new ObservableCollection<Device>()
-                    );
+                );
                 home.Id = homeData.Id;
 
                 // Add the home to the list.
                 homes.Add(home);
             }
-            
-            
+
+
             // Load user used hardware layouts and devices.
             var usedLayouts = await _hardwareLayoutService.GetUserHardwareLayouts();
             var devicesData = await _deviceService.GetUserDevices();
@@ -225,6 +222,7 @@ namespace SmartUro.ViewModels
 
                 var device = new Device(deviceData.Name, deviceData.SerialNumber, layout, home, room);
 
+                layout.AddDevice(device);
                 devices.Add(device);
                 home.AddDevice(device);
             }
@@ -233,13 +231,12 @@ namespace SmartUro.ViewModels
             var z = 3;
 
             UserHomes = homes;
-            
-            SelectedHome = UserHomes.Count > 0 ? UserHomes[0] : null;
-
-            _userDevices = (ObservableCollection<Device>)SelectedHome?.Devices;
-            DevicesInSelectedHome = (ObservableCollection<Device>)SelectedHome?.Devices;
 
             
+            SelectedHome = homes.Count > 0 ? homes[0] : null;
+
+            //_userDevices = (ObservableCollection<Device>)SelectedHome?.Devices;
+            //DevicesInSelectedHome = (ObservableCollection<Device>)SelectedHome?.Devices;
         }
 
         /*private async Task LoadUserDevices()

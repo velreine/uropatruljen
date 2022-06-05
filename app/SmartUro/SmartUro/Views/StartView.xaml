@@ -23,7 +23,7 @@
 
         <StackLayout>
             <StackLayout Orientation="Horizontal" Margin="40,0">
-                <Label Text="Current Home"/>
+                <Label Text="Current Home" VerticalOptions="Center"/>
                 <Picker 
                         x:Name="HomePicker"
                         ItemsSource="{Binding UserHomes}"
@@ -32,6 +32,7 @@
                         SelectedIndexChanged="HomePicker_SelectedIndexChanged"
                         Title="Select home"
                         HorizontalOptions="EndAndExpand"
+                        VerticalOptions="End"
                 />
             </StackLayout>
 
@@ -51,8 +52,11 @@
                 />
             </StackLayout>-->
 
+            
+            
+            <!--ItemsSource="{Binding DevicesInSelectedHome}"-->
             <ListView 
-                ItemsSource="{Binding DevicesInSelectedHome}"
+                ItemsSource="{Binding SelectedHome.Devices}"
                 Margin="40,20,40,15"
                 RowHeight="80"
                 VerticalOptions="FillAndExpand">
