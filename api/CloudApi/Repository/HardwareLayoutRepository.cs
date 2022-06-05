@@ -30,7 +30,7 @@ public class HardwareLayoutRepository
     public HardwareLayout? Find(int id)
     {
         return _dbContext.HardwareLayouts
-                .Include(layout => layout.AttachedComponents)
+                .Include(layout => layout.Components)
                 .ThenInclude(component => component.Pins)
                 .FirstOrDefault(layout => layout.Id == id)
             ;
@@ -44,10 +44,30 @@ public class HardwareLayoutRepository
     public HardwareLayout? FindByModelNumber(string? modelNumber)
     {
         return _dbContext.HardwareLayouts
-                .Include(layout => layout.AttachedComponents)
+                .Include(layout => layout.Components)
                 .ThenInclude(component => component.Pins)
                 .FirstOrDefault(layout => layout.ModelNumber == modelNumber)
             ;
     }
-    
+
+    /// <summary>
+    /// Find all layouts that the the user uses.
+    /// </summary>
+    /// <param name="personId">The id of the person for whom to find all those layouts.</param>
+    /// <returns>The Layouts used by all the devices the person can control.</returns>
+    public IEnumerable<HardwareLayout> GetAllUserDeviceLayouts(int personId)
+    {
+
+        // Finds all layouts, used by all devices, of all homes that the person resides in.
+        return _dbContext.HardwareLayouts
+                .Include(layout => layout.Components)
+                .ThenInclude(component => component.Pins)
+                .Where(layout =>
+                    layout.Devices
+                        .Any(device =>
+                            device.Home.Persons
+                                .Any(person => person.Id == personId)))
+            ;
+    }
+
 }

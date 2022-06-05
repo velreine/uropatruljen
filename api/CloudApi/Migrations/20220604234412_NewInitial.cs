@@ -5,7 +5,7 @@
 namespace CloudApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class NewInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,8 @@ namespace CloudApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModelNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModelNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace CloudApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,7 +43,9 @@ namespace CloudApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,9 +58,9 @@ namespace CloudApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    HardwareLayoutId = table.Column<int>(type: "int", nullable: true)
+                    HardwareLayoutId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,7 +69,8 @@ namespace CloudApi.Migrations
                         name: "FK_Components_HardwareLayouts_HardwareLayoutId",
                         column: x => x.HardwareLayoutId,
                         principalTable: "HardwareLayouts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,8 +79,8 @@ namespace CloudApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HomeId = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HomeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,28 +89,29 @@ namespace CloudApi.Migrations
                         name: "FK_Rooms_Homes_HomeId",
                         column: x => x.HomeId,
                         principalTable: "Homes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "HomePerson",
                 columns: table => new
                 {
-                    ConnectedHomesId = table.Column<int>(type: "int", nullable: false),
-                    ResidentsId = table.Column<int>(type: "int", nullable: false)
+                    HomesId = table.Column<int>(type: "int", nullable: false),
+                    PersonsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HomePerson", x => new { x.ConnectedHomesId, x.ResidentsId });
+                    table.PrimaryKey("PK_HomePerson", x => new { x.HomesId, x.PersonsId });
                     table.ForeignKey(
-                        name: "FK_HomePerson_Homes_ConnectedHomesId",
-                        column: x => x.ConnectedHomesId,
+                        name: "FK_HomePerson_Homes_HomesId",
+                        column: x => x.HomesId,
                         principalTable: "Homes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HomePerson_Persons_ResidentsId",
-                        column: x => x.ResidentsId,
+                        name: "FK_HomePerson_Persons_PersonsId",
+                        column: x => x.PersonsId,
                         principalTable: "Persons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -119,10 +123,10 @@ namespace CloudApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descriptor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descriptor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HwPinNumber = table.Column<int>(type: "int", nullable: false),
                     Direction = table.Column<int>(type: "int", nullable: false),
-                    ComponentId = table.Column<int>(type: "int", nullable: true)
+                    ComponentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,7 +135,8 @@ namespace CloudApi.Migrations
                         name: "FK_Pins_Components_ComponentId",
                         column: x => x.ComponentId,
                         principalTable: "Components",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,19 +145,27 @@ namespace CloudApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LayoutId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HardwareLayoutId = table.Column<int>(type: "int", nullable: false),
+                    HomeId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Devices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Devices_HardwareLayouts_LayoutId",
-                        column: x => x.LayoutId,
+                        name: "FK_Devices_HardwareLayouts_HardwareLayoutId",
+                        column: x => x.HardwareLayoutId,
                         principalTable: "HardwareLayouts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Devices_Homes_HomeId",
+                        column: x => x.HomeId,
+                        principalTable: "Homes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Devices_Rooms_RoomId",
                         column: x => x.RoomId,
@@ -167,8 +180,8 @@ namespace CloudApi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsOn = table.Column<bool>(type: "bit", nullable: false),
-                    DeviceId = table.Column<int>(type: "int", nullable: true),
-                    ComponentId = table.Column<int>(type: "int", nullable: true),
+                    DeviceId = table.Column<int>(type: "int", nullable: false),
+                    ComponentId = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RValue = table.Column<int>(type: "int", nullable: true),
                     GValue = table.Column<int>(type: "int", nullable: true),
@@ -181,12 +194,14 @@ namespace CloudApi.Migrations
                         name: "FK_ComponentStates_Components_ComponentId",
                         column: x => x.ComponentId,
                         principalTable: "Components",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ComponentStates_Devices_DeviceId",
                         column: x => x.DeviceId,
                         principalTable: "Devices",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -205,9 +220,14 @@ namespace CloudApi.Migrations
                 column: "DeviceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Devices_LayoutId",
+                name: "IX_Devices_HardwareLayoutId",
                 table: "Devices",
-                column: "LayoutId");
+                column: "HardwareLayoutId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devices_HomeId",
+                table: "Devices",
+                column: "HomeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Devices_RoomId",
@@ -215,9 +235,9 @@ namespace CloudApi.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HomePerson_ResidentsId",
+                name: "IX_HomePerson_PersonsId",
                 table: "HomePerson",
-                column: "ResidentsId");
+                column: "PersonsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pins_ComponentId",
@@ -228,10 +248,6 @@ namespace CloudApi.Migrations
                 name: "IX_Rooms_HomeId",
                 table: "Rooms",
                 column: "HomeId");
-            
-            
-            
-            
         }
 
         /// <inheritdoc />

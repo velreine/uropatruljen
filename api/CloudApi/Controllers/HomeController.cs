@@ -45,7 +45,7 @@ public class HomeController : AbstractController
         var homes = _homeRepository.GetUserHomes((int)personId);
 
         // Map/Transform the homes.
-        var responseData = homes.Select(homeEntity => new AuthenticatedUserHome(homeEntity.Id, homeEntity.Name));
+        var responseData = homes.Select(homeEntity => new AuthenticatedUserHome(homeEntity.Id, homeEntity.Name)).ToList();
         
         // Return the data.
         return Ok(responseData);
@@ -60,27 +60,18 @@ public class HomeController : AbstractController
     {
         
         // Grab the current authenticated user id from the token.
-        var personId = GetAuthenticatedUserId();
+        var authenticatedPerson = GetAuthenticatedPerson();
 
         // If it cannot be found return a BadRequest.
-        if (personId == null)
+        if (authenticatedPerson == null)
         {
             return BadRequest("Unable to authorize user.");
         }
-
-        // Ghost person because this object is manually attached to the database context.
-        // This saves a roundtrip to the database.
-        var ghostPerson = new Person() { Id = (int)personId };
-
-        _dbContext.Persons.Attach(ghostPerson);
         
-        var home = new Home
-        {
-            Name = dto.Name
-        };
+        var home = new Home(dto.Name);
         
         // Add the current authenticated user (ghost object) to the home.
-        home.Residents.Add(ghostPerson);
+        home.AddPerson(authenticatedPerson);
 
         // Mark the home for tracking by the ORM.
         var newHome = _dbContext.Homes.Add(home).Entity;

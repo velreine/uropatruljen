@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using CloudApi.Data;
 using CloudApi.Repository;
+using CommonData.Model.DTO;
 using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@ public class DeviceController : AbstractController
     /// <returns></returns>
     [Authorize]
     [HttpGet("GetAuthenticatedUserDevices")]
-    public ActionResult<IEnumerable<Device>> GetAuthenticatedUserDevices()
+    public ActionResult<IEnumerable<AuthenticatedUserDevice>> GetAuthenticatedUserDevices()
     {
         // Extracting person id from the token.
         var personId = GetAuthenticatedUserId();
@@ -55,8 +56,18 @@ public class DeviceController : AbstractController
             return BadRequest("Unable to authorize user.");
         }
         
-        var devices = _deviceRepository.GetUserDevices((int)personId);
-
+        // Transform the data from EF to our desired format.
+        var devices = _deviceRepository.GetUserDevices((int)personId)
+            .Select(entityDevice =>
+                new AuthenticatedUserDevice(
+                    entityDevice.Id,
+                    entityDevice.SerialNumber,
+                    entityDevice.Name,
+                    entityDevice.HomeId,
+                    //entityDevice.HardwareLayoutId,
+                    entityDevice.RoomId)
+            );
+        
         return Ok(devices);
     }
 
@@ -90,15 +101,14 @@ public class DeviceController : AbstractController
         
         
         // 3. Prefill some data on the device.
-        var device = new Device
-        {
-            Layout = layout,
-            Name = layout.ProductName,
-            SerialNumber = dto.SerialNumber,
-            Home = home,
-            Room = null // Room can be attached later in app, not a register time.
-        };
-
+        var device = new Device(
+            layout.ProductName,
+            dto.SerialNumber!,
+            layout,
+            home,
+            null
+        );
+        
         // Add the new device to the context.
         var savedDevice = _dbContext.Devices.Add(device).Entity;
 
@@ -109,27 +119,7 @@ public class DeviceController : AbstractController
         return Ok(savedDevice);
     }
 
-    /// <summary>
-    /// A Data Transfer Object used for the Register Device endpoint.
-    /// </summary>
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class RegisterDeviceRequestDTO
-    {
-        /// <summary>
-        /// The model number of the device to register.
-        /// </summary>
-        public string? ModelNumber { get; set; }
-        
-        /// <summary>
-        /// The serial number of the device to register.
-        /// </summary>
-        public string? SerialNumber { get; set; }
-        
-        /// <summary>
-        /// The home this device should be registered to. 
-        /// </summary>
-        public int RegisterToHomeId { get; set; }
-    }
+
     
 
 }

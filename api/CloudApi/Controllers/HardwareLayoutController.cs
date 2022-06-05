@@ -10,16 +10,16 @@ namespace CloudApi.Controllers;
 /// </summary>
 [ApiController]
 [Route("[controller]")]
-public class HardwareLayoutController : ControllerBase
+public class HardwareLayoutController : AbstractController
 {
     private readonly HardwareLayoutRepository _hardwareLayoutRepository;
 
     /// <summary>
     /// The constructor for the HardwareLayoutController, the dependencies is injected by the framework.
     /// </summary>
-    public HardwareLayoutController(HardwareLayoutRepository hardwareLayoutRepository)
+    public HardwareLayoutController(HardwareLayoutRepository hardwareLayoutRepository, PersonRepository personRepository) : base(personRepository)
     {
-        this._hardwareLayoutRepository = hardwareLayoutRepository;
+        _hardwareLayoutRepository = hardwareLayoutRepository;
     }
 
    
@@ -38,5 +38,27 @@ public class HardwareLayoutController : ControllerBase
         
         return layout;
     }
-    
+
+    /// <summary>
+    /// Finds all hardware layouts, that the users devices should be using.
+    /// </summary>
+    /// <returns></returns>
+    [Authorize]
+    [HttpGet("GetUserHardwareLayouts")]
+    public ActionResult<IEnumerable<HardwareLayout>> GetUserHardwareLayouts()
+    {
+        // Extracting person id from the token.
+        var personId = GetAuthenticatedUserId();
+
+        if (personId == null)
+        {
+            return BadRequest("Unable to authorize user.");
+        }
+        
+        // Get all relevant layout enttities.
+        var layouts = _hardwareLayoutRepository.GetAllUserDeviceLayouts((int)personId);
+
+        return Ok(layouts);
+    }
+
 }

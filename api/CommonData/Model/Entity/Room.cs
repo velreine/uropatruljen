@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CommonData.Model.Entity.Contracts;
 
@@ -14,22 +16,25 @@ namespace CommonData.Model.Entity {
 
         private ICollection<Device> _devices = new List<Device>();
 
-        public IImmutableList<Device> Devices { get => _devices.ToImmutableList(); }
-
-        public Room SetDevices(ICollection<Device> devices)
+        public IReadOnlyCollection<Device> Devices { get => (IReadOnlyCollection<Device>)_devices; }
+        
+        [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
+        public Room() {}
+        
+        public Room(string name, Home home, ICollection<Device> devices)
         {
+            Name = name;
+            Home = home;
             _devices = devices;
-
-            return this;
         }
-
+        
         public Room AddDevice(Device device)
         {
             // If the list already contains this device return and do nothing.
-            if (Devices.Any(d => d.Id == device.Id)) return this;
+            if (_devices.Any(d => d.Id == device.Id)) return this;
 
             // Otherwise add the device.
-            Devices.Add(device);
+            _devices.Add(device);
             // And also update the inverse side.
             device.Room = this;
 
@@ -39,9 +44,9 @@ namespace CommonData.Model.Entity {
         public Room RemoveDevice(Device device)
         {
             // If the list contains the room, remove it.
-            if (Devices.Any(r => r.Id == device.Id))
+            if (_devices.Any(r => r.Id == device.Id))
             {
-                Devices.Remove(device);
+                _devices.Remove(device);
 
                 // And also update the inverse side (unless already changed).
                 if (device.Room == this)

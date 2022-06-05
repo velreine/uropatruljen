@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CommonData.Model.Entity.Contracts;
 
@@ -9,55 +11,48 @@ namespace CommonData.Model.Entity
     {
         public string Name { get; set; }
         
-        private ICollection<Person> _residents = new List<Person>();
-        private ICollection<Room> _rooms = new List<Room>();
-        private ICollection<Device> _devices = new List<Device>();
+        private readonly ICollection<Person> _persons = new List<Person>();
+        private readonly ICollection<Room> _rooms = new List<Room>();
+        private readonly ICollection<Device> _devices = new List<Device>();
 
         /**
         * ManyToMany relation, inverse=Person.ConnectedHomes
         */
-        public IImmutableList<Person> Residents { get => _residents.ToImmutableList(); }
+        public IReadOnlyCollection<Person> Persons => (IReadOnlyCollection<Person>)_persons;
 
         /**
         * OneToMany relation, inverse=Room.Home
         */
-        public IImmutableList<Room> Rooms { get => _rooms.ToImmutableList(); }
+        public IReadOnlyCollection<Room> Rooms => (IReadOnlyCollection<Room>)_rooms;
 
         /**
         * OneToMany relation, inverse=Device.Home
         */
-        public IImmutableList<Device> Devices { get => _devices.ToImmutableList(); } 
+        public IReadOnlyCollection<Device> Devices => (IReadOnlyCollection<Device>)_devices;
+
+        [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
+        public Home() {}
         
-        public Home SetResidents(ICollection<Person> persons)
+        public Home(string name)
         {
-            this._residents = persons;
-
-            return this;
+            Name = name;
         }
-
-        public Home SetRooms(ICollection<Room> rooms)
+        
+        public Home(string name, ICollection<Person> persons, ICollection<Room> rooms, ICollection<Device> devices)
         {
+            Name = name;
+            _persons = persons;
             _rooms = rooms;
-
-            return this;
-        }
-
-        public Home SetDevices(ICollection<Device> devices)
-        {
             _devices = devices;
-
-            return this;
         }
         
-
-
         public Home AddPerson(Person person)
         {
             // If the list already contains this person return and do nothing.
-            if (Residents.Any(p => p.Id == person.Id)) return this;
+            if (_persons.Any(p => p.Id == person.Id)) return this;
 
             // Otherwise add the person.
-            Residents.Add(person);
+            _persons.Add(person);
             // And also populate the inverse side.
             person.AddHome(this);
 
@@ -67,9 +62,9 @@ namespace CommonData.Model.Entity
         public Home RemovePerson(Person person)
         {
             // If the list contains the person, remove it.
-            if (Residents.Any(p => p.Id == person.Id))
+            if (_persons.Any(p => p.Id == person.Id))
             {
-                Residents.Remove(person);
+                _persons.Remove(person);
 
                 // And also update the inverse side.
                 person.RemoveHome(this);
@@ -81,10 +76,10 @@ namespace CommonData.Model.Entity
         public Home AddDevice(Device device)
         {
             // If the list already contains this device return and do nothing.
-            if (Devices.Any(d => d.Id == device.Id)) return this;
+            if (_devices.Any(d => d.Id == device.Id)) return this;
 
             // Otherwise add the device.
-            Devices.Add(device);
+            _devices.Add(device);
             // And also populate the inverse side.
             device.Home = this;
 
@@ -94,9 +89,9 @@ namespace CommonData.Model.Entity
         public Home RemoveDevice(Device device)
         {
             // If the list contains the device, remove it.
-            if (Residents.Any(d => d.Id == device.Id))
+            if (_devices.Any(d => d.Id == device.Id))
             {
-                Devices.Remove(device);
+                _devices.Remove(device);
 
                 // And also update the inverse side (unless already changed).
                 if (device.Home == this)
@@ -112,10 +107,10 @@ namespace CommonData.Model.Entity
         public Home AddRoom(Room room)
         {
             // If the list already contains this room return and do nothing.
-            if (Devices.Any(r => r.Id == room.Id)) return this;
+            if (_rooms.Any(r => r.Id == room.Id)) return this;
 
             // Otherwise add the room.
-            Rooms.Add(room);
+            _rooms.Add(room);
             // And also populate the inverse side.
             room.Home = this;
 
@@ -125,9 +120,9 @@ namespace CommonData.Model.Entity
         public Home RemoveRoom(Room room)
         {
             // If the list contains the room, remove it.
-            if (Residents.Any(r => r.Id == room.Id))
+            if (_rooms.Any(r => r.Id == room.Id))
             {
-                Rooms.Remove(room);
+                _rooms.Remove(room);
 
                 // And also update the inverse side (unless already changed).
                 if (room.Home == this)

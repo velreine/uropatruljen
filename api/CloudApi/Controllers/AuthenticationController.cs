@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using CloudApi.Data;
 using CloudApi.Repository;
+using CommonData.Model.DTO;
 using CommonData.Model.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,20 +24,6 @@ public class AuthenticationController : AbstractController
     private readonly IConfiguration _config;
     private readonly UroContext _dbContext;
     private readonly IPasswordHasher<Person> _hasher;
-    
-    /// <summary>
-    /// Represents a record/value-object that describes what the login endpoint returns.
-    /// </summary>
-    /// <param name="Message">Message to client.</param>
-    /// <param name="Token">The Json Web Token the client should use for subsequent requests.</param>
-    public record struct LoginResponseDTO(string Message, string Token);
-    
-    /// <summary>
-    /// Represents a record/value-object that describes what the register endpoint returns.
-    /// </summary>
-    /// <param name="Message">Message to client.</param>
-    /// <param name="Id">Id of created user.</param>
-    public record struct RegisterResponseDTO(string Message, int Id);
     
     /// <summary>
     /// The constructor for the AuthenticationController, the dependencies is resolved and injected by the framework.
@@ -103,13 +90,8 @@ public class AuthenticationController : AbstractController
         {
             return BadRequest(userAlreadyExistsMsg);
         }
-
-        var newUser = new Person
-        {
-            Name = dto.Name,
-            Email = dto.Email
-        };
         
+        var newUser = new Person(dto.Name!, dto.Email!);
         newUser.HashedPassword = _hasher.HashPassword(newUser, dto.Password);
 
         var createdUser = _dbContext.Persons.Add(newUser);
@@ -139,54 +121,7 @@ public class AuthenticationController : AbstractController
         // Return the found object.
         return Ok(person);
     }
-
-
-    /// <summary>
-    /// Data Transfer Object for the register endpoint.
-    /// </summary>
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class RegisterRequestDTO
-    {
-        /// <summary>
-        /// The desired name of the registrant.
-        /// </summary>
-        [Required]
-        public string? Name { get; set; }
-        
-        /// <summary>
-        /// The desired e-mail of the registrant.
-        /// </summary>
-        [Required]
-        [EmailAddress]
-        public string? Email { get; set; }
-        
-        /// <summary>
-        /// The desired password of the registrant.
-        /// </summary>
-        [Required]
-        public string? Password { get; set; }
-    }
     
-    /// <summary>
-    /// Data Transfer Object for the login endpoint.
-    /// </summary>
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class LoginRequestDTO
-    {
-        /// <summary>
-        /// The e-mail of the person to sign in.
-        /// </summary>
-        [Required]
-        [EmailAddress]
-        public string? Email { get; set; }
-        
-        /// <summary>
-        /// The password of the person to sign in.
-        /// </summary>
-        [Required]
-        public string? Password { get; set; }
-    }
-
     [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
     private string GenerateJsonWebToken(Person person)
     {

@@ -29,7 +29,7 @@ public class HomeRepository
         var homes = 
             _dbContext
                 .Homes
-                .Where(home => home.Residents.Any(p => p.Id == userId))
+                .Where(home => home.Persons.Any(p => p.Id == userId))
                 .Include(home => home.Rooms)
             ;
 

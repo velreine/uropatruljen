@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CommonData.Model.Entity.Contracts;
 using CommonData.Model.Static;
@@ -18,26 +19,35 @@ public class Component : AbstractEntity
         /**
          * ManyToOne HardwareLayout, inverse=HardwareLayout.AttachedComponents
          */
-        public HardwareLayout Layout { get; set; }
+        public HardwareLayout HardwareLayout { get; set; }
         
-        private ICollection<Pin> _pins = new List<Pin>();
+        private readonly ICollection<Pin> _pins = new List<Pin>();
         
-        public IImmutableList<Pin> Pins { get => _pins.ToImmutableList(); }
+        public IReadOnlyCollection<Pin> Pins => (IReadOnlyCollection<Pin>)_pins;
 
-        public Component SetPins(ICollection<Pin> pins)
+
+        [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
+        public Component() { }
+        
+        public Component(string name, ComponentType type, HardwareLayout hardwareLayout, ICollection<Pin> pins)
         {
-            this._pins = pins;
+            Name = name;
+            Type = type;
+            HardwareLayout = hardwareLayout;
+            _pins = pins.ToList();
 
-            return this;
+            _pins = new ObservableCollection<Pin>().ToList();
+
         }
-        
+
+
         public Component AddPin(Pin pin)
         {
             // If the list already contains this pin return and do nothing.
-            if (Pins.Any(p => p.Id == pin.Id)) return this;
+            if (_pins.Any(p => p.Id == pin.Id)) return this;
 
             // Otherwise add the person.
-            Pins.Add(pin);
+            _pins.Add(pin);
             // And also populate the inverse side.
             pin.Component = this;
 
@@ -47,9 +57,9 @@ public class Component : AbstractEntity
         public Component RemovePin(Pin pin)
         {
             // If the list contains the pin, remove it.
-            if (Pins.Any(p => p.Id == pin.Id))
+            if (_pins.Any(p => p.Id == pin.Id))
             {
-                Pins.Remove(pin);
+                _pins.Remove(pin);
 
                 // And also update the inverse side (unless already changed.)
                 if (pin.Component == this)

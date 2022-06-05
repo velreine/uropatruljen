@@ -169,10 +169,12 @@ namespace SmartUro.ViewModels
         private async Task LoadUserData()
         {
 
+            // Load all user data and stitch it together.
             var homesData = await _homeService.GetUserHomes();
             var homes = homesData.Select(homeData => new Home() { Id = homeData.Id, Name = homeData.Name });
             
             var devicesData = await _deviceService.GetUserDevices();
+            
 
             _userDevices = devicesData.ToList();
             

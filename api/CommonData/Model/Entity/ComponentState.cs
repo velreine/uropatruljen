@@ -1,3 +1,4 @@
+using System;
 using CommonData.Model.Entity.Contracts;
 
 namespace CommonData.Model.Entity {
@@ -15,9 +16,23 @@ namespace CommonData.Model.Entity {
         public bool IsOn { get; set; }
         
         /** The device this saved state belongs to. **/
-        public Device Device { get; set; }
+        public Device? Device { get; set; }
         
         /** The component this saved state belongs to. **/
-        public Component Component { get; set; }
+        public Component? Component { get; set; }
+
+        // EF needs those in case it does not join device and component.
+        public int DeviceId { get; set; }
+        public int ComponentId { get; set; }
+        
+        [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
+        public ComponentState() { }
+        
+        public ComponentState(bool isOn, Device? device, Component? component)
+        {
+            IsOn = isOn;
+            Device = device;
+            Component = component;
+        }
     }
 }

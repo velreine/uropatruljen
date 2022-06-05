@@ -30,10 +30,11 @@ namespace CloudApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("HardwareLayoutId")
+                    b.Property<int>("HardwareLayoutId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
@@ -54,10 +55,10 @@ namespace CloudApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ComponentId")
+                    b.Property<int>("ComponentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DeviceId")
+                    b.Property<int>("DeviceId")
                         .HasColumnType("int");
 
                     b.Property<string>("Discriminator")
@@ -86,26 +87,28 @@ namespace CloudApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("HomeId")
+                    b.Property<int>("HardwareLayoutId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LayoutId")
+                    b.Property<int>("HomeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
                     b.Property<string>("SerialNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HomeId");
+                    b.HasIndex("HardwareLayoutId");
 
-                    b.HasIndex("LayoutId");
+                    b.HasIndex("HomeId");
 
                     b.HasIndex("RoomId");
 
@@ -121,9 +124,11 @@ namespace CloudApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ModelNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -140,6 +145,7 @@ namespace CloudApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -156,12 +162,15 @@ namespace CloudApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HashedPassword")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -177,10 +186,11 @@ namespace CloudApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ComponentId")
+                    b.Property<int>("ComponentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Descriptor")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Direction")
@@ -204,10 +214,11 @@ namespace CloudApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("HomeId")
+                    b.Property<int>("HomeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -219,15 +230,15 @@ namespace CloudApi.Migrations
 
             modelBuilder.Entity("HomePerson", b =>
                 {
-                    b.Property<int>("ConnectedHomesId")
+                    b.Property<int>("HomesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ResidentsId")
+                    b.Property<int>("PersonsId")
                         .HasColumnType("int");
 
-                    b.HasKey("ConnectedHomesId", "ResidentsId");
+                    b.HasKey("HomesId", "PersonsId");
 
-                    b.HasIndex("ResidentsId");
+                    b.HasIndex("PersonsId");
 
                     b.ToTable("HomePerson");
                 });
@@ -250,20 +261,28 @@ namespace CloudApi.Migrations
 
             modelBuilder.Entity("CommonData.Model.Entity.Component", b =>
                 {
-                    b.HasOne("CommonData.Model.Entity.HardwareLayout", null)
-                        .WithMany("AttachedComponents")
-                        .HasForeignKey("HardwareLayoutId");
+                    b.HasOne("CommonData.Model.Entity.HardwareLayout", "HardwareLayout")
+                        .WithMany("Components")
+                        .HasForeignKey("HardwareLayoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HardwareLayout");
                 });
 
             modelBuilder.Entity("CommonData.Model.Entity.ComponentState", b =>
                 {
                     b.HasOne("CommonData.Model.Entity.Component", "Component")
                         .WithMany()
-                        .HasForeignKey("ComponentId");
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CommonData.Model.Entity.Device", "Device")
                         .WithMany()
-                        .HasForeignKey("DeviceId");
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Component");
 
@@ -272,21 +291,25 @@ namespace CloudApi.Migrations
 
             modelBuilder.Entity("CommonData.Model.Entity.Device", b =>
                 {
-                    b.HasOne("CommonData.Model.Entity.Home", "Home")
-                        .WithMany()
-                        .HasForeignKey("HomeId");
+                    b.HasOne("CommonData.Model.Entity.HardwareLayout", "HardwareLayout")
+                        .WithMany("Devices")
+                        .HasForeignKey("HardwareLayoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("CommonData.Model.Entity.HardwareLayout", "Layout")
-                        .WithMany()
-                        .HasForeignKey("LayoutId");
+                    b.HasOne("CommonData.Model.Entity.Home", "Home")
+                        .WithMany("Devices")
+                        .HasForeignKey("HomeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CommonData.Model.Entity.Room", "Room")
                         .WithMany("Devices")
                         .HasForeignKey("RoomId");
 
-                    b.Navigation("Home");
+                    b.Navigation("HardwareLayout");
 
-                    b.Navigation("Layout");
+                    b.Navigation("Home");
 
                     b.Navigation("Room");
                 });
@@ -295,7 +318,9 @@ namespace CloudApi.Migrations
                 {
                     b.HasOne("CommonData.Model.Entity.Component", "Component")
                         .WithMany("Pins")
-                        .HasForeignKey("ComponentId");
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Component");
                 });
@@ -303,8 +328,10 @@ namespace CloudApi.Migrations
             modelBuilder.Entity("CommonData.Model.Entity.Room", b =>
                 {
                     b.HasOne("CommonData.Model.Entity.Home", "Home")
-                        .WithMany()
-                        .HasForeignKey("HomeId");
+                        .WithMany("Rooms")
+                        .HasForeignKey("HomeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Home");
                 });
@@ -313,13 +340,13 @@ namespace CloudApi.Migrations
                 {
                     b.HasOne("CommonData.Model.Entity.Home", null)
                         .WithMany()
-                        .HasForeignKey("ConnectedHomesId")
+                        .HasForeignKey("HomesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CommonData.Model.Entity.Person", null)
                         .WithMany()
-                        .HasForeignKey("ResidentsId")
+                        .HasForeignKey("PersonsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -331,7 +358,16 @@ namespace CloudApi.Migrations
 
             modelBuilder.Entity("CommonData.Model.Entity.HardwareLayout", b =>
                 {
-                    b.Navigation("AttachedComponents");
+                    b.Navigation("Components");
+
+                    b.Navigation("Devices");
+                });
+
+            modelBuilder.Entity("CommonData.Model.Entity.Home", b =>
+                {
+                    b.Navigation("Devices");
+
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("CommonData.Model.Entity.Room", b =>
