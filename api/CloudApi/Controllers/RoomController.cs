@@ -36,7 +36,7 @@ public class RoomController : ControllerBase
         // TODO: Ensure that the Person is a member of the Home that the room is being created in.
         
         // Construct the room from the dto.
-        var room = new Room(dto.Name, dto.HomeId);
+        var room = new Room(null, dto.Name, dto.HomeId);
 
         // Add the room to the context.
         var newRoom = _dbContext.Rooms.Add(room).Entity;
@@ -45,7 +45,7 @@ public class RoomController : ControllerBase
         _dbContext.SaveChanges();
         
         // Create Response DTO.
-        var responseData = new CreateRoomResponseDTO(newRoom.Id, newRoom.Name, newRoom.HomeId);
+        var responseData = new CreateRoomResponseDTO((int)newRoom.Id!, newRoom.Name, newRoom.HomeId);
 
         // Return the response.
         return Ok(responseData);

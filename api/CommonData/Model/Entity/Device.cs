@@ -41,7 +41,7 @@ namespace CommonData.Model.Entity {
 
   
         
-        public Device(string name, string serialNumber, HardwareLayout hardwareLayout, /*int homeId, int roomId,*/ Home home, Room? room)
+        public Device(int? id,string name, string serialNumber, HardwareLayout hardwareLayout, /*int homeId, int roomId,*/ Home home, Room? room) : base(id)
         {
             Name = name;
             SerialNumber = serialNumber;

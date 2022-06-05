@@ -32,13 +32,13 @@ public class HardwareLayout : AbstractEntity
         
     }
 
-    public HardwareLayout(string productName, string modelNumber)
+    public HardwareLayout(int? id,string productName, string modelNumber) : base(id)
     {
         ProductName = productName;
         ModelNumber = modelNumber;
     }
     
-    public HardwareLayout(string productName, string modelNumber, ICollection<Component> components, ICollection<Device> devices)
+    public HardwareLayout(int? id,string productName, string modelNumber, ICollection<Component> components, ICollection<Device> devices) : base(id)
     {
         ProductName = productName;
         ModelNumber = modelNumber;

@@ -91,13 +91,13 @@ public class AuthenticationController : AbstractController
             return BadRequest(userAlreadyExistsMsg);
         }
         
-        var newUser = new Person(dto.Name!, dto.Email!);
+        var newUser = new Person(null, dto.Name!, dto.Email!);
         newUser.HashedPassword = _hasher.HashPassword(newUser, dto.Password);
 
         var createdUser = _dbContext.Persons.Add(newUser);
         _dbContext.SaveChanges();
 
-        return Ok(new RegisterResponseDTO("OK, user created!", newUser.Id));
+        return Ok(new RegisterResponseDTO("OK, user created!", (int)newUser.Id!));
     }
 
     /// <summary>

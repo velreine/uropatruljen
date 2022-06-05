@@ -29,7 +29,7 @@ public class Component : AbstractEntity
         [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
         public Component() { }
         
-        public Component(string name, ComponentType type, HardwareLayout hardwareLayout, ICollection<Pin> pins)
+        public Component(int? id, string name, ComponentType type, HardwareLayout hardwareLayout, ICollection<Pin> pins) : base(id)
         {
             Name = name;
             Type = type;

@@ -13,7 +13,7 @@ public class RgbComponentState : ComponentState
     
 
     
-    public RgbComponentState(bool isOn, Device device, Component component, int rValue, int gValue, int bValue) : base(isOn, device, component)
+    public RgbComponentState(int? id,bool isOn, Device device, Component component, int rValue, int gValue, int bValue) : base(id, isOn, device, component)
     {
         RValue = rValue;
         GValue = gValue;

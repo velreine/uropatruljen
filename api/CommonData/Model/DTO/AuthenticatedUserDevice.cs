@@ -16,7 +16,7 @@ namespace CommonData.Model.DTO
         
         public int? RoomId { get; }
 
-        public AuthenticatedUserDevice(int id, string serialNumber, string name, int homeId, int hardwareLayoutId, int? roomId)
+        public AuthenticatedUserDevice(int id,string serialNumber, string name, int homeId, int hardwareLayoutId, int? roomId)
         {
             Id = id;
             SerialNumber = serialNumber;

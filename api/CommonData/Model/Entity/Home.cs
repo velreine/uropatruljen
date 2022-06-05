@@ -33,12 +33,12 @@ namespace CommonData.Model.Entity
         [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
         public Home() {}
         
-        public Home(string name)
+        public Home(int? id,string name) : base(id)
         {
             Name = name;
         }
         
-        public Home(string name, ICollection<Person> persons, ICollection<Room> rooms, ICollection<Device> devices)
+        public Home(int? id,string name, ICollection<Person> persons, ICollection<Room> rooms, ICollection<Device> devices) : base(id)
         {
             Name = name;
             _persons = persons;

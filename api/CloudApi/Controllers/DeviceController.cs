@@ -60,7 +60,7 @@ public class DeviceController : AbstractController
         var devices = _deviceRepository.GetUserDevices((int)personId)
             .Select(entityDevice =>
                 new AuthenticatedUserDevice(
-                    entityDevice.Id,
+                    (int)entityDevice.Id!,
                     entityDevice.SerialNumber,
                     entityDevice.Name,
                     entityDevice.HomeId,
@@ -102,6 +102,7 @@ public class DeviceController : AbstractController
         
         // 3. Prefill some data on the device.
         var device = new Device(
+            null,
             layout.ProductName,
             dto.SerialNumber!,
             layout,

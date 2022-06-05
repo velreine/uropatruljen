@@ -28,7 +28,7 @@ namespace CommonData.Model.Entity {
         [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
         public ComponentState() { }
         
-        public ComponentState(bool isOn, Device? device, Component? component)
+        public ComponentState(int? id,bool isOn, Device? device, Component? component) : base(id)
         {
             IsOn = isOn;
             Device = device;

@@ -189,19 +189,19 @@ namespace SmartUro.ViewModels
                 var rooms = new ObservableCollection<Room>();
                 foreach (AuthenticatedUserRoom roomData in homeData.Rooms)
                 {
-                    var room = new Room(roomData.Name, roomData.HomeId);
+                    var room = new Room(roomData.Id, roomData.Name, roomData.HomeId);
                     rooms.Add(room);
                 }
 
                 // Create a Home domain-model object.
                 var home = new Home(
+                    homeData.Id,
                     homeData.Name,
                     new ObservableCollection<Person>(),
                     rooms,
                     new ObservableCollection<Device>()
                 );
-                home.Id = homeData.Id;
-
+                
                 // Add the home to the list.
                 homes.Add(home);
             }
@@ -212,7 +212,7 @@ namespace SmartUro.ViewModels
             var devicesData = await _deviceService.GetUserDevices();
 
             // Convert AuthenticatedUserDevice to Device domain-model objects.
-            var devices = new ObservableCollection<Device>();
+            //var devices = new ObservableCollection<Device>();
             foreach (AuthenticatedUserDevice deviceData in devicesData)
             {
                 var zz = 5;
@@ -220,11 +220,11 @@ namespace SmartUro.ViewModels
                 var home = homes.First(h => h.Id == deviceData.HomeId);
                 var room = home.Rooms.FirstOrDefault(r => r.Id == deviceData.RoomId);
 
-                var device = new Device(deviceData.Name, deviceData.SerialNumber, layout, home, room);
-
+                var device = new Device(deviceData.Id, deviceData.Name, deviceData.SerialNumber, layout, home, room);
+                
                 layout.AddDevice(device);
-                devices.Add(device);
                 home.AddDevice(device);
+                //devices.Add(device);
             }
 
 

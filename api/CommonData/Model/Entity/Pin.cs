@@ -33,14 +33,14 @@ namespace CommonData.Model.Entity
         [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
         public Pin() {}
         
-        public Pin(string descriptor, int hwPinNumber, PinDirection direction)
+        public Pin(int? id,string descriptor, int hwPinNumber, PinDirection direction) : base(id)
         {
             Descriptor = descriptor;
             HwPinNumber = hwPinNumber;
             Direction = direction;
         }
         
-        public Pin(string descriptor, int hwPinNumber, PinDirection direction, Component component)
+        public Pin(int? id,string descriptor, int hwPinNumber, PinDirection direction, Component component) : base(id)
         {
             Descriptor = descriptor;
             HwPinNumber = hwPinNumber;

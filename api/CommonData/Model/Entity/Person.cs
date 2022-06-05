@@ -25,13 +25,13 @@ public class Person : AbstractEntity
     [Obsolete("This constructor should only be used by Entity Framework and not in User-Land as using this constructor cannot guarantee a \"valid\" entity state.")]
     public Person() {}
     
-    public Person(string name, string email)
+    public Person(int? id,string name, string email) : base(id)
     {
         Name = name;
         Email = email;
     }
     
-    public Person(string name, string email, string hashedPassword, ICollection<Home> homes)
+    public Person(int? id,string name, string email, string hashedPassword, ICollection<Home> homes) : base(id)
     {
         Name = name;
         Email = email;

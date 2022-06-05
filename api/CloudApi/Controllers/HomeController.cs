@@ -49,10 +49,10 @@ public class HomeController : AbstractController
         {
             // Map Room entities to type AuthenticatedUserRoom.
             var rooms = homeEntity.Rooms.Select(roomEntity =>
-                new AuthenticatedUserRoom(roomEntity.Id, roomEntity.Name, roomEntity.HomeId));
+                new AuthenticatedUserRoom((int)roomEntity.Id!, roomEntity.Name, roomEntity.HomeId));
 
             // Map Home entities to type AuthenticatedUserHomeResponseDTO
-            return new AuthenticatedUserHomeResponseDTO(homeEntity.Id, homeEntity.Name, rooms.ToList());
+            return new AuthenticatedUserHomeResponseDTO((int)homeEntity.Id!, homeEntity.Name, rooms.ToList());
         }).ToList();
         
         // Return the data.
@@ -76,7 +76,7 @@ public class HomeController : AbstractController
             return BadRequest("Unable to authorize user.");
         }
         
-        var home = new Home(dto.Name);
+        var home = new Home(null, dto.Name);
         
         // Add the current authenticated user (ghost object) to the home.
         home.AddPerson(authenticatedPerson);
@@ -85,7 +85,7 @@ public class HomeController : AbstractController
         var newHome = _dbContext.Homes.Add(home).Entity;
 
         // Map to DTO.
-        var responseData = new CreateHomeResponseDTO(newHome.Id, newHome.Name);
+        var responseData = new CreateHomeResponseDTO((int)newHome.Id!, newHome.Name);
         
         // Save the changes.
         _dbContext.SaveChanges();
