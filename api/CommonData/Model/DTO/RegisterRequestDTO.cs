@@ -27,5 +27,12 @@ namespace CommonData.Model.DTO
         /// </summary>
         [Required]
         public string? Password { get; set; }
+
+        public RegisterRequestDTO(string? name, string? email, string? password)
+        {
+            Name = name;
+            Email = email;
+            Password = password;
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using CommonData.Model.DTO;
 using CommonData.Model.Entity;
 using Newtonsoft.Json;
 using RestSharp;
@@ -27,21 +28,26 @@ namespace SmartUro.Services
             _restClient = restClient;
         }
 
-        public async Task<bool> RegisterUserAsync(Person person, string plainTextPassword)
+        public async Task<RegisterResponseDTO> RegisterUserAsync(RegisterRequestDTO dto)
         {
+            // Construct the request to the Api.
             var request = new RestRequest("/register", Method.Post)
-                .AddJsonBody(new
-                {
-                    name = person.Name,
-                    email = person.Email,
-                    password = plainTextPassword
-                });
+                .AddJsonBody(dto);
 
-            // TODO: Maybe return the token etc...
+            // Fetch the response.
+            var response = await _restClient.ExecutePostAsync<RegisterResponseDTO>(request);
+
+            // Return null if the 
+            if (response.Content == null || !response.IsSuccessful)
+            {
+                throw new Exception("Unable to register the user, something went wrong.");
+            }
+
+            // Deserialize the response data.
+            var responseData = JsonConvert.DeserializeObject<RegisterResponseDTO>(response.Content);
             
-            var response = await _restClient.ExecutePostAsync(request);
-            
-            return response.IsSuccessful;
+            // Return the deserialized response dto object.
+            return responseData;
         }
 
         [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -53,6 +59,7 @@ namespace SmartUro.Services
         
         public async Task<bool> Login(string email, string plainTextPassword)
         {
+            // TODO: This is hardcoded for demo purposes.
             var request = new RestRequest("/auth", Method.Post)
                 .AddJsonBody(new {
                     email = "nicky@example.com",

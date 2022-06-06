@@ -28,7 +28,7 @@
             <Entry Text="{Binding DesiredPassword}" IsPassword="True"/>
             
             <Label Text="Confirm password"/>
-            <Entry Text="{Binding DesiredPassword}" IsPassword="True"/>
+            <Entry Text="{Binding ConfirmDesiredPassword}" IsPassword="True"/>
             
             <!-- TODO: Figure out how the button should look when it is disabled. -->
             <Button 
@@ -36,7 +36,7 @@
                 Command="{Binding RegisterUserCommand}"
                 BackgroundColor="Blue"
                 TextColor="White"
-                IsEnabled="{Binding IsFormInputValid}">
+                IsEnabled="{Binding IsFormValid}">
                 <Button.Triggers>
                     <Trigger TargetType="Button" Property="IsEnabled" Value="false">
                         <Setter Property="BackgroundColor" Value="LightGray"/>
@@ -46,6 +46,21 @@
                     </Trigger>
                 </Button.Triggers>
             </Button>
+            
+            <StackLayout Orientation="Vertical" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator
+                    IsRunning="True"
+                    IsVisible="True"
+                    Color="Blue"
+                    Margin="0,15,0,0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" />
+                <Label 
+                    Text="Please wait working on it..."
+                    HorizontalOptions="Center"
+                />
+            </StackLayout>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
