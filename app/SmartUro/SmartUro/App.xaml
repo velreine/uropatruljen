@@ -22,6 +22,29 @@
         <ResourceDictionary>
             <colortest:BoolToShowTriangleSwitchConverter x:Key="BoolToShowTriangleSwitchConverter"/>
             <colortest:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <OnPlatform x:TypeArguments="x:String" 
+                        x:Key="FontAwesomeBrands">
+                <On Platform="Android" 
+                    Value="FA6BRANDSREGULAR" />
+                <On Platform="iOS" 
+                    Value="FA6BRANDREGULAR" />
+            </OnPlatform> 
+    
+            <OnPlatform x:TypeArguments="x:String" 
+                        x:Key="FontAwesomeSolid"> 
+                <On Platform="Android" 
+                    Value="FA6SOLID" /> 
+                <On Platform="iOS" 
+                    Value="FA6SOLID" /> 
+            </OnPlatform> 
+    
+            <OnPlatform x:TypeArguments="x:String" 
+                        x:Key="FontAwesomeRegular">
+                <On Platform="Android" 
+                    Value="FA6REGULAR" /> 
+                <On Platform="iOS" 
+                    Value="FA6REGULAR" /> 
+            </OnPlatform>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -34,5 +34,11 @@
 	<string>SmartUro</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FA6BRANDSREGULAR</string>
+		<string>FA6REGULAR</string>
+		<string>FA6SOLID</string>
+	</array>
 </dict>
 </plist>
