@@ -41,15 +41,37 @@ namespace SmartUro.Services
             var request = new RestRequest("/Home/CreateHome", Method.Post)
                 .AddJsonBody(home);
 
-            var response = await _client.ExecutePostAsync<CreateHomeResponseDTO>(request);
+            var response = await _client.ExecutePostAsync(request);
 
             if (!response.IsSuccessful || response.Content == null)
             {
                 throw new Exception("It was not possible to create the home.");
             }
 
-            return response.Data;
+            return JsonConvert.DeserializeObject<CreateHomeResponseDTO>(response.Content);
         }
-        
+
+        public async Task<UpdateHomeResponseDTO> UpdateHome(UpdateHomeRequestDTO home)
+        {
+            var request = new RestRequest("/Home/UpdateHome", Method.Post)
+                .AddJsonBody(home);
+
+            var response = await _client.ExecutePostAsync<UpdateHomeResponseDTO>(request);
+
+            if (!response.IsSuccessful || response.Content == null)
+            {
+                throw new Exception("It was not possible to update the home.");
+            }
+
+            return JsonConvert.DeserializeObject<UpdateHomeResponseDTO>(response.Content);
+        }
+
+        public async Task<bool> DeleteHome(int id)
+        {
+            var request = new RestRequest("/Home/DeleteHome", Method.Post);
+            var result = _client.ExecutePostAsync(request).Result;
+
+            return result.IsSuccessful;
+        }
     }
 }

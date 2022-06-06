@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.HomeManagementView"
              xmlns:local="clr-namespace:SmartUro.ViewModels.HomeManagement"
-             x:Name="page"
-             >
+             x:Name="page">
 
     <NavigationPage.TitleView>
         <Label
@@ -16,9 +15,9 @@
                 />
     </NavigationPage.TitleView>
 
-    <ContentPage.BindingContext>
-        <local:HomeManagementViewModel/>
-    </ContentPage.BindingContext>
+    <!-- <ContentPage.BindingContext> -->
+    <!--     ~1~ <local:HomeManagementViewModel/> @1@ -->
+    <!-- </ContentPage.BindingContext> -->
 
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">

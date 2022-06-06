@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SmartUro.Views.HomeManagement.EditHome"
+             xmlns:converters="clr-namespace:SmartUro.Converters;assembly=SmartUro"
+             xmlns:homeManagement="clr-namespace:SmartUro.ViewModels.HomeManagement;assembly=SmartUro"
+             x:DataType="homeManagement:EditHomeViewModel">
+    <NavigationPage.TitleView>
+        <Label
+            Text="Edit Home"
+            HorizontalTextAlignment="Center"
+            HorizontalOptions="Center"
+            TextColor="White"
+            FontSize="18" />
+    </NavigationPage.TitleView>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Vertical"
+                         IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}, Mode=OneWayToSource}">
+                <Entry
+                    Placeholder="{Binding Home.Name}"
+                    Text="{Binding Home.Name}" />
+
+                <Button
+                    Text="Update!"
+                    Margin="0,10"
+                    Command="{Binding EditHomeCommand}" />
+
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

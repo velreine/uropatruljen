@@ -46,5 +46,23 @@ public class HomeRepository
         return _dbContext.Homes.Find(id);
     }
 
+    public async Task<Home> Update(Home home)
+    {
+        _dbContext.Entry(home).State = EntityState.Modified;
+        await _dbContext.SaveChangesAsync();
+        return home;
+    }
 
+    public async Task<Home> Delete(int id)
+    {
+        var home = await _dbContext.Set<Home>().FindAsync(id);
+        if (home == null)
+        {
+            return home;
+        }
+
+        _dbContext.Set<Home>().Remove(home);
+        await _dbContext.SaveChangesAsync();
+        return home;
+    }
 }

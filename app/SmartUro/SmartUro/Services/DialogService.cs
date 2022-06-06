@@ -17,5 +17,11 @@ namespace SmartUro.Services
             await Application.Current.MainPage.DisplayAlert(title, message, buttonText);
             callbackAfterHide?.Invoke();
         }
+        public async Task<bool> ShowConfirmDialog(string message, string title, string confirmText = "yes",
+            string cancelText = "no")
+        {
+            return await Application.Current.MainPage.DisplayAlert(title, message, confirmText, cancelText);
+        }
+
     }
 }

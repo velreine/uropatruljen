@@ -9,5 +9,9 @@ namespace SmartUro.Interfaces
         Task<IEnumerable<AuthenticatedUserHomeResponseDTO>> GetUserHomes();
 
         Task<CreateHomeResponseDTO> CreateHome(CreateHomeRequestDTO home);
+
+        Task<UpdateHomeResponseDTO> UpdateHome(UpdateHomeRequestDTO home);
+
+        Task<bool> DeleteHome(int id);
     }
 }

@@ -34,10 +34,6 @@ public class TurnOnOffActionHandler : IActionHandler<TurnOnOffAction>
         
         Console.WriteLine("TurnOnOffActionHandler::HandleAsync(IAction action) invoked.");
         
-        if (action.GetType() != typeof(TurnOnOffAction))
-        {
-            return Task.CompletedTask;
-        }
-        return HandleAsync((TurnOnOffAction)action);
+        return action.GetType() != typeof(TurnOnOffAction) ? Task.CompletedTask : HandleAsync((TurnOnOffAction)action);
     }
 }

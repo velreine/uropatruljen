@@ -16,9 +16,9 @@
                 />
     </NavigationPage.TitleView>
 
-    <ContentPage.BindingContext>
-        <local:ManageHomeViewModel/>
-    </ContentPage.BindingContext>
+    <!-- <ContentPage.BindingContext> -->
+    <!--     <local:ManageHomeViewModel/> -->
+    <!-- </ContentPage.BindingContext> -->
     <ContentPage.Content>
         <StackLayout>
 
@@ -28,6 +28,9 @@
             <Label Text="Manage the home here..."
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            
+            <Button TextColor="CornflowerBlue" Text="Edit home" Command="{Binding GoToEditHomeCommand}" WidthRequest="100"/>
+            <Button TextColor="Red" Text="Delete home" Command="{Binding DeleteHomeCommand}" WidthRequest="100"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

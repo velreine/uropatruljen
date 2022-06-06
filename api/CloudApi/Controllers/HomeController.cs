@@ -94,6 +94,58 @@ public class HomeController : AbstractController
         return Ok(responseData);
     }
     
+    /// <summary>
+    /// Updates the name of the home.
+    /// </summary>
+    [Authorize]
+    [HttpPost("UpdateHome")]
+    public ActionResult<UpdateHomeResponseDTO> UpdateHome([FromBody] UpdateHomeRequestDTO dto)
+    {
+        
+        // Grab the current authenticated user id from the token.
+        var authenticatedPerson = GetAuthenticatedPerson();
+        // If it cannot be found return a BadRequest.
+        if (authenticatedPerson == null)
+        {
+            return BadRequest("Unable to authorize user.");
+        }
+        // select home from db. manipulate and save?
+        var home = _homeRepository.Find(dto.Id);
+        
+        // Address the home entity with the updated name, and pass it on to EF to apply the change in the db..
+        if (home != null) home.Name = dto.Name;
+        var updatedHome = _homeRepository.Update(home);
+        
+        // Map to DTO.
+        var responseData = new UpdateHomeResponseDTO((int)updatedHome.Result.Id, updatedHome.Result.Name);
+        
+        // Return the created home object.
+        return Ok(responseData);
+    }
     
     
+    /// <summary>
+    /// Deletes the home with the given id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [Authorize]
+    [HttpPost("DeleteHome")]
+    public ActionResult DeleteHome(int id)
+    {
+        // Grab the current authenticated user id from the token.
+        var authenticatedPerson = GetAuthenticatedPerson();
+        // If it cannot be found return a BadRequest.
+        if (authenticatedPerson == null)
+        {
+            return BadRequest("Unable to authorize user.");
+        }
+
+        var deletedHome = _homeRepository.Delete(id);
+
+        // Map to DTO.
+        
+        // Return the created home object.
+        return Ok();
+    }
 }

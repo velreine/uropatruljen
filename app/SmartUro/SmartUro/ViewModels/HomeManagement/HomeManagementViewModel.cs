@@ -40,7 +40,9 @@ namespace SmartUro.ViewModels.HomeManagement
             Debug.WriteLine("GotoManageHome invoked...");
 
             var page = new ManageHomeView();
-            page.BindingContext = new ManageHomeViewModel(home);
+            var viewModel = (ManageHomeViewModel)page.BindingContext;
+            viewModel.Home = home;
+            viewModel.Homes = Homes;
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

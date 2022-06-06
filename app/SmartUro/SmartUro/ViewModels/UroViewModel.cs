@@ -116,12 +116,6 @@ namespace SmartUro.ViewModels
                 
                 await _mqttService.Client.PublishAsync(msg);
             }
-            
-            
-            
-            
-
-
         }
     }
 }

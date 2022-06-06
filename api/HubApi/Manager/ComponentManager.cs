@@ -9,85 +9,86 @@ namespace HubApi.Manager;
 /// </summary>
 public static class ComponentManager
 {
-    private static IEnumerable<ComponentState> ComponentStates = new List<ComponentState>
-    {
-        new RgbComponentState()
-        {
-            Id = 1,
-            RValue = 0,
-            GValue = 0,
-            BValue = 0,
-            Component =
-                new Component
-                {
-                    Id = 1,
-                    Name = "Rgb group 1",
-                    Type = ComponentType.RgbDiode,
-                    Pins = new List<Pin>
-                    {
-                        new()
-                        {
-                            Component = null, Direction = PinDirection.Output, Descriptor = "r_input", HwPinNumber = 2
-                        },
-                        new()
-                        {
-                            Component = null, Direction = PinDirection.Output, Descriptor = "g_input", HwPinNumber = 3
-                        },
-                        new()
-                        {
-                            Component = null, Direction = PinDirection.Output, Descriptor = "b_input", HwPinNumber = 4
-                        },
-                    }
-                },
-            Device = { }
-        },
-        new RgbComponentState()
-        {
-            Id = 2,
-            RValue = 0,
-            GValue = 0,
-            BValue = 0,
-            Component =
-                new Component
-                {
-                    Id = 2,
-                    Name = "Rgb group 2",
-                    Type = ComponentType.RgbDiode,
-                    Pins = new List<Pin>
-                    {
-                        new()
-                        {
-                            Component = null, Direction = PinDirection.Output, Descriptor = "r_input", HwPinNumber = 5
-                        },
-                        new()
-                        {
-                            Component = null, Direction = PinDirection.Output, Descriptor = "g_input", HwPinNumber = 6
-                        },
-                        new()
-                        {
-                            Component = null, Direction = PinDirection.Output, Descriptor = "b_input", HwPinNumber = 7
-                        },
-                    }
-                },
-            Device = { }
-        },
-        new ComponentState()
-        {
-            Id = 3,
-            IsOn = false,
-            Component = new Component
-            {
-                Id = 3,
-                Name = "Blue diode group",
-                Type = ComponentType.Diode,
-                Pins = new List<Pin>
-                {
-                    new() { Component = null, Direction = PinDirection.Output, Descriptor = "diode", HwPinNumber = 8 }
-                }
-            },
-            Device = { }
-        }
-    };
+    private static IEnumerable<ComponentState> ComponentStates = new List<ComponentState>();
+    // private static IEnumerable<ComponentState> ComponentStates = new List<ComponentState>
+    // {
+    //     new RgbComponentState()
+    //     {
+    //         Id = 1,
+    //         RValue = 0,
+    //         GValue = 0,
+    //         BValue = 0,
+    //         Component =
+    //             new Component
+    //             {
+    //                 Id = 1,
+    //                 Name = "Rgb group 1",
+    //                 Type = ComponentType.RgbDiode,
+    //                 Pins = new List<Pin>
+    //                 {
+    //                     new()
+    //                     {
+    //                         Component = null, Direction = PinDirection.Output, Descriptor = "r_input", HwPinNumber = 2
+    //                     },
+    //                     new()
+    //                     {
+    //                         Component = null, Direction = PinDirection.Output, Descriptor = "g_input", HwPinNumber = 3
+    //                     },
+    //                     new()
+    //                     {
+    //                         Component = null, Direction = PinDirection.Output, Descriptor = "b_input", HwPinNumber = 4
+    //                     },
+    //                 }
+    //             },
+    //         Device = { }
+    //     },
+    //     new RgbComponentState()
+    //     {
+    //         Id = 2,
+    //         RValue = 0,
+    //         GValue = 0,
+    //         BValue = 0,
+    //         Component =
+    //             new Component
+    //             {
+    //                 Id = 2,
+    //                 Name = "Rgb group 2",
+    //                 Type = ComponentType.RgbDiode,
+    //                 Pins = new List<Pin>
+    //                 {
+    //                     new()
+    //                     {
+    //                         Component = null, Direction = PinDirection.Output, Descriptor = "r_input", HwPinNumber = 5
+    //                     },
+    //                     new()
+    //                     {
+    //                         Component = null, Direction = PinDirection.Output, Descriptor = "g_input", HwPinNumber = 6
+    //                     },
+    //                     new()
+    //                     {
+    //                         Component = null, Direction = PinDirection.Output, Descriptor = "b_input", HwPinNumber = 7
+    //                     },
+    //                 }
+    //             },
+    //         Device = { }
+    //     },
+    //     new ComponentState()
+    //     {
+    //         Id = 3,
+    //         IsOn = false,
+    //         Component = new Component
+    //         {
+    //             Id = 3,
+    //             Name = "Blue diode group",
+    //             Type = ComponentType.Diode,
+    //             Pins = new List<Pin>
+    //             {
+    //                 new() { Component = null, Direction = PinDirection.Output, Descriptor = "diode", HwPinNumber = 8 }
+    //             }
+    //         },
+    //         Device = { }
+    //     }
+    // };
 
     public static void TurnOn(int componentId)
     {
