@@ -44,6 +44,12 @@
     <EmbeddedResource Include="Resources\barcode.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Remove="Resources\fa6brands-regular.otf" />
+    <EmbeddedResource Include="Resources\fa6brands-regular.otf" />
+    <None Remove="Resources\fa6regular.otf" />
+    <EmbeddedResource Include="Resources\fa6regular.otf" />
+    <None Remove="Resources\fa6solid.otf" />
+    <EmbeddedResource Include="Resources\fa6solid.otf" />
   </ItemGroup>
   
   <ItemGroup>

@@ -13,6 +13,9 @@ using SmartUro.ViewModels.HomeManagement;
 using SmartUro.ViewModels.ProfileManagement;
 using SmartUro.ViewModels.RoomManagement;
 
+[assembly: ExportFont("fa6brands-regular.otf", Alias = "FA6BRANDSREGULAR")]
+[assembly: ExportFont("fa6regular.otf", Alias = "FA6REGULAR")]
+[assembly: ExportFont("fa6solid.otf", Alias = "FA6SOLID")]
 namespace SmartUro
 {
     public partial class App : Application
