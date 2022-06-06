@@ -16,17 +16,18 @@
                 />
     </NavigationPage.TitleView>
     
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <local:RoomManagementViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
-            <Label Text="Room Management Here..."
+            <Label Text="{Binding CurrentHome.Name, StringFormat='Showing Rooms for Home:  {0:S}'}"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            
 
-            <ListView ItemsSource="{Binding Rooms}" SelectedItem="{Binding SelectedRoom}">
+            <ListView ItemsSource="{Binding CurrentHome.Rooms}" SelectedItem="{Binding SelectedRoom}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

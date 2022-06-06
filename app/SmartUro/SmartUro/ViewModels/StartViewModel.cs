@@ -143,11 +143,12 @@ namespace SmartUro.ViewModels
             var page = new RoomManagementView();
             var vm = (RoomManagementViewModel)page.BindingContext;
 
-            var rooms = SelectedHome != null
+            /*var rooms = SelectedHome != null
                 ? new ObservableCollection<Room>(SelectedHome.Rooms)
-                : null;
+                : null;*/
 
-            vm.Rooms = rooms;
+            //vm.Rooms = rooms;
+            vm.CurrentHome = SelectedHome;
 
             await Application.Current.MainPage.Navigation.PushAsync(page, true);
         }

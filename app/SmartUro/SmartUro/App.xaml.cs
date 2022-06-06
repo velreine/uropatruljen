@@ -59,6 +59,8 @@ namespace SmartUro
             services.AddTransient<HomeManagementViewModel>();
             services.AddTransient<ColorPickerViewModel>();
             services.AddTransient<CreateNewHomeViewModel>();
+            services.AddTransient<CreateNewRoomViewModel>();
+            services.AddTransient<ManageRoomViewModel>();
 
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();
@@ -73,17 +75,6 @@ namespace SmartUro
                 };
                 var restClient = new RestClient(options);
                 return restClient;
-                /*
-                return new RestClient()
-                {
-                    Options =
-                    {
-                        RemoteCertificateValidationCallback = (sender, certificate, chain, errors) => true,
-                        //BaseUrl = new Uri("https://api.uroapp.dk")
-                        BaseUrl = new Uri("https://uroapp.dk")
-                    }
-                };*/
-                
             });
 
             // Configure Dialog service for displaying errors, messages etc.
@@ -96,10 +87,11 @@ namespace SmartUro
             services.AddSingleton(provider =>
                 (IUserRegistrator)provider.GetService(typeof(AuthenticationService)));
             
-            // Configure data fetching services.
+            // Configure data fetching/manipulating services.
             services.AddSingleton<IDeviceService, DeviceService>();
             services.AddTransient<IHomeService, HomeService>();
             services.AddTransient<IHardwareLayoutService, HardwareLayoutService>();
+            services.AddTransient<IRoomService, RoomService>();
 
 
             AppServiceProvider = services.BuildServiceProvider();

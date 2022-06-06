@@ -12,5 +12,11 @@ namespace CommonData.Model.DTO
         
         [Required]
         public int HomeId { get; set; }
+
+        public CreateRoomRequestDTO(string name, int homeId)
+        {
+            Name = name;
+            HomeId = homeId;
+        }
     }
 }

@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.RoomManagement.ManageRoomView">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="MANAGE ROOM VIEW"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical">
+            
+            <Label 
+                Text="{Binding Room.Name, StringFormat='Current Room: {0:S}'}"
+                TextColor="Gray"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

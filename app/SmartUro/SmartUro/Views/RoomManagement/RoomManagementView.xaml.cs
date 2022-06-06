@@ -15,7 +15,7 @@ namespace SmartUro.Views.RoomManagement
         public RoomManagementView()
         {
             InitializeComponent();
-            this.BindingContext = App.GetViewModel<RoomManagementViewModel>();
+            BindingContext = App.GetViewModel<RoomManagementViewModel>();
         }
     }
 }

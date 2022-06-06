@@ -30,6 +30,14 @@ namespace SmartUro.ViewModels.RoomManagement
           new Room() { Id = 1, Name = "*Room 2" },
         };*/
 
+        private Home _currentHome;
+
+        public Home CurrentHome
+        {
+            get => _currentHome;
+            set => OnPropertyChanged(ref _currentHome, value);
+        }
+        
         public Room SelectedRoom { get; set; }
 
         public RoomManagementViewModel()
@@ -41,12 +49,16 @@ namespace SmartUro.ViewModels.RoomManagement
         public async Task GotoManageRoom(Room room)
         {
             var page = new ManageRoomView();
+            var vm = (ManageRoomViewModel)page.BindingContext;
+            vm.Room = room;
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
         public async Task GotoCreateRoom()
         {
             var page = new CreateNewRoomView();
+            var vm = (CreateNewRoomViewModel)page.BindingContext;
+            vm.CurrentHome = CurrentHome;
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
         

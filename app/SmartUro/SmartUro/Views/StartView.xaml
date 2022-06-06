@@ -67,7 +67,7 @@
                                 <StackLayout Orientation="Vertical">
                                     <Label Text="{Binding Name}" FontSize="20"/>
                                     <Label Text="{Binding SerialNumber}" FontSize="14" FontAttributes="Italic" />
-                                    <Label Text="{Binding Layout.ProductName}" FontSize="14" FontAttributes="Italic" />
+                                    <Label Text="{Binding HardwareLayout.ProductName}" FontSize="14" FontAttributes="Italic" />
                                 </StackLayout>
                                 <Label
                                     Text=">"
