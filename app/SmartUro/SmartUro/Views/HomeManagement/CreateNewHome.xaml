@@ -29,14 +29,19 @@
 
             <!-- Show this stack layout if we are not busy... -->
             <StackLayout Orientation="Vertical"
-                         IsVisible="{Binding IsBusy, Converter={StaticResource InverseBool}, Mode=OneWayToSource}">
+                         IsVisible="{Binding IsBusy,
+                         Converter={StaticResource InverseBool}, Mode=OneWayToSource}"
+                         Margin="15"
+                         >
                 <Entry
                     Placeholder="Enter name of home..."
                     Text="{Binding HomeName}" />
 
                 <Button
                     Text="Create!"
-                    Margin="0,10"
+                    TextColor="White"
+                    BackgroundColor="Green"
+                    Margin="0,15"
                     Command="{Binding CreateHomeCommand}" />
 
             </StackLayout>

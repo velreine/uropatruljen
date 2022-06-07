@@ -13,7 +13,7 @@
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" Margin="15">
 
 
             <!-- Show this stack layout if we are not busy... -->
@@ -31,6 +31,8 @@
 
                 <Button
                     Text="Create!"
+                    BackgroundColor="Green"
+                    TextColor="White"
                     Margin="0,10"
                     Command="{Binding CreateRoomCommand}" />
 

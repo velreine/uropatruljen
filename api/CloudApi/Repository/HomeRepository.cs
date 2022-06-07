@@ -46,10 +46,10 @@ public class HomeRepository
         return _dbContext.Homes.Find(id);
     }
 
-    public async Task<Home> Update(Home home)
+    public Home Update(Home home)
     {
         _dbContext.Entry(home).State = EntityState.Modified;
-        await _dbContext.SaveChangesAsync();
+        _dbContext.SaveChanges();
         return home;
     }
 

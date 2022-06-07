@@ -56,7 +56,7 @@ namespace SmartUro.Services
             var request = new RestRequest("/Home/UpdateHome", Method.Post)
                 .AddJsonBody(home);
 
-            var response = await _client.ExecutePostAsync<UpdateHomeResponseDTO>(request);
+            var response = await _client.ExecutePutAsync<UpdateHomeResponseDTO>(request);
 
             if (!response.IsSuccessful || response.Content == null)
             {

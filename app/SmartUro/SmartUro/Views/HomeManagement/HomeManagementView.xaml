@@ -35,8 +35,22 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button TextColor="CornflowerBlue" Text="Create new home" Command="{Binding GotoCreateHomeCommand}" WidthRequest="100"/>
-            <Button TextColor="CornflowerBlue" Text="Join existing home" Command="{Binding GotoJoinHomeCommand}" WidthRequest="100"/>
+            <Button 
+                TextColor="White"
+                BackgroundColor="Blue"
+                Text="Create new home"
+                Command="{Binding GotoCreateHomeCommand}"
+                WidthRequest="100"
+                Margin="15, 10"
+            />
+            <Button 
+                TextColor="White"
+                BackgroundColor="Blue"
+                Text="Join existing home"
+                Command="{Binding GotoJoinHomeCommand}"
+                WidthRequest="100"
+                Margin="15, 0, 15, 30"
+            />
 
         </StackLayout>
     </ContentPage.Content>

@@ -111,13 +111,19 @@ public class HomeController : AbstractController
         }
         // select home from db. manipulate and save?
         var home = _homeRepository.Find(dto.Id);
+
+        if (home == null)
+        {
+            return NotFound("The home could not be found.");
+        }
         
         // Address the home entity with the updated name, and pass it on to EF to apply the change in the db..
-        if (home != null) home.Name = dto.Name;
+        home.Name = dto.Name;
+        
         var updatedHome = _homeRepository.Update(home);
         
         // Map to DTO.
-        var responseData = new UpdateHomeResponseDTO((int)updatedHome.Result.Id, updatedHome.Result.Name);
+        var responseData = new UpdateHomeResponseDTO((int)updatedHome.Id, updatedHome.Name);
         
         // Return the created home object.
         return Ok(responseData);

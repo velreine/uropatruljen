@@ -20,17 +20,32 @@
     <!--     <local:ManageHomeViewModel/> -->
     <!-- </ContentPage.BindingContext> -->
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Orientation="Vertical" Margin="15">
 
             <Label Text="HOME NAME:"/>
             <Label Text="{Binding Home.Name}"/>
 
-            <Label Text="Manage the home here..."
+            <!--<Label Text="Manage the home here..."
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" />-->
             
-            <Button TextColor="CornflowerBlue" Text="Edit home" Command="{Binding GoToEditHomeCommand}" WidthRequest="100"/>
-            <Button TextColor="Red" Text="Delete home" Command="{Binding DeleteHomeCommand}" WidthRequest="100"/>
+            <Button 
+                TextColor="White"
+                Text="Edit home"
+                BackgroundColor="Blue"
+                Command="{Binding GoToEditHomeCommand}"
+                WidthRequest="100"
+                Margin="0, 10"
+            />
+            
+            <Button 
+                TextColor="White"
+                BackgroundColor="Red"
+                Text="Delete home"
+                Command="{Binding DeleteHomeCommand}"
+                WidthRequest="100"
+                Margin="0, 0, 0, 20"
+                />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

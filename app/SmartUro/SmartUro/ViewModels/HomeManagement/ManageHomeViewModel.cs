@@ -54,6 +54,7 @@ namespace SmartUro.ViewModels.HomeManagement
             var page = new EditHome();
             var viewModel = (EditHomeViewModel)page.BindingContext;
             viewModel.Home = Home;
+            viewModel.UserHomes = Homes;
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

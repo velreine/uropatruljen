@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SmartUro.Views.RoomManagement.RoomManagementView"
              xmlns:local="clr-namespace:SmartUro.ViewModels.RoomManagement;assembly=SmartUro"
+             xmlns:entity="clr-namespace:CommonData.Model.Entity;assembly=CommonData"
+             xmlns:converters="clr-namespace:SmartUro.Converters;assembly=SmartUro"
              x:Name="Page"
+             x:DataType="local:RoomManagementViewModel"
              >
 
     <NavigationPage.TitleView>
@@ -21,15 +24,20 @@
     </ContentPage.BindingContext>-->
 
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-            <Label Text="{Binding CurrentHome.Name, StringFormat='Showing Rooms for Home:  {0:S}'}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical" Margin="15">
+            
+            <Label 
+                Text="{Binding CurrentHome.Name, StringFormat='Showing Rooms for Home:  {0:S}'}"
+                HorizontalOptions="CenterAndExpand"
+            />
             
 
-            <ListView ItemsSource="{Binding CurrentHome.Rooms}" SelectedItem="{Binding SelectedRoom}">
+            <ListView ItemsSource="{Binding CurrentHome.Rooms}"
+                      SelectedItem="{Binding SelectedRoom}"
+                      
+            >
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="entity:Room">
                         <ViewCell>
                             <!-- TODO: Why does this command not successfully open the Manage Home View? -->
                             <Button Text="{Binding Name}" Command="{Binding BindingContext.GotoManageRoomCommand, Source={x:Reference Page}}" CommandParameter="{Binding .}"/>
@@ -37,8 +45,25 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            
+            <Label 
+                Text="No rooms exist yet, start creating some below."
+                IsVisible="{Binding CurrentHome.Rooms.Count, Converter={StaticResource IsZeroConverter}}"
+                x:Name="NoRoomsLabel"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Margin="0, 25"
+            />
 
-            <Button TextColor="CornflowerBlue" Text="Create a new room" Command="{Binding GotoCreateRoomCommand}" WidthRequest="100"/>
+            <Button 
+                TextColor="White"
+                BackgroundColor="Blue"
+                Text="Create a new room"
+                Command="{Binding GotoCreateRoomCommand}"
+                WidthRequest="100"
+                Margin="0, 0, 0, 30"
+                VerticalOptions="EndAndExpand"
+            />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
