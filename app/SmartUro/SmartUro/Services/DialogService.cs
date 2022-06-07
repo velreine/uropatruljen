@@ -23,5 +23,10 @@ namespace SmartUro.Services
             return await Application.Current.MainPage.DisplayAlert(title, message, confirmText, cancelText);
         }
 
+        public async Task<string> PromptUserInput(string message, string title, string acceptText, string cancelText)
+        {
+            return await Application.Current.MainPage.DisplayPromptAsync(title, message, acceptText,cancelText);
+        }
+
     }
 }

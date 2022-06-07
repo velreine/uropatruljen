@@ -147,7 +147,7 @@ namespace SmartUro.ViewModels
                 ? new ObservableCollection<Room>(SelectedHome.Rooms)
                 : null;*/
 
-            //vm.Rooms = rooms;
+            vm.Rooms = (ObservableCollection<Room>)SelectedHome.Rooms;
             vm.CurrentHome = SelectedHome;
 
             await Application.Current.MainPage.Navigation.PushAsync(page, true);

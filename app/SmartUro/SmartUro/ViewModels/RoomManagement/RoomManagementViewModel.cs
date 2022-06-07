@@ -51,6 +51,7 @@ namespace SmartUro.ViewModels.RoomManagement
             var page = new ManageRoomView();
             var vm = (ManageRoomViewModel)page.BindingContext;
             vm.Room = room;
+            vm.Rooms = Rooms;
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 
