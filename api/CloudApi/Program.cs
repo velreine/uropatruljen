@@ -131,6 +131,7 @@ namespace CloudApi
             builder.Services
                 .AddTransient<PersonRepository, PersonRepository>(); // TODO: Fix, and replace with interface.
             builder.Services.AddTransient<HardwareLayoutRepository, HardwareLayoutRepository>();
+            builder.Services.AddTransient<RoomRepository, RoomRepository>();
 
 
             // Configure our MQTT Server.
