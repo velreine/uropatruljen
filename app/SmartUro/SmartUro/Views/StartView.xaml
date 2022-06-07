@@ -24,6 +24,7 @@
 
         <StackLayout>
             <StackLayout Orientation="Horizontal" Margin="40,0">
+                
                 <Label Text="Current Home" VerticalOptions="Center"/>
                 <Picker 
                         x:Name="HomePicker"
@@ -89,6 +90,12 @@
                 </ListView.ItemTemplate>
             </ListView>
             
+            <Label 
+                Text="You currently do not have any paired devices, start adding some."
+                IsVisible="{Binding SelectedHome.Devices.Count, Converter={StaticResource IsZeroConverter}}"
+                Margin="10"
+            />
+            
             <Button
                 Text="+"
                 TextColor="White"
@@ -118,6 +125,7 @@
                         />
                     <Button 
                         Text="Devices"
+                        BackgroundColor="Transparent"
                         HorizontalOptions="CenterAndExpand"
                         TextColor="{Binding IsCurrentMenuDeviceManagement}"
                     />
@@ -127,6 +135,7 @@
                     <Label
                         VerticalTextAlignment="Center"
                         HorizontalTextAlignment="Center"
+                        BackgroundColor="Transparent"
                         Text="&#xe065;"
                         FontFamily="FA6SOLID"
                         FontSize="35"
@@ -138,6 +147,7 @@
                     <Button 
                         Text="Homes" 
                         HorizontalOptions="CenterAndExpand"
+                        BackgroundColor="Transparent"
                         TextColor="{Binding IsCurrentMenuHomeManagement}"
                         Command="{Binding GotoHomeManagementCommand}"
                     />
@@ -148,6 +158,7 @@
                         VerticalTextAlignment="Center"
                         HorizontalTextAlignment="Center"
                         Text="&#xf5fd;"
+                        BackgroundColor="Transparent"
                         FontFamily="FA6SOLID"
                         FontSize="35"
                     >
