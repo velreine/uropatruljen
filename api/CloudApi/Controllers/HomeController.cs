@@ -84,12 +84,12 @@ public class HomeController : AbstractController
         // Mark the home for tracking by the ORM.
         var newHome = _dbContext.Homes.Add(home).Entity;
 
-        // Map to DTO.
-        var responseData = new CreateHomeResponseDTO((int)newHome.Id!, newHome.Name);
-        
         // Save the changes.
         _dbContext.SaveChanges();
 
+        // Map to DTO.
+        var responseData = new CreateHomeResponseDTO((int)newHome.Id!, newHome.Name);
+        
         // Return the created home object.
         return Ok(responseData);
     }
@@ -131,7 +131,7 @@ public class HomeController : AbstractController
     /// <returns></returns>
     [Authorize]
     [HttpDelete("DeleteHome")]
-    public ActionResult DeleteHome(int id)
+    public ActionResult DeleteHome([FromBody] int id)
     {
         // Grab the current authenticated user id from the token.
         var authenticatedPerson = GetAuthenticatedPerson();
@@ -143,9 +143,14 @@ public class HomeController : AbstractController
 
         var deletedHome = _homeRepository.Delete(id);
 
+        // Null means the home could not be deleted for some reason.
+        if (deletedHome == null)
+        {
+            return BadRequest("The home could not be deleted.");
+        }
         // Map to DTO.
         
         // Return the created home object.
-        return Ok();
+        return Ok("The home was deleted!");
     }
 }

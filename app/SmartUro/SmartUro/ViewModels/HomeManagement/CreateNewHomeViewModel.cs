@@ -17,6 +17,7 @@ namespace SmartUro.ViewModels.HomeManagement
     {
         private readonly IHomeService _homeService;
         private readonly IUserAuthenticator _userAuthenticator;
+        private readonly IDialogService _dialogService;
 
         public ObservableCollection<Home> UserHomes { get; set; }
 
@@ -24,10 +25,15 @@ namespace SmartUro.ViewModels.HomeManagement
 
         public string HomeName { get; set; }
 
-        public CreateNewHomeViewModel(IHomeService homeService, IUserAuthenticator userAuthenticator)
+        public CreateNewHomeViewModel(
+            IHomeService homeService,
+            IUserAuthenticator userAuthenticator,
+            IDialogService dialogService
+            )
         {
             _homeService = homeService;
             _userAuthenticator = userAuthenticator;
+            _dialogService = dialogService;
             CreateHomeCommand = new Command(() => CreateHome());
         }
 
@@ -41,7 +47,7 @@ namespace SmartUro.ViewModels.HomeManagement
             
             var currentUser = await _userAuthenticator.GetAuthenticatedUser();
 
-            if (currentUser != null)
+            if (currentUser != null && result.Id != null)
             {
                 var newHome = new Home()
                 {
@@ -51,6 +57,17 @@ namespace SmartUro.ViewModels.HomeManagement
                 
                 // Track the "new" home as well.
                 UserHomes.Add(newHome);
+                
+                // Navigate back when the user presses OK.
+                await _dialogService.ShowDialogAsync("The new home was created!", "New home", "Ok.", async () =>
+                {
+                    await Application.Current.MainPage.Navigation.PopAsync();   
+                });
+                
+            }
+            else
+            {
+                await _dialogService.ShowDialogAsync("The home could not be created", "Error", "Ok.");
             }
             
             // Indicate that work is done.

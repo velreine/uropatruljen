@@ -53,16 +53,18 @@ public class HomeRepository
         return home;
     }
 
-    public async Task<Home> Delete(int id)
+    public Home? Delete(int id)
     {
-        var home = await _dbContext.Set<Home>().FindAsync(id);
+        var home = _dbContext.Homes.Find(id);
+        
         if (home == null)
         {
             return home;
         }
 
-        _dbContext.Set<Home>().Remove(home);
-        await _dbContext.SaveChangesAsync();
+        _dbContext.Homes.Remove(home);
+        _dbContext.SaveChanges();
+        
         return home;
     }
 }
