@@ -9,7 +9,14 @@ namespace HubApi.Manager;
 /// </summary>
 public static class ComponentManager
 {
-    private static IEnumerable<ComponentState> ComponentStates = new List<ComponentState>();
+    private static IEnumerable<ComponentState> ComponentStates => GetBoardComponentState();// new List<ComponentState>();
+
+    private static IEnumerable<ComponentState> GetBoardComponentState()
+    {
+        // TODO : metoden skal returnere det samme som den udkommenterede del nedenunder før blev statisk initialized.
+        return new List<ComponentState>();
+    }
+    
     // private static IEnumerable<ComponentState> ComponentStates = new List<ComponentState>
     // {
     //     new RgbComponentState()
