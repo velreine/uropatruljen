@@ -20,8 +20,6 @@
             <Setter Property="HorizontalTextAlignment" Value="Start"/>
         </Style>
         <ResourceDictionary>
-            <colortest:BoolToShowTriangleSwitchConverter x:Key="BoolToShowTriangleSwitchConverter"/>
-            <colortest:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <OnPlatform x:TypeArguments="x:String" 
                         x:Key="FontAwesomeBrands">
                 <On Platform="Android" 
