@@ -28,16 +28,13 @@ namespace SmartUro.ViewModels.HomeManagement
         
         public ICommand GoToEditHomeCommand { get; }
 
-        public ManageHomeViewModel()
-        {
-            GoToEditHomeCommand = new Command(async () => await GoToEditHome());
-            DeleteHomeCommand = new Command(async () => await DeleteHome());
-        }
 
         public ManageHomeViewModel(IHomeService homeService, IDialogService dialogService)
         {
             _homeService = homeService;
             _dialogService = dialogService;
+            GoToEditHomeCommand = new Command(async () => await GoToEditHome());
+            DeleteHomeCommand = new Command(async () => await DeleteHome());
         }
 
         public Home Home

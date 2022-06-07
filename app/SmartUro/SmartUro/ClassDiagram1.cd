@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SmartUro.Converters.InverseBoolConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\InverseBoolConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.Extensions.ImageResourceExtension" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\ImageResourceExtension.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.Services.AuthenticationService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAgAAAAAAAAgAAAIgAAAAAAAAAAAQAAAAAIA=</HashCode>
+      <FileName>Services\AuthenticationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.Services.DeviceService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DeviceService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.Services.DialogService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DialogService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.Services.HardwareLayoutService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="43.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\HardwareLayoutService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.Services.HomeService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAEAAAAAAAAAAAABAAABAAAABAAAAAAA=</HashCode>
+      <FileName>Services\HomeService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.Services.MqttService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="39.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Services\MqttService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.Services.RoomService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Services\RoomService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmartUro.ViewModels.HomeManagement.CreateNewHomeViewModel">
+    <Position X="16" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAEAAAAAAABAAAAAAAAAAAAAQAI=</HashCode>
+      <FileName>ViewModels\HomeManagement\CreateNewHomeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.HomeManagement.EditHomeViewModel">
+    <Position X="21.25" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAACAAAAEAAAIAAAQAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\HomeManagement\EditHomeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.HomeManagement.HomeManagementViewModel">
+    <Position X="23.5" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAgARAAgAAAAAAAIAAAAAgIAAEAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>ViewModels\HomeManagement\HomeManagementViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.HomeManagement.ManageHomeViewModel">
+    <Position X="28.5" Y="1.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAIIAAAAIAAEAAAIAAAQBBAQAAAABAgAAAAA=</HashCode>
+      <FileName>ViewModels\HomeManagement\ManageHomeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.ProfileManagement.ProfileManagementViewModel">
+    <Position X="0.5" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAIAAAAAABgAAAAAgAAIAAAAAAgAAAAIgAAAAAIA=</HashCode>
+      <FileName>ViewModels\ProfileManagement\ProfileManagementViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.RoomManagement.CreateNewRoomViewModel">
+    <Position X="4" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACgAEAACAAAEAAAAAABAAEAA=</HashCode>
+      <FileName>ViewModels\RoomManagement\CreateNewRoomViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.RoomManagement.ManageRoomViewModel">
+    <Position X="8" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\RoomManagement\ManageRoomViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.RoomManagement.RoomManagementViewModel">
+    <Position X="10.75" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAACAAGAAAACgCAAAAABAAAgAA=</HashCode>
+      <FileName>ViewModels\RoomManagement\RoomManagementViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.AddUroViewModel">
+    <Position X="18.5" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAABCAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\AddUroViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.BaseViewModel" Collapsed="true">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAARAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\BaseViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmartUro.ViewModels.ColorPickerViewModel">
+    <Position X="26.25" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>xAAAAAAAAAAAAAAAAAAAACAAAAAAIAAAQAAAAAEAAAA=</HashCode>
+      <FileName>ViewModels\ColorPickerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.LoginViewModel">
+    <Position X="31.75" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQCAAEABAAAABAAAAAAAkAAAAAAAAAQAAAAQAACAwgA=</HashCode>
+      <FileName>ViewModels\LoginViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.RegisterUserViewModel">
+    <Position X="3.25" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>FCAAAAAAAAAIBAAAAgIEAAAAAAAAQAQAAAAUIAIiAAA=</HashCode>
+      <FileName>ViewModels\RegisterUserViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.SelectUserWiFiViewModel">
+    <Position X="6.25" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QAAACAACAAAkAAAAIAEIAAAAAIAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>ViewModels\SelectUserWiFiViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.StartViewModel">
+    <Position X="8.5" Y="6.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AggGBAEAAAAAJQACZgEEAAFAAAgAEAiCAAAQAAAoAAQ=</HashCode>
+      <FileName>ViewModels\StartViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ViewModels.UroViewModel">
+    <Position X="13.5" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAwAACAAACAAAAAgAAiABIAABAAIgA=</HashCode>
+      <FileName>ViewModels\UroViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.AddUroView">
+    <Position X="18.5" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\AddUroFlow\AddUroView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.HomeManagementView">
+    <Position X="23.5" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\HomeManagement\HomeManagementView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.ProfileManagementView" Collapsed="true">
+    <Position X="41.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ProfileManagement\ProfileManagementView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.ColorPickerView" Collapsed="true">
+    <Position X="43.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ColorPickerView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.LoginView">
+    <Position X="32" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\LoginView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.RegisterUserView">
+    <Position X="43.25" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\RegisterUserView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.StartView" Collapsed="true">
+    <Position X="39.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Views\StartView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.UroView" Collapsed="true">
+    <Position X="41.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\UroView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.AddUroFlow.SelectUserWiFi" Collapsed="true">
+    <Position X="38" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\AddUroFlow\SelectUserWiFi.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.HomeManagement.CreateNewHome" Collapsed="true">
+    <Position X="34.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\HomeManagement\CreateNewHome.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.HomeManagement.EditHome">
+    <Position X="21.25" Y="5.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\HomeManagement\EditHome.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.HomeManagement.JoinHomeView" Collapsed="true">
+    <Position X="43.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\HomeManagement\JoinHomeView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.HomeManagement.ManageHomeView">
+    <Position X="29" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\HomeManagement\ManageHomeView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.RoomManagement.CreateNewRoomView" Collapsed="true">
+    <Position X="36.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\RoomManagement\CreateNewRoomView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.RoomManagement.ManageRoomView" Collapsed="true">
+    <Position X="38" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\RoomManagement\ManageRoomView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.Views.RoomManagement.RoomManagementView" Collapsed="true">
+    <Position X="34.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\RoomManagement\RoomManagementView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.App" Collapsed="true">
+    <Position X="36.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEBAAAAoAEAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmartUro.ColorPickerControl">
+    <Position X="26" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAgAAAAAgAAABAAAAAAIAAAgAAA=</HashCode>
+      <FileName>ColorPickerControl.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SmartUro.Interfaces.IAppMessage" Collapsed="true">
+    <Position X="34.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAA=</HashCode>
+      <FileName>Interfaces\IAppMessage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IDeviceService" Collapsed="true">
+    <Position X="36.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IDeviceService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IDialogService" Collapsed="true">
+    <Position X="38" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IDialogService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IHardwareLayoutService" Collapsed="true">
+    <Position X="39.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IHardwareLayoutService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IHomeService" Collapsed="true">
+    <Position X="41.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAABAAABAAAABAAAAAAA=</HashCode>
+      <FileName>Interfaces\IHomeService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IMqttService" Collapsed="true">
+    <Position X="43.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Interfaces\IMqttService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IRestService" Collapsed="true">
+    <Position X="34.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAABAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Interfaces\IRestService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IRoomService" Collapsed="true">
+    <Position X="36.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Interfaces\IRoomService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IUserAuthenticator" Collapsed="true">
+    <Position X="38" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Interfaces\IUserAuthenticator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IUserRegistrator" Collapsed="true">
+    <Position X="39.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IUserRegistrator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SmartUro.Interfaces.IWiFiObserver" Collapsed="true">
+    <Position X="41.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAQAAAAABAAAAAACAAAA=</HashCode>
+      <FileName>Interfaces\IWiFiObserver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
