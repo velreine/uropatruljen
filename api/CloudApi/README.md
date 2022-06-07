@@ -28,7 +28,10 @@ dotnet ef migrations add InitialCreate --context UroContext
 # Ensure .NET Entity Framework Core Tools is at version 6.x.x
 dotnet ef --version
 # Apply migrations "Trusted_Connection" cannot be used for remote unless Kerberos is properly setup.
+# Windows
 dotnet ef database update --context UroContext --connection "Server=localhost; Database=uro_db; User Id=sa; Password=12345; Trusted_Connection=False; TrustServerCertificate=True;"
+# Unix/MacOS
+dotnet ef database update --context UroContext --connection 'Server=localhost; Database=uro_db; User Id=sa; Password=12345; Trusted_Connection=False; TrustServerCertificate=True;'
 ```
 
 ## Lets Encrypt via certbot
