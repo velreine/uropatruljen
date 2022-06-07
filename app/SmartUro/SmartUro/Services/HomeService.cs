@@ -68,10 +68,9 @@ namespace SmartUro.Services
 
         public async Task<bool> DeleteHome(int id)
         {
-            var request = new RestRequest("/Home/DeleteHome", Method.Delete).AddJsonBody(new
-            {
-                id = id,
-            });
+            var request = new RestRequest("/Home/DeleteHome", Method.Delete)
+                .AddParameter("id", id);
+            
             var result = await _client.ExecuteAsync(request);
             
             return result.IsSuccessful;

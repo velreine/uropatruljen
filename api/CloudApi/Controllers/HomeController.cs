@@ -131,7 +131,7 @@ public class HomeController : AbstractController
     /// <returns></returns>
     [Authorize]
     [HttpDelete("DeleteHome")]
-    public ActionResult DeleteHome([FromBody] int id)
+    public ActionResult DeleteHome(int id)
     {
         // Grab the current authenticated user id from the token.
         var authenticatedPerson = GetAuthenticatedPerson();

@@ -65,9 +65,13 @@ namespace SmartUro.ViewModels.HomeManagement
                 DeleteHomeConfirmButtonText, DeleteHomeCancelButtonText);
             if (Home.Id != null && shouldDelete)
             {
-                if (await _homeService.DeleteHome((int)Home.Id))
+
+                var responseWasSuccessfull = await _homeService.DeleteHome((int)Home.Id);
+                
+                if (responseWasSuccessfull)
                 {
                     Homes.Remove(Home); // Remove hove form global state.
+                    await Application.Current.MainPage.Navigation.PopAsync(true);
                 }
                 else
                 {
