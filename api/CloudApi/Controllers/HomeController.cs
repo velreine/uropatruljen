@@ -98,7 +98,7 @@ public class HomeController : AbstractController
     /// Updates the name of the home.
     /// </summary>
     [Authorize]
-    [HttpPost("UpdateHome")]
+    [HttpPut("UpdateHome")]
     public ActionResult<UpdateHomeResponseDTO> UpdateHome([FromBody] UpdateHomeRequestDTO dto)
     {
         
@@ -130,7 +130,7 @@ public class HomeController : AbstractController
     /// <param name="id"></param>
     /// <returns></returns>
     [Authorize]
-    [HttpPost("DeleteHome")]
+    [HttpDelete("DeleteHome")]
     public ActionResult DeleteHome(int id)
     {
         // Grab the current authenticated user id from the token.
