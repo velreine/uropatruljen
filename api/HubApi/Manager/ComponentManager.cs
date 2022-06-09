@@ -26,16 +26,18 @@ public static class ComponentManager
         
         #region COMPONENT_RGB_DIODE_1
         // In this region create everything necessary to represent RGB_DIODE_1
-        var rgbDiode1Pin1 = new Pin(1, "r_input", 10, PinDirection.Output);
-        var rgbDiode1Pin2 = new Pin(2, "g_input", 11, PinDirection.Output);
-        var rgbDiode1Pin3 = new Pin(3, "b_input", 12, PinDirection.Output);
+        var rgbDiode1Pin1 = new Pin(1, "r_input", 15, PinDirection.Output);
+        var rgbDiode1Pin2 = new Pin(2, "g_input", 17, PinDirection.Output);
+        var rgbDiode1Pin3 = new Pin(3, "b_input", 18, PinDirection.Output);
 
         var rgbDiode1Pins = new List<Pin>();
-        rgbDiode1Pins.AddRange(new []{ rgbDiode1Pin1, rgbDiode1Pin2, rgbDiode1Pin3});
+        rgbDiode1Pins.Add(rgbDiode1Pin1);
+        rgbDiode1Pins.Add(rgbDiode1Pin2);
+        rgbDiode1Pins.Add(rgbDiode1Pin3);
         var rgbDiode1 = new Component(1, "RGB GROUP 1", ComponentType.RgbDiode, layout, rgbDiode1Pins);
 
         // Now create the final state for this component.
-        var rgbDiode1State = new RgbComponentState(1, false, device, rgbDiode1, 0, 0, 0);
+        var rgbDiode1State = new RgbComponentState(1, false, device, rgbDiode1, 255, 255, 255);
         #endregion COMPONENT_RGB_DIODE_1
 
 
@@ -61,12 +63,16 @@ public static class ComponentManager
     {
         var component = ComponentStates.FirstOrDefault(c => c.Id == componentId);
 
+        Console.WriteLine($"Turn on invoked from manager {componentId}");
+        component.DumpToConsole();
         switch (component)
         {
             case RgbComponentState rgbComponent:
             {
                 foreach (var pin in rgbComponent?.Component?.Pins)
                 {
+                    Console.WriteLine("Dumping rgComponent from manager");
+                    rgbComponent.DumpToConsole();
                     var value = pin.Descriptor switch
                     {
                         "r_input" => rgbComponent.RValue,

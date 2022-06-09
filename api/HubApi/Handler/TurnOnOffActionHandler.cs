@@ -18,7 +18,7 @@ public class TurnOnOffActionHandler : IActionHandler<TurnOnOffAction>
     {
         
         Console.WriteLine("TurnOnOffActionHandler::HandleAsync(TurnOnOffAction action) invoked.");
-        
+        action.DumpToConsole();
         var componentIsOn = ComponentManager.ComponentIsOn(action.ComponentIdentifier);
         
         if (action.TurnOn && !componentIsOn)

@@ -36,8 +36,7 @@ public class Component : AbstractEntity
             HardwareLayout = hardwareLayout;
             _pins = pins.ToList();
 
-            _pins = new ObservableCollection<Pin>().ToList();
-
+            // _pins = new ObservableCollection<Pin>().ToList();
         }
 
 
