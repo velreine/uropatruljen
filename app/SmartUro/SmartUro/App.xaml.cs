@@ -66,6 +66,7 @@ namespace SmartUro
             services.AddTransient<ManageRoomViewModel>();
             services.AddTransient<EditHomeViewModel>();
             services.AddTransient<ManageHomeViewModel>();
+            services.AddTransient<ColorPickerViewModel>();
 
             // Add core services
             services.AddSingleton<IMqttService, MqttService>();

@@ -69,11 +69,9 @@ namespace SmartUro.ViewModels
 
         private async Task ToggleState(Component component)
         {
-            await _mqttService.SendRequest();
-
             IAction action = null;
             
-            if (ButtonText == "ON") //if current component's state is 1
+            if (ButtonText == "ON")
             {
 
                 action = new TurnOnOffAction()
@@ -82,12 +80,10 @@ namespace SmartUro.ViewModels
                     TurnOn = false
                 };
                 
-                
-                //await RestService.ToggleStateAsync(0);
                 ButtonText = "OFF";
                 ButtonColor = Color.LightGray;
             }
-            else if (ButtonText == "OFF") //if current component's state is 0
+            else if (ButtonText == "OFF")
             {
 
                 action = new TurnOnOffAction()
@@ -96,7 +92,6 @@ namespace SmartUro.ViewModels
                     TurnOn = true
                 };
                 
-                //await RestService.ToggleStateAsync(1);
                 ButtonText = "ON";
                 ButtonColor = Color.LightGreen;
             }
@@ -109,10 +104,8 @@ namespace SmartUro.ViewModels
                     Payload = apl.ToPayload(),
                     Topic = $"/device_actions/{Device.SerialNumber}"
                 };
-
                 
-                // { topic: "/device_actions/Device.SerialNumber", action:  
-                
+                // { topic: "/device_actions/Device.SerialNumber", action:                
                 
                 await _mqttService.Client.PublishAsync(msg);
             }
